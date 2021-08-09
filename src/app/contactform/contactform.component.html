@@ -1,0 +1,57 @@
+<section class="apps apps-container">
+    <header class="text-white bg-primary d-flex align-items-center app-title mb-4">
+        <a routerLink="/datetime" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a>
+        <h1 class="h4 text-uppercase m-0">{{title}}</h1>
+    </header>
+    <div class="app-container d-flex flex-column">
+        <div class="flex-fill">
+            <div class="contact-form">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-input">
+                            <a tabindex="0" class="info-icon ml-1" role="button" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="This information is we will used for this service only. "><img src="./assets/images/info-icon.svg" alt="info icon"></a>
+                        
+                            <label for="FieldName" class="control-label">Name</label>
+                            <input type="text" class="form-control" placeholder="Enter name here" id="FieldName">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-input">
+                            <label for="FieldMobile" class="control-label">Mobile</label>
+                            <div class="d-flex">
+                            <select name="" id="" class="custom-select pl-0">
+                                <option value="">+91</option>
+                            </select>
+                            <input type="text" class="form-control" placeholder="Enter Mobile Number" id="FieldMobile">
+                            </div>
+                        </div>	
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-input">
+                            <a tabindex="0" class="info-icon ml-1" role="button" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="This information is we will used for this service only. "><img src="./assets/images/info-icon.svg" alt="info icon"></a>
+                            <label for="FieldEmail" class="control-label">Email</label>
+                            <input type="email" class="form-control" placeholder="Enter email here" id="FieldEmail">
+                        </div>
+                    </div>
+                </div>
+                
+                
+                                    
+                <div class="form-group form-input">
+                    <label for="FieldNotes" class="control-label">Describe Service Requirement/Issues</label>
+                    <textarea class="form-control" placeholder="Enter notes here" id="FieldNotes"></textarea>
+                </div>
+                <div class="form-group btn-checkbox">
+                    <input type="checkbox" name="" value="" id="tnc">
+                    <label for="tnc" class="text-muted regular">I agree to the <a href="#">terms and conditions</a> and <a href="privacy-policy.html">privacy policy</a></label>
+                </div>
+            </div>
+        </div>
+
+        <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
+            <a routerLink="/datetime" class="btn btn-lg btn-outline-primary btn-block mr-2">PREVIOUS</a>
+            <a routerLink="/request-review" class="btn btn-lg btn-primary btn-block mt-0">NEXT</a>
+        </div>
+                        
+        </div>
+</section>

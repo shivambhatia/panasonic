@@ -1,0 +1,372 @@
+<app-header></app-header>
+
+<!--Services-->
+<section class="apps apps-container" *ngIf="dataService"> 
+    <header class="text-white bg-primary d-flex align-items-center app-title mb-4">
+        <a routerLink="/appointment" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a>
+        <h1 class="h4 text-uppercase m-0">Select Services</h1>
+    </header>
+    <div class="app-container d-flex flex-column">
+        <div class="flex-fill">            
+            <div class="accordion-group">
+                <div class="accordion sub-accordion" id="accordionServices">
+                        <div class="card" *ngFor="let ServiceItem of services">
+                              <div class="card" *ngIf="ServiceItem.children"> 
+                                <a class="collapsed card-header" type="button" data-toggle="collapse" href="#collapse{{ServiceItem.name}}" aria-expanded="false" aria-controls="" id="Title{{ServiceItem.name}}">
+                                    {{ServiceItem.name}}
+                                </a>
+                                <div id="collapse{{ServiceItem.name}}" class="collapse" aria-labelledby="" data-parent="#accordionServices">
+                                    <div class="card-body">
+                                        <div class="card" *ngFor="let ServiceItemChildren of ServiceItem.children">
+                                            <div class="card-checkbox btn-checkbox">
+                                                <input type="checkbox" name="" value="" id="service{{ServiceItemChildren.id}}" (click)="getSelectedServiceId($event,ServiceItemChildren.id)">
+                                                <label for="service{{ServiceItemChildren.id}}">{{ServiceItemChildren.name}}</label>
+                                            </div>                                    
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                              <div *ngIf="!ServiceItem.children">                                  
+                                <div class="card-checkbox btn-checkbox">
+                                    <input type="checkbox" name="" value="" id="service{{ServiceItem.id}}" (click)="getSelectedServiceId($event,ServiceItem.id)">
+                                    <label for="service{{ServiceItem.id}}">{{ServiceItem.name}}</label>
+                                </div>
+                                <div class="card" *ngFor="let ServiceItemChildren of ServiceItem.children">
+                                    <div class="card-checkbox btn-checkbox">
+                                        <input type="checkbox" name="" value="" id="service{{ServiceItemChildren.id}}" (click)="getSelectedServiceId($event,ServiceItem.id)">
+                                        <label for="service{{ServiceItemChildren.id}}">{{ServiceItemChildren.name}}</label>
+                                    </div>                                    
+                                </div>                                                                
+                              </div>
+                         </div>                    
+                        
+            </div>
+            
+            </div>           
+        </div>
+        <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
+            <a routerLink="/appointment" class="btn btn-lg btn-outline-primary btn-block mr-2">PREVIOUS</a>
+            <button (click)="toggle('service')" class="btn btn-lg btn-primary btn-block mt-0">NEXT</button>
+        </div>                    
+    </div>
+</section>
+<!--Services-->
+<!--Branches-->
+<section class="apps apps-container" *ngIf="dataBranch"> 
+    <header class="text-white bg-primary d-flex align-items-center app-title mb-4">
+        <a (click)="togglePrevious('branch')" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a>
+        <h1 class="h4 text-uppercase m-0">Select Branch</h1>
+    </header>
+    <div class="app-container d-flex flex-column">
+        <div class="flex-fill">            
+            <div class="accordion-group">
+                <div class="accordion sub-accordion" id="SubBranches">
+                    <div *ngIf="allBranchesServiceWise">
+                    <div class="card" *ngFor="let BranchItem of allBranchesServiceWise">
+                        <div class="card-checkbox btn-checkbox">
+                                    <input type="checkbox" name="" value="" id="branch{{BranchItem.id}}" >
+                                    <label for="branch{{BranchItem.id}}">{{BranchItem.name}}</label>
+                                </div>
+
+
+                    </div>
+                </div>  
+                    
+                    	
+                    
+                    
+                </div>
+            </div>         
+        </div>
+        <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
+            <a (click)="togglePrevious('branch')" class="btn btn-lg btn-outline-primary btn-block mr-2">PREVIOUS</a>
+            <button (click)="toggle('branch')" class="btn btn-lg btn-primary btn-block mt-0">NEXT</button>
+        </div>                    
+    </div>
+</section>
+<!--Branches-->
+<!--Date&Time-->
+<section class="apps apps-container" *ngIf="dataDateTime"> 
+    <header class="text-white bg-primary d-flex align-items-center app-title mb-4">
+        <a (click)="togglePrevious('datetime')" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a>
+        <h1 class="h4 text-uppercase m-0">Select Date &amp; Time</h1>
+    </header>
+    <div class="app-container d-flex flex-column">
+        <div class="flex-fill">  
+            <div class="row">
+                <div class="col-lg-6 bg-md-light mb-5">
+                    <div class="accordion-group">
+                        <div class="datepicker" id="datepicker" (ngModelChange)="changeDate($event)"  [(ngModel)]="startRegistartionDate" ngDefaultControl></div>	
+                    </div>
+                </div>
+            
+            <div class="col-lg-6 pt-md-3 pl-xl-5">
+                <div class="row row-gap time-list">
+                    <div class="col-sm-4 col-6 btn-radio">
+                        <input type="radio" name="TimeSlot" id="time1">
+                        <label for="time1">10:00 - 10:30 AM</label>
+                    </div>
+                    <div class="col-sm-4 col-6 btn-radio">
+                        <input type="radio" name="TimeSlot" id="time2">
+                        <label for="time2">10:30 - 11:00 AM</label>
+                    </div>
+                    <div class="col-sm-4 col-6 btn-radio">
+                        <input type="radio" name="TimeSlot" id="time3">
+                        <label for="time3">11:00 - 11:30 AM</label>
+                    </div>
+                    <div class="col-sm-4 col-6 btn-radio">
+                        <input type="radio" name="TimeSlot" id="time4">
+                        <label for="time4">11:30 - 12:00 AM</label>
+                    </div>
+                    <div class="col-sm-4 col-6 btn-radio">
+                        <input type="radio" name="TimeSlot" id="time5">
+                        <label for="time5">12:00 - 12:30 PM</label>
+                    </div>
+                    <div class="col-sm-4 col-6 btn-radio">
+                        <input type="radio" name="TimeSlot" id="time6">
+                        <label for="time6">12:30 - 01:00 PM</label>
+                    </div>
+                    <div class="col-sm-4 col-6 btn-radio">
+                        <input type="radio" name="TimeSlot" id="time7">
+                        <label for="time7">01:00 - 01:30 PM</label>
+                    </div>
+                    <div class="col-sm-4 col-6 btn-radio">
+                        <input type="radio" name="TimeSlot" id="time8">
+                        <label for="time8">01:30 - 02:00 PM</label>
+                    </div>
+                    <div class="col-sm-4 col-6 btn-radio">
+                        <input type="radio" name="TimeSlot" id="time9">
+                        <label for="time9">02:00 - 02:30 PM</label>
+                    </div>
+                    <div class="col-sm-4 col-6 btn-radio">
+                        <input type="radio" name="TimeSlot" id="time10">
+                        <label for="time10">02:30 - 03:00 PM</label>
+                    </div>
+                    <div class="col-sm-4 col-6 btn-radio">
+                        <input type="radio" name="TimeSlot" id="time11">
+                        <label for="time11">03:00 - 03:30 PM</label>
+                    </div>
+                    <div class="col-sm-4 col-6 btn-radio">
+                        <input type="radio" name="TimeSlot" id="time12">
+                        <label for="time12">03:30 - 04:00 PM</label>
+                    </div>
+                    <div class="col-sm-4 col-6 btn-radio">
+                        <input type="radio" name="TimeSlot" id="time13">
+                        <label for="time13">04:00 - 04:30 PM</label>
+                    </div>
+                    <div class="col-sm-4 col-6 btn-radio">
+                        <input type="radio" name="TimeSlot" id="time14">
+                        <label for="time14">04:30 - 05:00 PM</label>
+                    </div>
+                    <div class="col-sm-4 col-6 btn-radio">
+                        <input type="radio" name="TimeSlot" id="time15">
+                        <label for="time15">05:00 - 05:30 PM</label>
+                    </div>
+                    <div class="col-sm-4 col-6 btn-radio">
+                        <input type="radio" name="TimeSlot" id="time16">
+                        <label for="time16">05:30 - 06:00 PM</label>
+                    </div>
+                    <div class="col-sm-4 col-6 btn-radio">
+                        <input type="radio" name="TimeSlot" id="time17">
+                        <label for="time17">06:00 - 06:30 PM</label>
+                    </div>
+                    <div class="col-sm-4 col-6 btn-radio">
+                        <input type="radio" name="TimeSlot" id="time18">
+                        <label for="time18">06:30 - 07:00 PM</label>
+                    </div>
+                </div>
+            </div>
+        </div>          
+                   
+        </div>
+        <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
+            <a (click)="togglePrevious('datetime')" class="btn btn-lg btn-outline-primary btn-block mr-2">PREVIOUS</a>
+            <button (click)="toggle('datetime')" class="btn btn-lg btn-primary btn-block mt-0">NEXT</button>
+        </div>                    
+    </div>
+</section>
+<!--Date&Time-->
+
+<!--Contact-->
+<section class="apps apps-container" *ngIf="dataContact"> 
+    <header class="text-white bg-primary d-flex align-items-center app-title mb-4">
+        <a routerLink="/appointment" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a>
+        <h1 class="h4 text-uppercase m-0">Contact Details</h1>
+    </header>
+    <div class="app-container d-flex flex-column">
+        <div class="flex-fill">            
+            <div class="contact-form">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-input">
+                            <a tabindex="0" class="info-icon ml-1" role="button" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="This information is we will used for this service only. "><img src="./assets/images/info-icon.svg" alt="info icon"></a>
+                        
+                            <label for="FieldName" class="control-label">Name</label>
+                            <input type="text" class="form-control" placeholder="Enter name here" id="FieldName">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-input">
+                            <label for="FieldMobile" class="control-label">Mobile</label>
+                            <div class="d-flex">
+                            <select name="" id="" class="custom-select pl-0">
+                                <option value="">+91</option>
+                            </select>
+                            <input type="text" class="form-control" placeholder="Enter Mobile Number" id="FieldMobile">
+                            </div>
+                        </div>	
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-input">
+                            <a tabindex="0" class="info-icon ml-1" role="button" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="This information is we will used for this service only. "><img src="./assets/images/info-icon.svg" alt="info icon"></a>
+                            <label for="FieldEmail" class="control-label">Email</label>
+                            <input type="email" class="form-control" placeholder="Enter email here" id="FieldEmail">
+                        </div>
+                    </div>
+                </div>                                    
+                <div class="form-group form-input">
+                    <label for="FieldNotes" class="control-label">Describe Service Requirement/Issues</label>
+                    <textarea class="form-control" placeholder="Enter notes here" id="FieldNotes"></textarea>
+                </div>
+                <div class="form-group btn-checkbox">
+                    <input type="checkbox" name="" value="" id="tnc">
+                    <label for="tnc" class="text-muted regular">I agree to the <a href="#">terms and conditions</a> and <a href="privacy-policy.html">privacy policy</a></label>
+                </div>
+            </div>        
+        </div>
+        <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
+            <a routerLink="/appointment" class="btn btn-lg btn-outline-primary btn-block mr-2">PREVIOUS</a>
+            <button (click)="toggle('requirement')" class="btn btn-lg btn-primary btn-block mt-0">NEXT</button>
+        </div>                    
+    </div>
+</section>
+<!--Contact-->
+<!--Request-Review-->
+<section class="apps apps-container" *ngIf="dataReview"> 
+    <header class="text-white bg-primary d-flex align-items-center app-title mb-4">
+        <a routerLink="/appointment" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a>
+        <h1 class="h4 text-uppercase m-0">Review Request</h1>
+    </header>
+    <div class="app-container d-flex flex-column">
+        <div class="flex-fill">            
+            <div class="row">
+                <div class="col-lg-6 mb-lg-0 mb-4">
+                    <div class="info-block card pl-3 pb-3 pr-3 pt-2 mb-4 h-100">
+                        <div class="d-flex align-items-center mb-4">	
+                            <h5 class="m-0 text-muted">Service Details</h5>
+                            <a routerLink="/services" class="btn btn-light ml-auto pl-3 pr-3"><img src="./assets/images/edit-icon.svg" width="14" alt="Edit"></a>
+                        </div>                        
+                        <ul class="service-list list-unstyled">
+                            <li>
+                                <h5 class="title">Services</h5>
+                                <p class="text-muted">(1) Servicing<br> 
+                                (2) Car Wash</p>
+                            </li>
+                            <li>
+                                <h5 class="title">Branch</h5>
+                                <p class="text-muted">New Delhi, Nehru Place</p>
+                            </li>
+                            <li>
+                                <h5 class="title">Date &amp; Time</h5>
+                                <p class="text-muted d-flex">15th February, 2021 <span class="pl-2 pr-2">|</span> 12:30 - 01:00 PM</p>
+                            </li>
+                        </ul>
+                    </div>
+                    </div>
+                    <div class="col-lg-6 mb-lg-0 mb-4">
+                    <div class="card pl-3 pb-3 pr-3 pt-2 mb-4 h-100">
+                        <div class="d-flex align-items-center mb-4">	
+                            <h5 class="m-0 text-muted">Personal Details</h5>
+                            <a routerLink="/contact" class="btn btn-light ml-auto pl-3 pr-3"><img src="./assets/images/edit-icon.svg" width="14" alt="Edit"></a>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <h5 class="title mb-1">Name</h5>
+                                <p class="text-muted m-0">Rakesh Sharma</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <h5 class="title mb-1">Mobile</h5>
+                                <p class="text-muted m-0">+91 9872725535</p>
+                            </div>									
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <h5 class="title mb-1">Email Address</h5>
+                                <p class="text-muted m-0">rakeshsharma@gmail.com</p>
+                            </div>																	
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5 class="title mb-1">Describe Service Requirement/Issues</h5>
+                                <p class="text-muted m-0">Phone not working properly and also sim not working properly</p>
+                            </div>																	
+                        </div>
+                    </div>
+                </div>
+            </div>     
+        </div>
+        <div class="app-footer-cta col-md-4 p-0 m-auto pt-md-5">			
+            <a routerLink="/request-confirmed" class="btn btn-lg btn-primary btn-block">CONFIRM</a>
+        </div>                   
+    </div>
+</section>
+<!--Request-Review-->
+
+<!--Confirm-Request-->
+<section class="apps apps-container" *ngIf="dataRequest"> 
+    <header class="text-white bg-primary d-flex align-items-center app-title mb-4">
+        <a routerLink="/appointment" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a>
+        <h1 class="h4 text-uppercase m-0">Request Confirmed</h1>
+    </header>
+    <div class="app-container d-flex flex-column">
+        <div class="flex-fill">            
+            <div class="row">
+                <div class="col-xl-6 col-md-10 m-auto">
+                    <div class="row mb-3">
+                        <div class="col-8">
+                            <h4 class="text-primary">3 Days Left</h4>
+                            <h5 class="mb-4">Ticket No: #RG54233</h5>
+                            <div class="ng-service">
+                                <p class="mb-2"><strong class="medium">Service:</strong></p>  
+                                <ul class="list-unstyled mb-0">
+                                    <li>(1) Servicing</li>
+                                    <li>(2) Car Wash</li>
+                                </ul>
+                            </div>
+                        </div>	
+                        <div class="col-4">
+                            <img src="./assets/images/qrcode.png" alt="">
+                        </div>
+                    </div>
+                    <div class="ng-branch mb-3">
+                        <p class="mb-2"><strong class="medium">Branch:</strong></p>
+                        <div class="d-flex align-items-start mb-3">
+                            <img src="./assets/images/route-icon.svg" alt="route icon" class="mr-3">
+                            <div class="rich-text flex-fill">Nehru Place, 408, Modi Tower, New Delhi 110048, 011 - 5868258<br>
+                                <a href="#"><u>Get Directions</u></a>
+                            </div>
+                        </div>  
+                    </div>  
+                    <div class="ng-date mb-3">
+                        <p class="mb-2"><strong class="medium">Date:</strong> 16th March 2021</p>
+                        <p class="mb-0"><strong class="medium">Time:</strong> 12:30 - 01:00 PM</p>
+                    </div>
+                    <h5 class="seprator-title text-center mt-5 mb-4"><span>Personal Details</span></h5>
+                    <div class="rich-text personal-info">
+                        <p><strong class="medium">Name:</strong> Rakesh Sharma </p>
+                        <p><strong class="medium">Email Address:</strong> rakeshsharma@gmail.com </p>
+                        <p><strong class="medium">Mobile Number:</strong> +91 9872725535 </p>
+                        <p><strong class="medium">Describe Service Requirement/Issues </strong><br>Phone not working properly and also sim not working properly</p>
+                    </div>	            
+                </div>
+            </div> 
+        </div>
+        <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
+            <a routerLink="/appointment" class="btn btn-lg btn-outline-primary btn-block mr-2">CANCEL</a>
+            <a routerLink="/appointment" class="btn btn-lg btn-primary btn-block mt-0">RESCHEDULE</a>
+        </div>                   
+    </div>
+</section>
+<!--Confirm-Request-->
+

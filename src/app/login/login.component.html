@@ -32,8 +32,11 @@
                                 <div class="form-group">
                                     <input type="tel" name="" placeholder="Mobile Number" class="form-control form-control-lg" maxlength="10" [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }" formControlName="mobile">
                                 </div>
-                                <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback">
+                                <!-- <div id="err1">{{ this.message_1}}</div> -->
+                                <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback" style="display: block;">
                                     <div *ngIf="f.mobile.errors.required">Mobile is required</div>
+                                    <div *ngIf="f.mobile.errors.pattern">Invalid Mobile Number</div>
+                                    
                                 </div>
                                 <div class="form-cta">
                                     <button type="submit" class="btn btn-lg btn-primary btn-block" >GET OTP</button>
@@ -53,8 +56,15 @@
                         </div>
                         <form [formGroup]="formOtp" (ngSubmit)="onOtpSubmit()">
                         <div class="form-group">
-                            <input type="tel" name="" placeholder="Mobile Number" class="form-control form-control-lg" maxlength="10" formControlName="otpValue">
+                            <input type="tel" name="" placeholder="Enter OTP" id="otp" class="form-control form-control-lg" maxlength="10" formControlName="otpValue">
                         </div>
+                       <div id="err3" style="color: red;">{{message_3}}</div>
+                        <!-- <div *ngIf="submitted && f.otpValue.errors" class="invalid-feedback" style="display: block;">
+                            <div *ngIf="f.otpValue.errors.required">OTP is required</div>
+                            <!-- <div *ngIf="f.mobile.errors.pattern">Invalid Mobile Number</div> -->
+                            
+                        <!-- </div>  -->
+                        <!-- <div id="err1">{{ this.message_1}}</div> -->
                         <div class="form-cta">
                                     <button type="submit" class="btn btn-lg btn-primary btn-block" >SIGN IN</button>
                                 </div>

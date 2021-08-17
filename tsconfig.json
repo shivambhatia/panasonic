@@ -15,11 +15,13 @@
     "strictPropertyInitialization": false,
     "moduleResolution": "node",
     "importHelpers": true,
+    
     "target": "es2017",
     "module": "es2020",
     "lib": [
       "es2018",
-      "dom"
+      "dom",
+       "ESNext.String"
     ]
   },
   "angularCompilerOptions": {

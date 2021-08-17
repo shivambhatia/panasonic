@@ -26,10 +26,11 @@ export class OtpComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.router.snapshot.params.id);
     let users = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    console.log("Users data",users);
     const headers = { 'Authorization': 'Bearer '+users.token }
     
     this.detail=new Array<string>();
-    let resp=this.http.post('http://65.1.176.15:5050/apis/getCustomerAppointments',{"id":1}, { headers: headers});
+    let resp=this.http.post('http://65.1.176.15:5050/apis/getCustomerAppointments',{"id":users.result.id}, { headers: headers});
     resp.subscribe((result)=>{    
       this.data=result
       this.appointment = this.data.result

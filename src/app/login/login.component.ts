@@ -2,8 +2,10 @@ import { Component, OnInit ,ChangeDetectorRef, ElementRef, EventEmitter, Input, 
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
+// import { Console } from 'node:console';
 declare var $: any;
 import { AuthenticationService } from '../_services/authentication.service';
+// import { Console } from 'node:console';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -18,6 +20,8 @@ export class LoginComponent implements OnInit {
     otpValue:string;
     returnUrl: string;
     message :string ;
+    message_1:any=[];
+    message_3:any = [];
     result :any;
     login = true;
   otp = false;
@@ -31,6 +35,7 @@ export class LoginComponent implements OnInit {
     this.mobile='';
     this.returnUrl='';
     this.result='';
+   
 
 
 
@@ -43,7 +48,8 @@ export class LoginComponent implements OnInit {
              this.router.navigate(['/appointment']);
         }
         this.form = this.formBuilder.group({
-            mobile: ['', Validators.required],
+            // mobile: ['', Validators.required],
+            mobile:['', [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
             
         });
           this.formOtp = this.formBuilder.group({
@@ -67,14 +73,28 @@ export class LoginComponent implements OnInit {
   
     onSubmit() {
         this.submitted = true;
-
+// console.log(this.form.value)
         // reset alerts on submit
        
 
         // stop here if form is invalid
-        if (this.form.invalid) {
-            return;
-        }
+        
+         if(this.form.value.mobile == ""){
+
+
+          this.message_1 = "Please enter mobile number"
+          $("#err1").show();
+          setTimeout(function(){
+              $("#err1").hide();
+            }, 5000);
+          return;
+
+          }
+         
+        else if (this.form.invalid) {
+          return;
+
+  }
 
         this.loading = true;
         this.authentication.login(this.f.mobile.value).pipe(first())
@@ -82,12 +102,12 @@ export class LoginComponent implements OnInit {
               this.mobile=this.f.mobile.value;
                     //debugger
                     //this.router.navigate('/otp',queryParams:{mobile:this.f.mobile.value,otp:data.otp})
-                   console.log("Data New",data);
+                  //  console.log("Data New",data);
                    this.login=false;
                    this.otp=true;
                 },
                 error => {
-                    console.log("Error",error);
+                    // console.log("Error",error);
                     this.loading = false;
                 });
       }
@@ -97,20 +117,30 @@ export class LoginComponent implements OnInit {
 
 
       onOtpSubmit(){
-        console.log("Checking this otp",this.f2.otpValue.value);
-        console.log("Checking this mobile",this.mobile);
+         if($('#otp').val( ) == ""){
+          // console.log("hii3",($('#otp').val( ) == ""))
+          this.message_3 = "Please enter OTP"
+          
+        $("#err3").show();
+        setTimeout(function(){
+            $("#err3").hide();
+          }, 5000);
+        return;
+        }
+        // console.log("Checking this otp",this.f2.otpValue.value);
+        // console.log("Checking this mobile",this.mobile);
         
         this.authentication.verifyOtp(this.f2.otpValue.value,this.mobile).pipe(first())
             .subscribe((data:any) => {
               
                     //debugger
                     //this.router.navigate('/otp',queryParams:{mobile:this.f.mobile.value,otp:data.otp})
-                   console.log("Data New Otp",data);
+                  //  console.log("Data New Otp",data);
                    // this.login=false;
                    // this.otp=true;
                 },
                 error => {
-                    console.log("Error",error);
+                    // console.log("Error",error);
                     this.loading = false;
                 });
 

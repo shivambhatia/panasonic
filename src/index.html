@@ -9,11 +9,39 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="preconnect" href="https://fonts.gstatic.com">
 		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&amp;display=swap" rel="stylesheet">
-  <link rel="manifest" href="manifest.webmanifest">
+  
   <meta name="theme-color" content="#1976d2">
 </head>
 <body>
   <app-root class="w-100 h-100"></app-root>
   <noscript>Please enable JavaScript to continue using this application.</noscript>
 </body>
+
+
+<script>
+    var full = window.location.href; // subdomain.domain.com
+    
+    
+    var parts = full.split('?');
+    var sub = parts[1];
+    
+link = document.createElement('link');
+
+   if(sub=='revlon')
+   {
+
+      link.href = 'manifest2.webmanifest';
+    link.rel = 'manifest';
+    
+   }
+   else{
+
+      link.href = 'manifest.webmanifest';
+    link.rel = 'manifest';
+   }
+
+
+   
+document.getElementsByTagName('head')[0].appendChild(link);
+</script>
 </html>

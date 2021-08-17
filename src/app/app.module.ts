@@ -13,6 +13,7 @@ import { BranchComponent } from './branch/branch.component';
 import { DatetimeComponent } from './datetime/datetime.component';
 import { ContactformComponent } from './contactform/contactform.component';
 import { TitlebarComponent } from './titlebar/titlebar.component';
+import { AngularMyDatePickerModule } from 'angular-mydatepicker';
 import { RequestReviewComponent } from './request-review/request-review.component';
 import { RequestConfirmedComponent } from './request-confirmed/request-confirmed.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -46,6 +47,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    AngularMyDatePickerModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable

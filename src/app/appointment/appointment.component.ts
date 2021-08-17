@@ -41,14 +41,17 @@ export class AppointmentComponent implements OnInit {
   ngOnInit() {
     let users = JSON.parse(localStorage.getItem('currentUser') || '{}');
     const headers = { 'Authorization': 'Bearer '+users.token }
+    console.log("Check Headers",headers);
     
     
-    let resp=this.http.post('http://65.1.176.15:5050/apis/getCustomerAppointments',{"id":1}, { headers: headers});
+    let resp=this.http.post('http://65.1.176.15:5050/apis/getCustomerAppointments',{"id":users.result.id}, { headers: headers});
+    
     //resp.subscribe((result)=>this.users=result);
     this.selectedServices=new Array<string>();
     resp.subscribe((result)=>{    
       this.data=result
       this.appointment = this.data.result
+      console.log("Check Resposne",this.appointment);
       if(this.data.status){
         this.data.result.map((item:any)=>{
             let temp=item.appointment_date.replaceAll('-','');

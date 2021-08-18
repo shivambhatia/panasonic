@@ -54,6 +54,7 @@ export class BookAppointmentComponent implements OnInit {
   message_8:any = [];
   message_1:any = [];
   message_4:any = [];
+  booked_slots:any = [];
   dateData:string ;
   public userDataProfile:any =[];
   service_final:any = [];
@@ -67,7 +68,13 @@ export class BookAppointmentComponent implements OnInit {
   appointment_date:any=[];
   filterTime:any =[];
   activeDays:any =[];
-
+  startTime:any =[];
+  endTime:any =[];
+  servingTime :any =[];
+  final_slots  :any =[];
+timeslots_active :any =[];
+  timeslots  :any =[];
+  datetimeMsg:any = [];
   constructor(private http: HttpClient,private router: Router,private fb: FormBuilder) { 
     
     let users = JSON.parse(localStorage.getItem('currentUser') || '{}');
@@ -325,27 +332,33 @@ togglePrevious(pageType:string){
 
   createDateTimePair(open_time:string,close_time:string){
     
-    var x = 30; //minutes interval
-var times = []; // time array
-var tt = parseInt(open_time.split(':')[0])*60+parseInt(open_time.split(':')[1]); // start time
-var ap = ['AM', 'PM']; // AM-PM
+//     var x = 30; //minutes interval
+// var times = []; // time array
+// var tt = parseInt(open_time.split(':')[0])*60+parseInt(open_time.split(':')[1]); // start time
+// var ap = ['AM', 'PM']; // AM-PM
 
 
-//loop to increment the time and push results in array
-for (var i=0;tt<=(parseInt(close_time.split(':')[0])*60+parseInt(close_time.split(':')[1])); i++) {
-  var hh = Math.floor(tt/60); // getting hours of day in 0-24 format
-  var mm = (tt%60); // getting minutes of the hour in 0-55 format
-  times[i] = ("0" + (hh % 12)).slice(-2) + ':' + ("0" + mm).slice(-2) + ap[Math.floor(hh/12)]; // pushing data in array in [00:00 - 12:00 AM/PM format]
-  tt = tt + x;
-}
-var datetimeArray=[];
-for(i=0;i<times.length-1;i++){
-  datetimeArray.push(times[i]+'-'+times[i+1]);
+// //loop to increment the time and push results in array
+// for (var i=0;tt<=(parseInt(close_time.split(':')[0])*60+parseInt(close_time.split(':')[1])); i++) {
+//   var hh = Math.floor(tt/60); // getting hours of day in 0-24 format
+//   var mm = (tt%60); // getting minutes of the hour in 0-55 format
+//   times[i] = ("0" + (hh % 12)).slice(-2) + ':' + ("0" + mm).slice(-2) + ap[Math.floor(hh/12)]; // pushing data in array in [00:00 - 12:00 AM/PM format]
+//   tt = tt + x;
+// }
+// var datetimeArray=[];
+// for(i=0;i<times.length-1;i++){
+//   datetimeArray.push(times[i]+'-'+times[i+1]);
   
 
-}
-this.datetimeArray=datetimeArray;
+// }
+// this.datetimeArray=datetimeArray;
+// const headers = { 'Authorization': 'Bearer '+this.token, 'My-Custom-Header': '' }
+    
+// let resp_Bookslots = this.http.post('http://65.1.176.15:5050/apis/getAvailableSlot',{"serviceID":6,"branchID":1,"bookdate":"2021-08-18"}, { headers: headers});
 
+// resp_Bookslots.subscribe((data:any)=>{
+//   console.log(data,"booked slots")
+// })
 
 
 
@@ -527,8 +540,19 @@ this.datetimeArray=datetimeArray;
               disableWeekdays:this.nonWorking_days,
               disableSince:{year: this.year , month: this.month , day: this.Bookdate }
               };
-              console.log(this.myDpOptions)
-        this.onDateChanged(e);
+              let resp_3=this.http.post('http://65.1.176.15:5050/apis/getServiceData',{"service":[this.selectedServices],"branch":this.selectedBranch}, { headers: headers});
+       
+              resp_3.subscribe((data:any)=>{ 
+                console.log(data, "service data  3333")
+                if(data.success == true){
+                  this.startTime = data.result.open_time;
+                  this.endTime = data.result.close_time;
+                  this.servingTime = data.result.serving_time;
+                  this.onDateChanged(e);
+                }
+              })
+              
+        // this.onDateChanged(e);
           })
         })
         
@@ -560,21 +584,38 @@ this.datetimeArray=datetimeArray;
     $("input[type=radio][name=TimeSlot]").prop('checked', false);
     this.time = '';
     this.appointment_date = (event.singleDate?.formatted);
-    console.log(this.appointment_date,"date")
     if(!this.appointment_date)
       this.appointment_date = moment(new Date()).format("DD-MM-YYYY");
-     
-     console.log("comng here2", this.appointment_date)
-    //  var appointment_date  = {appointment_date: this.appointment_date}
+      var date_op = this.appointment_date;
         const headers = { 'Authorization': 'Bearer '+this.token, 'My-Custom-Header': '' }
-    var request={"service":[this.selectedServices],"branch":[this.selectedBranch[0]],"appointment_date":this.appointment_date} 
-    console.log("Step 2",request)  
-    let resp=this.http.post('http://65.1.176.15:5050/apis/getBookedSlot',request, { headers: headers});
-   
-    resp.subscribe((result)=>{    
-     console.log("Max no of days from today",result);
-      
+     console.log(this.appointment_date,"app date")
+    var bookdate  = this.appointment_date.split('-').reverse().join('-')
+    console.log(bookdate,"book date")
+    var request_slots={"serviceID":this.selectedServices,"branchID":this.selectedBranch[0],"bookdate":bookdate} 
+    console.log("Step 4",request_slots)  
+    let resp_Bookslots = this.http.post('http://65.1.176.15:5050/apis/getAvailableSlot',request_slots, { headers: headers});
+
+    resp_Bookslots.subscribe((data:any)=>{
+      console.log(data,"slots available")
+      if(data.status ==  false){
+        $("#slotNotfound").show();
+        $("#slotfound").hide()
+        this.datetimeMsg = " No Slots Found"
+      }
+      else{
+        $("#slotfound").show();
+        $("#slotNotfound").hide();
+        var slots = data.availableslots;
+        console.log(slots,"slots")
+        // var availableSlots = slots.availableslots;
+        // console.log(availableSlots,"ava slot")
+        this.datetimeArray=slots;
+        console.log(this.datetimeArray ,"++++++slots")
+      }
+     
     })
+      
+    
       
    
   

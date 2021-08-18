@@ -19,7 +19,7 @@
                                     <div class="card-body">
                                         <div class="card" *ngFor="let ServiceItemChildren of ServiceItem.children">
                                             <div class="card-checkbox btn-checkbox">
-                                                <input type="checkbox" name="" [value]="ServiceItemChildren.id +'-'+ ServiceItemChildren.name"  id="service{{ServiceItemChildren.id}}" (click)="getSelectedServiceId($event)">
+                                                <input type="checkbox" name="" [value]="ServiceItemChildren.id +'-'+ ServiceItemChildren.name"  id="service{{ServiceItemChildren.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItemChildren.serving_time}}" attr.startDate="{{ServiceItemChildren.open_time}} " attr.endDate="{{ServiceItemChildren.close_time}} ">
                                                 <!-- (click)="getSelectedServiceId($event,ServiceItemChildren.id,ServiceItem.name)" -->
                                                 <label for="service{{ServiceItemChildren.id}}">{{ServiceItemChildren.name}}</label>
                                             </div>                                    
@@ -29,12 +29,12 @@
                               </div>
                               <div *ngIf="!ServiceItem.children">                                  
                                 <div class="card-checkbox btn-checkbox">
-                                    <input type="checkbox" name="" [value]="ServiceItem.id +'-'+ ServiceItem.name" id="service{{ServiceItem.id}}" (click)="getSelectedServiceId($event)">
+                                    <input type="checkbox" name="" [value]="ServiceItem.id +'-'+ ServiceItem.name" id="service{{ServiceItem.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItem.serving_time}}" attr.startDate="{{ServiceItem.open_time}} " attr.endDate="{{ServiceItem.close_time}} ">
                                     <label for="service{{ServiceItem.id}}">{{ServiceItem.name}}</label>
                                 </div>
                                 <div class="card" *ngFor="let ServiceItemChildren of ServiceItem.children">
                                     <div class="card-checkbox btn-checkbox">
-                                        <input type="checkbox" name=""[value]="ServiceItemChildren.id +'-'+ ServiceItemChildren.name" id="service{{ServiceItemChildren.id}}" (click)="getSelectedServiceId($event)">
+                                        <input type="checkbox" name=""[value]="ServiceItemChildren.id +'-'+ ServiceItemChildren.name" id="service{{ServiceItemChildren.id}}" (click)="getSelectedServiceId($event)"  attr.servingTime="{{ServiceItemChildren.serving_time}}" attr.startDate="{{ServiceItemChildren.open_time}} " attr.endDate="{{ServiceItemChildren.close_time}} ">
                                         <label for="service{{ServiceItemChildren.id}}">{{ServiceItemChildren.name}}</label>
                                     </div>                                    
                                 </div>                                                                
@@ -110,11 +110,15 @@
                 </div>
             
             <div class="col-lg-6 pt-md-3 pl-xl-5">
-                <div class="row row-gap time-list">
-                    <div class="col-sm-4 col-6 btn-radio" *ngFor="let datetime of datetimeArray;let i = index">
+                <div class="row row-gap time-list" id="slotNotfound">
+                    {{this.datetimeMsg}}
+                </div>
+                <div class="row row-gap time-list" id="slotfound">
+                    <div class="col-sm-4 col-6 btn-radio"  *ngFor="let datetime of datetimeArray;let i = index">
                         <input type="radio" name="TimeSlot"  id="time{{i}}" (change)="onItemChangeTime(i)" >
                         <label for="time{{i}}">{{datetime}}</label>
                     </div>
+                   
                     
                 </div>
             </div>

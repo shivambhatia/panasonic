@@ -40,7 +40,7 @@
                                 </div>                                                                
                               </div>
                          </div>   
-                         <div id="err9" style="color: red;">{{this.message_2}}</div>
+                         <div id="err9" class="error-text">{{this.message_2}}</div>
                                       
                         
             </div>
@@ -80,7 +80,7 @@
                     
                 </div>
             </div> 
-            <div id="err2" style="color: red;">{{this.message_3}}</div>        
+            <div id="err2" class="error-text">{{this.message_3}}</div>        
         </div>
         <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
             <a (click)="togglePrevious('branch')" class="btn btn-lg btn-outline-primary btn-block mr-2">PREVIOUS</a>
@@ -98,7 +98,7 @@
     <div class="app-container d-flex flex-column">
         <div class="flex-fill">  
             <div class="row">
-                <div class="col-lg-6 bg-md-light mb-5">
+                <div class="col-lg-6 bg-md-light mb-lg-0 mb-5">
                     <!-- <div class="accordion-group"> -->
                         <!-- <div class="datepicker" id="datepicker"></div>	 -->
                         <input type="hidden" [min]="minDate" name="mydate" angular-mydatepicker
@@ -110,9 +110,9 @@
                 </div>
             
             <div class="col-lg-6 pt-md-3 pl-xl-5">
-                <div class="row row-gap time-list" id="slotNotfound">
+                <!-- <div class="row row-gap time-list" id="slotNotfound">
                     {{this.datetimeMsg}}
-                </div>
+                </div> -->
                 <div class="row row-gap time-list" id="slotfound">
                     <div class="col-sm-4 col-6 btn-radio"  *ngFor="let datetime of datetimeArray;let i = index">
                         <input type="radio" name="TimeSlot"  id="time{{i}}" (change)="onItemChangeTime(i)" >
@@ -123,7 +123,7 @@
                 </div>
             </div>
         </div>          
-        <div id="err4" style="color: red;">{{this.message_4}}</div>        
+        <div id="err4" class="error-text">{{this.message_4}}</div>        
         </div>
         <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
             <a (click)="togglePrevious('datetime')" class="btn btn-lg btn-outline-primary btn-block mr-2">PREVIOUS</a>
@@ -182,8 +182,8 @@
                 </div>
             
             </div> 
-            <div id="err8" style="color: red;">{{this.message_8}}</div> 
-            <div id="err1" style="color: red;">{{this.message_1}}</div> 
+            <div id="err8" class="error-text">{{this.message_8}}</div> 
+            <div id="err1" class="error-text">{{this.message_1}}</div> 
             <!-- <p>Complete the form to enable button.</p> -->
 <!-- <button type="submit" [disabled]="!profileForm.valid">Submit</button> -->
             </form>       
@@ -271,7 +271,7 @@
 <!--Confirm-Request-->
 <section class="apps apps-container" *ngIf="dataRequest"> 
     <header class="text-white bg-primary d-flex align-items-center app-title mb-4">
-        <a routerLink="/appointment" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a>
+        <!-- <a routerLink="/appointment" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a> -->
         <h1 class="h4 text-uppercase m-0">Request Confirmed</h1>
     </header>
     <div class="app-container d-flex flex-column">
@@ -280,46 +280,46 @@
                 <div class="col-xl-6 col-md-10 m-auto">
                     <div class="row mb-3">
                         <div class="col-8">
-                            <h4 class="text-primary">3 Days Left</h4>
-                            <h5 class="mb-4">Ticket No: #RG54233</h5>
+                            <!-- <h4 class="text-primary">3 Days Left</h4> -->
+                            <h5 class="mb-4">Appointment No: {{final_result_1.appointment_no}}</h5>
                             <div class="ng-service">
                                 <p class="mb-2"><strong class="medium">Service:</strong></p>  
                                 <ul class="list-unstyled mb-0">
-                                    <li>(1) Servicing</li>
-                                    <li>(2) Car Wash</li>
+                                    {{final_result_1.all_services}}
                                 </ul>
                             </div>
                         </div>	
                         <div class="col-4">
-                            <img src="./assets/images/qrcode.png" alt="">
+                            <img src="{{final_results.qrCode}}"  alt="{{final_results.qrCode}}">
                         </div>
                     </div>
                     <div class="ng-branch mb-3">
                         <p class="mb-2"><strong class="medium">Branch:</strong></p>
                         <div class="d-flex align-items-start mb-3">
                             <img src="./assets/images/route-icon.svg" alt="route icon" class="mr-3">
-                            <div class="rich-text flex-fill">Nehru Place, 408, Modi Tower, New Delhi 110048, 011 - 5868258<br>
-                                <a href="#"><u>Get Directions</u></a>
+                            <div class="rich-text flex-fill">{{final_result_1["branch.name"]}}<br>
+                                <a target="_blank" href='http://maps.google.com/maps/dir//{{final_result_1["branch.name"]}}'><u>Get Directions</u></a>
                             </div>
                         </div>  
                     </div>  
                     <div class="ng-date mb-3">
-                        <p class="mb-2"><strong class="medium">Date:</strong> 16th March 2021</p>
-                        <p class="mb-0"><strong class="medium">Time:</strong> 12:30 - 01:00 PM</p>
+                        <p class="mb-2"><strong class="medium">Date:</strong> {{final_result_1.appointment_date}} </p>
+                        <p class="mb-0"><strong class="medium">Time:</strong> {{final_result_1.appointment_time}}</p>
                     </div>
                     <h5 class="seprator-title text-center mt-5 mb-4"><span>Personal Details</span></h5>
                     <div class="rich-text personal-info">
-                        <p><strong class="medium">Name:</strong> Rakesh Sharma </p>
-                        <p><strong class="medium">Email Address:</strong> rakeshsharma@gmail.com </p>
-                        <p><strong class="medium">Mobile Number:</strong> +91 9872725535 </p>
-                        <p><strong class="medium">Describe Service Requirement/Issues </strong><br>Phone not working properly and also sim not working properly</p>
+                        <p><strong class="medium">Name:</strong> {{final_result_1["customer.name"]}} </p>
+                        <p><strong class="medium">Email Address:</strong> {{final_result_1["customer.email"]}} </p>
+                        <p><strong class="medium">Mobile Number:</strong>  +91{{final_result_1["customer.contact_no"]}} </p>
+                        <p><strong class="medium">Describe Service Requirement/Issues </strong><br>{{final_result_1["note"]}}</p>
                     </div>	            
                 </div>
             </div> 
         </div>
         <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
-            <a routerLink="/appointment" class="btn btn-lg btn-outline-primary btn-block mr-2">CANCEL</a>
-            <a routerLink="/appointment" class="btn btn-lg btn-primary btn-block mt-0">RESCHEDULE</a>
+            <a (click)="cancel()" class="btn btn-lg btn-outline-primary btn-block mr-2">CANCEL</a>
+            <a routerLink="/appointment" class="btn btn-lg btn-outline-primary btn-block mr-2">DONE</a>
+            <a (click)="reschedule()" class="btn btn-lg btn-primary btn-block mt-0">RESCHEDULE</a>
         </div>                   
     </div>
 </section>

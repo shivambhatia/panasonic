@@ -8,6 +8,7 @@ declare var $: any;
 // import { FormGroup, FormControl ,Validators} from '@angular/forms';
 
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
+import { timeStamp } from 'node:console';
 @Component({
   selector: 'app-book-appointment',
   templateUrl: './book-appointment.component.html',
@@ -61,6 +62,9 @@ export class BookAppointmentComponent implements OnInit {
   myStringArray:any = [];
   service_final_1:any = [];
   form: FormGroup;
+final_result :any = [];;
+ final_results :any = [];
+ final_result_1:any = [];
   branch_final:any = [];
   public month:any = [];
   public year:any=[];
@@ -126,7 +130,7 @@ togglePrevious(pageType:string){
   
     if(pageType=='service'){
     if(this.myStringArray.length == 0){
-      this.message_2 = "Service is required,select atleast one value"
+      this.message_2 = "Service is required, select atleast one value"
       $("#err9").show();
      setTimeout(function(){
          $("#err9").hide();
@@ -185,7 +189,7 @@ togglePrevious(pageType:string){
         // this.dataDateTime=false;
         
         // console.log(this.allBranchesServiceWise)
-        this.message_3 = "Branch is required,select atleast one value"
+        this.message_3 = "Branch is required, select atleast one value"
         $("#err2").show();
          setTimeout(function(){
           $("#err2").hide();
@@ -239,7 +243,6 @@ togglePrevious(pageType:string){
      setTimeout(function(){
          $("#err8").hide();
        }, 3000);
-      console.log("jjblj")
     }
     else if(!$('.tnc:checked').is(':checked')){
       this.dataReview=false;
@@ -298,19 +301,31 @@ togglePrevious(pageType:string){
   //   })
 
   //  }
-
+  
    createAppointment(){
     var final_date = moment(this.appointment_date).format("DD-MM-YYYY");
         const headers = { 'Authorization': 'Bearer '+this.token }
-    var request={"appointment_date":this.appointment_date,"appointment_time":this.time,"email":this.email,"name":this.name,"note":this.note,"tnc":this.tnc,"mobile":this.phone,"services":[this.selectedServices],"mode":"web","branch":[[this.selectedBranch]]};
+    var request={"appointment_date":this.appointment_date,"appointment_time":this.time,"email":this.email,"name":this.name,"note":this.profileForm.value.note,"tnc":this.tnc,"mobile":this.phone,"services":[this.selectedServices],"mode":"web","branch":[[this.selectedBranch]]};
     console.log("data to submit",request); 
     let resp=this.http.post('http://65.1.176.15:5050/apis/create_appointment',request, { headers: headers});
     
     resp.subscribe((result)=>{
       // debugger;
-
-
-      this.router.navigate(['/appointment']);
+      var request_create ={"email":this.email,"phone":this.phone};
+      let resp_create_notification = this.http.post('http://65.1.176.15:5050/apis/create_notification',request_create,{ headers: headers});
+   
+      resp_create_notification.subscribe((result:any)=>{    
+        console.log("create success notification", result)
+       
+        
+      })
+          console.log("app confrm ", result)
+          this.final_result = result;
+          this.final_results = this.final_result.data;
+          this.final_result_1 = this.final_result.data.result;
+          this.dataRequest = true;
+          this.dataReview = false;
+      // this.router.navigate(['/appointment']);
 
     
     })
@@ -530,6 +545,7 @@ togglePrevious(pageType:string){
           this.disable_dates = (data.result[0] &&  data.result[0].formattedHolidayList)|| [] ;
           const {holidays} = data.result && data.result[0] || {}
           this.branchOff = holidays ? JSON.parse(holidays) : [];
+          console.log(this.branchOff,"branch holiday Found")
           this.break_time =(data.result[0] &&  data.result[0].breaks)|| "";
               this.myDpOptions = {
 
@@ -611,6 +627,7 @@ togglePrevious(pageType:string){
         // console.log(availableSlots,"ava slot")
         this.datetimeArray=slots;
         console.log(this.datetimeArray ,"++++++slots")
+        
       }
      
     })
@@ -621,6 +638,37 @@ togglePrevious(pageType:string){
   
   // this.displayElement = true;
     
+  }
+  cancel(){
+    const headers = { 'Authorization': 'Bearer '+this.token, 'My-Custom-Header': '' }
+    
+    let resp_cancel = this.http.post('http://65.1.176.15:5050/apis/cancelAppointment',{"booking_id": this.final_result_1.id}, { headers: headers});
+   
+    resp_cancel.subscribe((result:any)=>{    
+      console.log("cancel success", result)
+
+      if(result.success == true){
+        var request_cancel ={"email":this.email,"phone":this.phone};
+     console.log("cancel not data", request_cancel)
+        let resp_cancel_notification = this.http.post('http://65.1.176.15:5050/apis/cancel_notification',request_cancel,{ headers: headers});
+   
+        resp_cancel_notification.subscribe((result:any)=>{    
+          console.log("cancel success notification", result)
+         
+          
+        })
+      }
+     
+      
+    })
+  }
+  reschedule(){
+    // this.dataRequest = false;
+    // this.dataReview = false;
+    // this.dataContact = false;
+    // this.dataDateTime = true;
+    // this.dataBranch = false;
+    // this.dataService = false;
   }
  
 

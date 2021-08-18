@@ -24,6 +24,9 @@ export class LoginComponent implements OnInit {
     message_3:any = [];
     result :any;
     login = true;
+    valid:any =[];
+    invalid:any =[];
+    resend_otp:any = [];
   otp = false;
   constructor(private formBuilder: FormBuilder,
         private route: ActivatedRoute,
@@ -105,6 +108,26 @@ export class LoginComponent implements OnInit {
                   //  console.log("Data New",data);
                    this.login=false;
                    this.otp=true;
+                   this.login=false;
+                   this.otp=true;
+                   var timer2 = "0:60";
+                  var interval = setInterval(function() {
+                    var timer = timer2.split(':');
+                    var minutes = parseInt(timer[0], 10);
+                    let seconds:any = parseInt(timer[1], 10);
+                    --seconds;
+                    minutes = (seconds < 0) ? --minutes : minutes;
+                    if (minutes < 0) clearInterval(interval);
+                    seconds = (seconds < 0) ? 59 : seconds;
+                    seconds = (seconds < 10) ? '0' + seconds : seconds;
+                    $('.countdown').html(minutes + ':' + seconds);
+                    timer2 = minutes + ':' + seconds;
+                    if(timer2 == "-1:59"){
+                    $('.count').hide();
+                    $('.countdown').html("");
+                    $('.ten1').show();
+                    }
+                  }, 1000);
                 },
                 error => {
                     // console.log("Error",error);
@@ -114,7 +137,49 @@ export class LoginComponent implements OnInit {
 
 
 
-
+      
+      resendOtp(){
+        this.resend_otp = "OTP has been resend"
+          
+        $("#resend_otp").show();
+        setTimeout(function(){
+            $("#resend_otp").hide();
+          }, 5000);
+          this.authentication.login(this.f.mobile.value).pipe(first())
+          .subscribe((data:any) => {
+            this.mobile=this.f.mobile.value;
+            this.login=false;
+            this.otp=true;
+            var timer2 = "0:60";
+            $('.ten1').hide();
+            $('.count').show();
+           var interval = setInterval(function() {
+             var timer = timer2.split(':');
+             var minutes = parseInt(timer[0], 10);
+             let seconds:any = parseInt(timer[1], 10);
+             --seconds;
+             minutes = (seconds < 0) ? --minutes : minutes;
+             if (minutes < 0) clearInterval(interval);
+             seconds = (seconds < 0) ? 59 : seconds;
+             seconds = (seconds < 10) ? '0' + seconds : seconds;
+             $('.countdown').html(minutes + ':' + seconds);
+             timer2 = minutes + ':' + seconds;
+             if(timer2 == "-1:59"){
+             $('.count').hide();
+             $('.countdown').html("");
+             $('.ten1').show();
+             }
+           }, 1000);
+                  //debugger
+                  //this.router.navigate('/otp',queryParams:{mobile:this.f.mobile.value,otp:data.otp})
+             
+              },
+              error => {
+                  // console.log("Error",error);
+                  this.loading = false;
+              });
+          
+        }
 
       onOtpSubmit(){
          if($('#otp').val( ) == ""){
@@ -132,7 +197,23 @@ export class LoginComponent implements OnInit {
         
         this.authentication.verifyOtp(this.f2.otpValue.value,this.mobile).pipe(first())
             .subscribe((data:any) => {
-              
+              console.log(data,"otp response")
+              if(data.success == true){
+                this.valid = "SUCCESSFULLY VERIFIED"
+                $("#err_valid").css("display", "block");
+                setTimeout(function(){
+                  $("#err_valid").hide();
+        
+                }, 3000);
+              }
+              else{
+                this.invalid = "INVALID OTP";
+                $("#err_invalid").css("display", "block");
+                setTimeout(function(){
+                  $("#err_invalid").hide();
+        
+                }, 3000);
+              }
                     //debugger
                     //this.router.navigate('/otp',queryParams:{mobile:this.f.mobile.value,otp:data.otp})
                   //  console.log("Data New Otp",data);
@@ -144,6 +225,13 @@ export class LoginComponent implements OnInit {
                     this.loading = false;
                 });
 
+      }
+      login_page(){
+        // $("#login_div").attr("style", "display: inline !important");
+        // $("#otp_div").attr("style", "display: none !important");
+        this.login=true;
+                   this.otp=false;
+        
       }
 
       

@@ -1,0 +1,1 @@
+[TAILING] Tailing last 15 lines for [8] process (change the value with --lines option)

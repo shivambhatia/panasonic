@@ -18,7 +18,7 @@
             </div>
         </div>
         <div class="col-right">
-            <div class="w-100 h-100 d-flex align-items-center apps" *ngIf="login">
+            <div class="w-100 h-100 d-flex align-items-center apps"  id="login_div" *ngIf="login">
                 <div class="app-container text-center">
 
                     <div class="brand-logo d-xl-none mb-4">
@@ -31,20 +31,20 @@
                     <form [formGroup]="form" (ngSubmit)="onSubmit()">
                                 <div class="form-group">
                                     <input type="tel" name="" placeholder="Mobile Number" class="form-control form-control-lg" maxlength="10" [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }" formControlName="mobile">
+									<div *ngIf="submitted && f.mobile.errors" class="invalid-feedback" style="display: block;">
+										<div *ngIf="f.mobile.errors.required" class="error-text">Mobile Number is required</div>
+										<div *ngIf="f.mobile.errors.pattern" class="error-text">Invalid Mobile Number</div>
+									</div>
                                 </div>
                                 <!-- <div id="err1">{{ this.message_1}}</div> -->
-                                <div *ngIf="submitted && f.mobile.errors" class="invalid-feedback" style="display: block;">
-                                    <div *ngIf="f.mobile.errors.required">Mobile is required</div>
-                                    <div *ngIf="f.mobile.errors.pattern">Invalid Mobile Number</div>
-                                    
-                                </div>
+                                
                                 <div class="form-cta">
-                                    <button type="submit" class="btn btn-lg btn-primary btn-block" >GET OTP</button>
+                                    <button type="submit" class="btn btn-lg btn-primary btn-block">GET OTP</button>
                                 </div>
                             </form>
                 </div>
             </div>
-            <div class="w-100 h-100 d-flex align-items-center apps" *ngIf="otp">
+            <div class="w-100 h-100 d-flex align-items-center apps" id="otp_div" *ngIf="otp">
                 <div class="app-container text-center">
                     <div class="brand-logo d-xl-none mb-4">
                         <img src="/assets/images/logo.svg" alt="logo">
@@ -52,13 +52,16 @@
                     <div class="card p-4 p-md-0">
                         <div class="card-title mb-4">
                             <h4 class="bolder mb-3">Enter OTP</h4>
-                            <h5>OTP has been sent to <a routerLink="/" class="active-num"><u>+91-{{mobile}}</u></a></h5>
+                            <h5>OTP has been sent to <a (click)="login_page()" class="active-num"><u>+91-{{mobile}}</u></a></h5>
                         </div>
                         <form [formGroup]="formOtp" (ngSubmit)="onOtpSubmit()">
-                        <div class="form-group">
-                            <input type="tel" name="" placeholder="Enter OTP" id="otp" class="form-control form-control-lg" maxlength="10" formControlName="otpValue">
+                        <div class="form-group otp-input">
+                            <input type="tel" name="" placeholder="Enter OTP" id="otp" class="form-control form-control-lg" maxlength="6" formControlName="otpValue">
+							 <div id="err3" class="error-text">{{message_3}}</div>
+                             <div id="err_valid" class="error-text" >{{this.valid}}</div>
+                             <div id="err_invalid" class="error-text">{{this.invalid}}</div>
                         </div>
-                       <div id="err3" style="color: red;">{{message_3}}</div>
+                      
                         <!-- <div *ngIf="submitted && f.otpValue.errors" class="invalid-feedback" style="display: block;">
                             <div *ngIf="f.otpValue.errors.required">OTP is required</div>
                             <!-- <div *ngIf="f.mobile.errors.pattern">Invalid Mobile Number</div> -->
@@ -66,12 +69,16 @@
                         <!-- </div>  -->
                         <!-- <div id="err1">{{ this.message_1}}</div> -->
                         <div class="form-cta">
+                            
                                     <button type="submit" class="btn btn-lg btn-primary btn-block" >SIGN IN</button>
+                                    <div id="resend_otp"  class="error-text">{{this.resend_otp}}</div>
                                 </div>
                         <p class="text-muted mt-4 medium mb-0">By Logging in you agree to <a href="#" class="text-muted"><u>T&Cs</u></a> &amp; that you
     have read our <a routerLink="/otp" class="text-muted"><u>Privacy Policy</u></a></p>
                                     </form>
-                                <p class="mt-4 medium mb-0"><a href="#" class="text-black"><u>Resend OTP</u></a></p>
+                                <p class="mt-4 medium mb-0 ten1" style="display: none;"><a (click)="resendOtp()" class="text-black"><u>Resend OTP</u></a></p>
+                                <p class="mt-4 medium mb-0 count"><u>Resend OTP in<b  class="countdown"></b></u></p>
+                               
                     </div>
                 </div>
             </div>

@@ -12,6 +12,9 @@ import { RequestConfirmedComponent } from './request-confirmed/request-confirmed
 import { RequestReviewComponent } from './request-review/request-review.component';
 import { ServicesComponent } from './services/services.component';
 
+import { PolicyComponent } from './policy/policy.component';
+import { RescheduleComponent } from './reschedule/reschedule.component';
+import { TermsComponent } from './terms/terms.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
@@ -25,6 +28,9 @@ const routes: Routes = [
   { path: 'request-confirmed', component: RequestConfirmedComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'book-appointment', component: BookAppointmentComponent },
+  { path: 'terms', component: TermsComponent },
+  { path: 'policy', component: PolicyComponent },
+  { path: 'reschedule', component: RescheduleComponent },
   
 ];
 

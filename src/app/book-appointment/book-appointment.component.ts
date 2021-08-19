@@ -22,6 +22,8 @@ export class BookAppointmentComponent implements OnInit {
   currentMonth: any = this.mytime.getUTCMonth() + 1;
   data : any;
   temp :any;
+  public policies:any = [];
+  public terms:any=[];
   services: any;
   private token : string;
   selectedServices:string []; 
@@ -34,6 +36,7 @@ export class BookAppointmentComponent implements OnInit {
   dataContact = false;
   dataReview = false;
   dataRequest = false;
+  allService : any;
   startRegistartionDate:any;
   allDateBranchWiseData : any[];
   datetimeArray: string[];
@@ -79,13 +82,15 @@ final_result :any = [];;
 timeslots_active :any =[];
   timeslots  :any =[];
   datetimeMsg:any = [];
+  userData:any=[];
   constructor(private http: HttpClient,private router: Router,private fb: FormBuilder) { 
     
     let users = JSON.parse(localStorage.getItem('currentUser') || '{}');
           if(users.success){
             // debugger;
+            this.userData=users;
             this.userDataProfile=users.result;
-  
+  console.log(this.userDataProfile,"user ")
   
   
               this.token = users.token;       
@@ -109,10 +114,11 @@ togglePrevious(pageType:string){
   if (pageType=='branch'){
     this.dataService=true;
     this.dataBranch=false;
+    console.log(this.allService,"services checked")
   }
   if(pageType=='datetime'){
     console.log(this.selectedBranch[0],typeof this.selectedBranch[0], "brajhbkjb")
-    console.log($('input[name="myCheckbox"][id=branch' + this.selectedBranch[0] + ']').prop("checked", true));
+    // console.log($('input[name="myCheckbox"][id=branch' + this.selectedBranch[0] + ']').prop("checked", true));
     // $('input[name="myCheckbox"][id=branch' + this.selectedBranch[0] + ']').prop("checked", true);
     // $('#branch' + this.selectedBranch[0] + '').prop('checked', true); 
     console.log('#branch' + this.selectedBranch[0] + '' )
@@ -257,15 +263,26 @@ togglePrevious(pageType:string){
     else{
     this.dataContact=false;
     this.dataReview=true;
+    const headers = { 'Authorization': 'Bearer '+this.token }
+    
+    var data={"id":this.userData.result.id,"name":this.profileForm.value.profilename,"email":this.profileForm.value.email};
+    console.log(data);
+    let resp=this.http.post('http://65.1.176.15:5050/apis/updateCustomer',data, { headers: headers});
+   
+    resp.subscribe((result:any)=>{    
+        this.userData.result.name=result.result.name;
+        this.userData.result.email=result.result.email;
+        localStorage.setItem('currentUser', JSON.stringify(this.userData));
+        this.name = result.result.name;
+        this.email = result.result.email;
+        // console.log(this.name,this.email,"userssssssssssssssssssss")
+        // this.name.setValue(result.result.name);
+        // this.email.setValue(result.result.email);
+          
+    })
     }
   }
 
-
-
-    // this.dataDateTime
-    // this.dataContact = !this.dataContact
-    // this.dataReview = !this.dataReview
-    // this.dataRequest = !this.dataRequest
   }
 
    profileForm = new FormGroup({
@@ -279,37 +296,12 @@ togglePrevious(pageType:string){
   });
 
 
-  //  getNoOfDaysOnSelectedBranch(){
-    
-  //    var date_today = moment(new Date()).format("DD-MM-YYYY");
-  //    console.log(date_today,"date +++++++++")
-  //    if(this.appointment_date_selected!== ""){
-  //      this.appointment_date = this.appointment_date_selected
-  //    }
-  //    else{
-  //      this.appointment_date = date_today
-  //    }
-     
-  //    console.log("comng here2", this.appointment_date)
-  //   //  var appointment_date  = {appointment_date: this.appointment_date}
-  //       const headers = { 'Authorization': 'Bearer '+this.token, 'My-Custom-Header': '' }
-  //   var request={"service":[this.selectedServices],"branch":[this.selectedBranch[0]],"appointment_date":this.appointment_date} 
-  //   console.log("Step 2",request)  
-  //   let resp=this.http.post('http://65.1.176.15:5050/apis/getBookedSlot',request, { headers: headers});
-   
-  //   resp.subscribe((result)=>{    
-  //    console.log("Max no of days from today",result);
-      
-  //   })
-
-  //  }
-
-
   
    createAppointment(){
+     console.log(this.allService,"Ok services")
     var final_date = moment(this.appointment_date).format("DD-MM-YYYY");
         const headers = { 'Authorization': 'Bearer '+this.token }
-    var request={"appointment_date":this.appointment_date,"appointment_time":this.time,"email":this.profileForm.value.email,"name":this.profileForm.value.profilename,"note":this.profileForm.value.note,"tnc":this.tnc,"mobile":this.profileForm.value.phone,"services":[this.selectedServices],"mode":"web","branch":[[this.selectedBranch]]};
+    var request={"appointment_date":this.appointment_date,"appointment_time":this.time,"email":this.profileForm.value.email,"name":this.profileForm.value.profilename,"note":this.profileForm.value.note,"tnc":this.tnc,"mobile":this.profileForm.value.phone,"services":this.allService,"mode":"web","branch":[[this.selectedBranch]]};
     console.log("data to submit",request); 
     let resp=this.http.post('http://65.1.176.15:5050/apis/create_appointment',request, { headers: headers});
     
@@ -461,6 +453,19 @@ togglePrevious(pageType:string){
     // $("input[name=TimeSlot][value=" + this.time + "]").attr('checked', 'checked');
     $('input:radio[name="TimeSlot"][value=' + this.time + ']').attr('checked',true);
   }
+  reviewReq(){
+    this.dataReview = false;
+    this.dataContact = true;
+ 
+  }
+  servicesTab(){
+    this.dataReview = false;
+    this.dataService = true;
+  }
+  contactForm(){
+    this.dataContact = true;
+    this.dataReview = false;
+  }
   getSelectedServiceId(e:any){
 
     var service  = e.target.value;
@@ -484,11 +489,14 @@ togglePrevious(pageType:string){
       services.removeAt(index);
     }
     var myStringArray  = services.value;
+
     var arrayLength = myStringArray.length;
     for (var i = 0; i < arrayLength; i++) {
         let nett = myStringArray[i].split("-")[0];
         myStringArray[i] = nett;
     }
+    this.allService = myStringArray;
+    console.log(myStringArray,"all services check")
     this.selectedServices = myStringArray[0] 
    this.myStringArray={ service: [myStringArray[0]]} ;
    //console.log(this.selectedServices)
@@ -508,6 +516,7 @@ togglePrevious(pageType:string){
   }
   serviceExistenceCheck(id:string){
     
+
 
     if(this.selectedServices.indexOf(''+id)==-1){
       return false;
@@ -569,6 +578,9 @@ togglePrevious(pageType:string){
           console.log(data,"bok")
           if(data.success == true){
             this.activeDays = data.result.validDate ;
+            this.policies = data.result.privacypolicy;
+            this.terms = data.result.privacypolicy_terms;
+            console.log(this.policies,this.terms)
           }
           else{
             this.activeDays = 15 ;
@@ -686,6 +698,7 @@ togglePrevious(pageType:string){
     
   }
   cancel(){
+    // $('#CancelModal').modal('show');
     const headers = { 'Authorization': 'Bearer '+this.token, 'My-Custom-Header': '' }
     
     let resp_cancel = this.http.post('http://65.1.176.15:5050/apis/cancelAppointment',{"booking_id": this.final_result_1.id}, { headers: headers});
@@ -700,6 +713,11 @@ togglePrevious(pageType:string){
    
         resp_cancel_notification.subscribe((result:any)=>{    
           console.log("cancel success notification", result)
+          if(result.success == true){
+            $("#cancelSuccess").show();
+            $("#CancelModalLabel").hide();
+            $("#cancelError").hide();
+          }
          
           
         })
@@ -709,12 +727,7 @@ togglePrevious(pageType:string){
     })
   }
   reschedule(){
-    // this.dataRequest = false;
-    // this.dataReview = false;
-    // this.dataContact = false;
-    // this.dataDateTime = true;
-    // this.dataBranch = false;
-    // this.dataService = false;
+    $('#RescheduleModal').modal('hide');
   }
  
 

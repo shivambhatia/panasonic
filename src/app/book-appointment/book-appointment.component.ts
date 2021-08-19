@@ -451,6 +451,13 @@ togglePrevious(pageType:string){
       
     // });
   }
+  calendarshow(){
+    this.dataContact = false;
+    this.dataDateTime = true;
+    console.log(this.time,"time checked")
+    // $("input[name=TimeSlot][value=" + this.time + "]").attr('checked', 'checked');
+    $('input:radio[name="TimeSlot"][value=' + this.time + ']').attr('checked',true);
+  }
   getSelectedServiceId(e:any){
 
     var service  = e.target.value;

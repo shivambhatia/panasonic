@@ -92,7 +92,7 @@
                     <div *ngIf="allBranchesServiceWise">
                     <div class="card" *ngFor="let BranchItem of allBranchesServiceWise">
                         <div class="card-checkbox btn-checkbox">
-                                    <input type="checkbox" name="myCheckbox" [value]="BranchItem.id  +'-'+ BranchItem.name" (change)="getSelectedBranchId($event)"  class="example branch-checkbox" id="branch{{BranchItem.id}}"  >
+                                    <input type="checkbox" name="myCheckbox" [value]="BranchItem.id  +'-'+ BranchItem.name" (change)="getSelectedBranchId($event)"  class="example" id="branch{{BranchItem.id}}" >
                                     <label for="branch{{BranchItem.id}}">{{BranchItem.name}}</label>
                                 </div>
 
@@ -140,7 +140,7 @@
                 </div> -->
                 <div class="row row-gap time-list" id="slotfound">
                     <div class="col-sm-4 col-6 btn-radio"  *ngFor="let datetime of datetimeArray;let i = index">
-                        <input type="radio" name="TimeSlot"  id="time{{i}}" (change)="onItemChangeTime(i)" >
+                        <input type="radio" name="TimeSlot"  id="time{{i}}" value="{{datetime}}" (change)="onItemChangeTime(i)" >
                         <label for="time{{i}}">{{datetime}}</label>
                     </div>
                    
@@ -162,7 +162,7 @@
 <!--Contact-->
 <section class="apps apps-container" *ngIf="dataContact"> 
     <header class="text-white bg-primary d-flex align-items-center app-title mb-4">
-        <a routerLink="/appointment" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a>
+        <a (click)="calendarshow()" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a>
         <h1 class="h4 text-uppercase m-0">Contact Details</h1>
     </header>
     <div class="app-container d-flex flex-column">

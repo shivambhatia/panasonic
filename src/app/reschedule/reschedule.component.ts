@@ -10,11 +10,11 @@ declare var $: any;
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-book-appointment',
-  templateUrl: './book-appointment.component.html',
-  styleUrls: ['./book-appointment.component.css']
+  selector: 'app-reschedule',
+  templateUrl: './reschedule.component.html',
+  styleUrls: ['./reschedule.component.css']
 })
-export class BookAppointmentComponent implements OnInit {
+export class RescheduleComponent implements OnInit {
   minDate = new Date();
   public mytime: Date = new Date();
   currentYear: any = this.mytime.getUTCFullYear();
@@ -162,7 +162,9 @@ togglePrevious(pageType:string){
         this.profileForm.controls["profilename"].setValue(this.userDataProfile.name);
        this.profileForm.controls["email"].setValue(this.userDataProfile.email);
         this.profileForm.controls["phone"].setValue(this.userDataProfile.phone);
-        
+        this.profileForm.controls['profilename'].disable();
+        this.profileForm.controls['email'].disable();
+        this.profileForm.controls['phone'].disable();
         this.email=this.userDataProfile.email;
         this.name=this.userDataProfile.name;
         this.phone=this.userDataProfile.phone;
@@ -265,9 +267,9 @@ togglePrevious(pageType:string){
   }
 
    profileForm = new FormGroup({
-    profilename: new FormControl({value:'',disabled: this.userDataProfile && this.userDataProfile.name?true:false}, Validators.required),
-    email: new FormControl({value:'',disabled:this.userDataProfile && this.userDataProfile.email?true:false}, Validators.required),
-    phone :new FormControl({value:'',disabled:this.userDataProfile && this.userDataProfile.phone?true:false}, Validators.required),
+    profilename: new FormControl({value:''}, Validators.required),
+    email: new FormControl({value:'',disabled:true}, Validators.required),
+    phone :new FormControl({value:'',disabled:true}, Validators.required),
     tnc :new FormControl('', Validators.required),
     note:new FormControl('', Validators.required)
     

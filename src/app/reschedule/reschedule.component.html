@@ -1,0 +1,327 @@
+<app-header></app-header>
+
+<!--Services-->
+<section class="apps apps-container" *ngIf="dataService"> 
+    <header class="text-white bg-primary d-flex align-items-center app-title mb-4">
+        <a routerLink="/appointment" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a>
+        <h1 class="h4 text-uppercase m-0">Select Services</h1>
+    </header>
+    <div class="app-container d-flex flex-column">
+        <div class="flex-fill">            
+            <div class="accordion-group">
+                <div class="accordion sub-accordion" id="accordionServices">
+                        <div class="card" *ngFor="let ServiceItem of services">
+                              <div class="card" *ngIf="ServiceItem.children"> 
+                                <a class="collapsed card-header" type="button" data-toggle="collapse" href="#collapse{{ServiceItem.name}}" aria-expanded="false" aria-controls="" id="Title{{ServiceItem.name}}">
+                                    {{ServiceItem.name}}
+                                </a>
+                                <div id="collapse{{ServiceItem.name}}" class="collapse" aria-labelledby="" data-parent="#accordionServices">
+                                    <div class="card-body">
+                                        <div class="card" *ngFor="let ServiceItemChildren of ServiceItem.children">
+                                            <div class="card-checkbox btn-checkbox">
+                                                <input type="checkbox" name="" [value]="ServiceItemChildren.id +'-'+ ServiceItemChildren.name"  id="service{{ServiceItemChildren.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItemChildren.serving_time}}" attr.startDate="{{ServiceItemChildren.open_time}} " attr.endDate="{{ServiceItemChildren.close_time}} ">
+                                                <!-- (click)="getSelectedServiceId($event,ServiceItemChildren.id,ServiceItem.name)" -->
+                                                <label for="service{{ServiceItemChildren.id}}">{{ServiceItemChildren.name}}</label>
+                                            </div>                                    
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                              <div *ngIf="!ServiceItem.children">                                  
+                                <div class="card-checkbox btn-checkbox">
+                                    <input type="checkbox" name="" [value]="ServiceItem.id +'-'+ ServiceItem.name" id="service{{ServiceItem.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItem.serving_time}}" attr.startDate="{{ServiceItem.open_time}} " attr.endDate="{{ServiceItem.close_time}} ">
+                                    <label for="service{{ServiceItem.id}}">{{ServiceItem.name}}</label>
+                                </div>
+                                <div class="card" *ngFor="let ServiceItemChildren of ServiceItem.children">
+                                    <div class="card-checkbox btn-checkbox">
+                                        <input type="checkbox" name=""[value]="ServiceItemChildren.id +'-'+ ServiceItemChildren.name" id="service{{ServiceItemChildren.id}}" (click)="getSelectedServiceId($event)"  attr.servingTime="{{ServiceItemChildren.serving_time}}" attr.startDate="{{ServiceItemChildren.open_time}} " attr.endDate="{{ServiceItemChildren.close_time}} ">
+                                        <label for="service{{ServiceItemChildren.id}}">{{ServiceItemChildren.name}}</label>
+                                    </div>                                    
+                                </div>                                                                
+                              </div>
+                         </div>   
+                         <div id="err9" class="error-text">{{this.message_2}}</div>
+                                      
+                        
+            </div>
+            
+            </div>           
+        </div>
+        <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
+            <a routerLink="/appointment" class="btn btn-lg btn-outline-primary btn-block mr-2">PREVIOUS</a>
+            <button (click)="toggle('service')" class="btn btn-lg btn-primary btn-block mt-0">NEXT</button>
+        </div>                    
+    </div>
+</section>
+<!--Services-->
+<!--Branches-->
+<section class="apps apps-container" *ngIf="dataBranch"> 
+    <header class="text-white bg-primary d-flex align-items-center app-title mb-4">
+        <a (click)="togglePrevious('branch')" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a>
+        <h1 class="h4 text-uppercase m-0">Select Branch</h1>
+    </header>
+    <div class="app-container d-flex flex-column">
+        <div class="flex-fill">            
+            <div class="accordion-group">
+                <div class="accordion sub-accordion" id="SubBranches">
+                    <div *ngIf="allBranchesServiceWise">
+                    <div class="card" *ngFor="let BranchItem of allBranchesServiceWise">
+                        <div class="card-checkbox btn-checkbox">
+                                    <input type="checkbox" name="myCheckbox" [value]="BranchItem.id  +'-'+ BranchItem.name" (change)="getSelectedBranchId($event)"  class="example" id="branch{{BranchItem.id}}" >
+                                    <label for="branch{{BranchItem.id}}">{{BranchItem.name}}</label>
+                                </div>
+
+
+                    </div>
+                </div>  
+                    
+                    	
+                    
+                    
+                </div>
+            </div> 
+            <div id="err2" class="error-text">{{this.message_3}}</div>        
+        </div>
+        <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
+            <a (click)="togglePrevious('branch')" class="btn btn-lg btn-outline-primary btn-block mr-2">PREVIOUS</a>
+            <button (click)="toggle('branch')" class="btn btn-lg btn-primary btn-block mt-0">NEXT</button>
+        </div>                    
+    </div>
+</section>
+<!--Branches-->
+<!--Date&Time-->
+<section class="apps apps-container" *ngIf="dataDateTime"> 
+    <header class="text-white bg-primary d-flex align-items-center app-title mb-4">
+        <a (click)="togglePrevious('datetime')" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a>
+        <h1 class="h4 text-uppercase m-0">Select Date &amp; Time</h1>
+    </header>
+    <div class="app-container d-flex flex-column">
+        <div class="flex-fill">  
+            <div class="row">
+                <div class="col-lg-6 bg-md-light mb-lg-0 mb-5">
+                    <!-- <div class="accordion-group"> -->
+                        <!-- <div class="datepicker" id="datepicker"></div>	 -->
+                        <input type="hidden" [min]="minDate" name="mydate" angular-mydatepicker
+                        [options]="myDpOptions"  [(ngModel)]="filterDate"  [ngModelOptions]="{standalone: true}"
+                        (dateChanged)="onDateChanged($event)"/>
+     
+     
+                    <!-- </div> -->
+                </div>
+            
+            <div class="col-lg-6 pt-md-3 pl-xl-5">
+                <!-- <div class="row row-gap time-list" id="slotNotfound">
+                    {{this.datetimeMsg}}
+                </div> -->
+                <div class="row row-gap time-list" id="slotfound">
+                    <div class="col-sm-4 col-6 btn-radio"  *ngFor="let datetime of datetimeArray;let i = index">
+                        <input type="radio" name="TimeSlot"  id="time{{i}}" (change)="onItemChangeTime(i)" >
+                        <label for="time{{i}}">{{datetime}}</label>
+                    </div>
+                   
+                    
+                </div>
+            </div>
+        </div>          
+        <div id="err4" class="error-text">{{this.message_4}}</div>        
+        </div>
+        <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
+            <a (click)="togglePrevious('datetime')" class="btn btn-lg btn-outline-primary btn-block mr-2">PREVIOUS</a>
+            <button (click)="toggle('datetime')" class="btn btn-lg btn-primary btn-block mt-0">NEXT</button>
+        </div>                    
+    </div>
+    
+</section>
+<!--Date&Time-->
+
+<!--Contact-->
+<section class="apps apps-container" *ngIf="dataContact"> 
+    <header class="text-white bg-primary d-flex align-items-center app-title mb-4">
+        <a routerLink="/appointment" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a>
+        <h1 class="h4 text-uppercase m-0">Contact Details</h1>
+    </header>
+    <div class="app-container d-flex flex-column">
+        <div class="flex-fill">           
+        <form [formGroup]="profileForm" (ngSubmit)="onContactSubmit()"> 
+            <div class="contact-form">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group form-input">
+                            <a tabindex="0" class="info-icon ml-1" role="button" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="This information is we will used for this service only. "><img src="./assets/images/info-icon.svg" alt="info icon"></a>
+                        
+                            <label for="FieldName" class="control-label">Name</label>
+                            <input type="text" class="form-control" placeholder="Enter name here" id="FieldName"  formControlName="profilename" >
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-input">
+                            <label for="FieldMobile" class="control-label">Mobile</label>
+                            <div class="d-flex">
+                            <select name="" id="" class="custom-select pl-0">
+                                <option value="">+91</option>
+                            </select>
+                            <input type="text" class="form-control" placeholder="Enter Mobile Number" id="FieldMobile"  formControlName="phone">
+                            </div>
+                        </div>	
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group form-input">
+                            <a tabindex="0" class="info-icon ml-1" role="button" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="This information is we will used for this service only. "><img src="./assets/images/info-icon.svg" alt="info icon"></a>
+                            <label for="FieldEmail" class="control-label">Email</label>
+                            <input type="email" class="form-control" placeholder="Enter email here" id="FieldEmail"  formControlName="email">
+                        </div>
+                    </div>
+                </div>                                    
+                <div class="form-group form-input">
+                    <label for="FieldNotes" class="control-label">Describe Service Requirement/Issues</label>
+                    <textarea class="form-control" required placeholder="Enter notes here" id="FieldNotes"  formControlName="note"></textarea>
+                </div>
+                <div class="form-group btn-checkbox">
+                    <input type="checkbox" name="" value="" id="tnc"  class="tnc" formControlName="tnc">
+                    <label for="tnc" class="text-muted regular">I agree to the <a href="#">terms and conditions</a> and <a href="privacy-policy.html">privacy policy</a></label>
+                </div>
+            
+            </div> 
+            <div id="err8" class="error-text">{{this.message_8}}</div> 
+            <div id="err1" class="error-text">{{this.message_1}}</div> 
+            <!-- <p>Complete the form to enable button.</p> -->
+<!-- <button type="submit" [disabled]="!profileForm.valid">Submit</button> -->
+            </form>       
+        </div>
+
+        <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
+            <a routerLink="togglePrevious('requirement')" class="btn btn-lg btn-outline-primary btn-block mr-2">PREVIOUS</a>
+            <button (click)="toggle('requirement')" class="btn btn-lg btn-primary btn-block mt-0" >NEXT</button>
+        </div>                    
+    </div>
+</section>
+<!--Contact-->
+<!--Request-Review-->
+<section class="apps apps-container" *ngIf="dataReview"> 
+    <header class="text-white bg-primary d-flex align-items-center app-title mb-4">
+        <a routerLink="/appointment" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a>
+        <h1 class="h4 text-uppercase m-0">Review Request</h1>
+    </header>
+    <div class="app-container d-flex flex-column">
+        <div class="flex-fill">            
+            <div class="row">
+                <div class="col-lg-6 mb-lg-0 mb-4">
+                    <div class="info-block card pl-3 pb-3 pr-3 pt-2 mb-4 h-100">
+                        <div class="d-flex align-items-center mb-4">	
+                            <h5 class="m-0 text-muted">Service Details</h5>
+                            <a routerLink="/services" class="btn btn-light ml-auto pl-3 pr-3"><img src="./assets/images/edit-icon.svg" width="14" alt="Edit"></a>
+                        </div>                        
+                        <ul class="service-list list-unstyled">
+                            <li>
+                                <h5 class="title">Services</h5>
+                                <p class="text-muted">{{service_final_1}}<br> 
+                                </p>
+                            </li>
+                            <li>
+                                <h5 class="title">Branch</h5>
+                                <p class="text-muted">{{branch_final}}</p>
+                            </li>
+                            <li>
+                                <h5 class="title">Date &amp; Time</h5>
+                                <p class="text-muted d-flex">{{appointment_date}} <span class="pl-2 pr-2">|</span> {{time}}</p>
+                            </li>
+                        </ul>
+                    </div>
+                    </div>
+                    <div class="col-lg-6 mb-lg-0 mb-4">
+                    <div class="card pl-3 pb-3 pr-3 pt-2 mb-4 h-100">
+                        <div class="d-flex align-items-center mb-4">	
+                            <h5 class="m-0 text-muted">Personal Details</h5>
+                            <a routerLink="/contact" class="btn btn-light ml-auto pl-3 pr-3"><img src="./assets/images/edit-icon.svg" width="14" alt="Edit"></a>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <h5 class="title mb-1">Name</h5>
+                                <p class="text-muted m-0">{{name}}</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <h5 class="title mb-1">Mobile</h5>
+                                <p class="text-muted m-0">+91 {{phone}}</p>
+                            </div>									
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <h5 class="title mb-1">Email Address</h5>
+                                <p class="text-muted m-0">{{email}}</p>
+                            </div>																	
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5 class="title mb-1">Describe Service Requirement/Issues</h5>
+                                <p class="text-muted m-0">{{this.profileForm.value.note}}</p>
+                            </div>																	
+                        </div>
+                    </div>
+                </div>
+            </div>     
+        </div>
+        <div class="app-footer-cta col-md-4 p-0 m-auto pt-md-5">			
+            <a (click)="createAppointment()" class="btn btn-lg btn-primary btn-block">CONFIRM</a>
+        </div>                   
+    </div>
+</section>
+<!--Request-Review-->
+
+<!--Confirm-Request-->
+<section class="apps apps-container" *ngIf="dataRequest"> 
+    <header class="text-white bg-primary d-flex align-items-center app-title mb-4">
+        <a routerLink="/appointment" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a>
+        <h1 class="h4 text-uppercase m-0">Request Confirmed</h1>
+    </header>
+    <div class="app-container d-flex flex-column">
+        <div class="flex-fill">            
+            <div class="row">
+                <div class="col-xl-6 col-md-10 m-auto">
+                    <div class="row mb-3">
+                        <div class="col-8">
+                            <!-- <h4 class="text-primary">3 Days Left</h4> -->
+                            <h5 class="mb-4">Appointment No: {{final_result_1.appointment_no}}</h5>
+                            <div class="ng-service">
+                                <p class="mb-2"><strong class="medium">Service:</strong></p>  
+                                <ul class="list-unstyled mb-0">
+                                    {{final_result_1.all_services}}
+                                </ul>
+                            </div>
+                        </div>	
+                        <div class="col-4">
+                            <img src="{{final_results.qrCode}}"  alt="{{final_results.qrCode}}">
+                        </div>
+                    </div>
+                    <div class="ng-branch mb-3">
+                        <p class="mb-2"><strong class="medium">Branch:</strong></p>
+                        <div class="d-flex align-items-start mb-3">
+                            <img src="./assets/images/route-icon.svg" alt="route icon" class="mr-3">
+                            <div class="rich-text flex-fill">{{final_result_1["branch.name"]}}<br>
+                                <a target="_blank" href='http://maps.google.com/maps/dir//{{final_result_1["branch.name"]}}'><u>Get Directions</u></a>
+                            </div>
+                        </div>  
+                    </div>  
+                    <div class="ng-date mb-3">
+                        <p class="mb-2"><strong class="medium">Date:</strong> {{final_result_1.appointment_date}} </p>
+                        <p class="mb-0"><strong class="medium">Time:</strong> {{final_result_1.appointment_time}}</p>
+                    </div>
+                    <h5 class="seprator-title text-center mt-5 mb-4"><span>Personal Details</span></h5>
+                    <div class="rich-text personal-info">
+                        <p><strong class="medium">Name:</strong> {{final_result_1["customer.name"]}} </p>
+                        <p><strong class="medium">Email Address:</strong> {{final_result_1["customer.email"]}} </p>
+                        <p><strong class="medium">Mobile Number:</strong>  +91{{final_result_1["customer.contact_no"]}} </p>
+                        <p><strong class="medium">Describe Service Requirement/Issues </strong><br>{{final_result_1["note"]}}</p>
+                    </div>	            
+                </div>
+            </div> 
+        </div>
+        <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
+            <a (click)="cancel()" class="btn btn-lg btn-outline-primary btn-block mr-2">CANCEL</a>
+            <a routerLink="/appointment" class="btn btn-lg btn-outline-primary btn-block mr-2">DONE</a>
+            <a routerLink="/appointment" class="btn btn-lg btn-primary btn-block mt-0">RESCHEDULE</a>
+        </div>                   
+    </div>
+</section>
+<!--Confirm-Request-->
+

@@ -162,13 +162,7 @@ togglePrevious(pageType:string){
         this.profileForm.controls["profilename"].setValue(this.userDataProfile.name);
        this.profileForm.controls["email"].setValue(this.userDataProfile.email);
         this.profileForm.controls["phone"].setValue(this.userDataProfile.phone);
-<<<<<<< HEAD
-        
-=======
-        // this.profileForm.controls['profilename'].disable();
-        // this.profileForm.controls['email'].disable();
-        // this.profileForm.controls['phone'].disable();
->>>>>>> 55a6c911b0c8a2c645610d7669af43446afb52b5
+
         this.email=this.userDataProfile.email;
         this.name=this.userDataProfile.name;
         this.phone=this.userDataProfile.phone;

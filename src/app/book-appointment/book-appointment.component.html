@@ -22,9 +22,16 @@
                                             <div class="card" *ngIf="!ServiceItemChildren.children">
 
                                                 <div class="card-checkbox btn-checkbox">
-                                                    <input type="checkbox" name="" [value]="ServiceItemChildren.id +'-'+ ServiceItemChildren.name"  id="service{{ServiceItemChildren.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItemChildren.serving_time}}" attr.startDate="{{ServiceItemChildren.open_time}} " attr.endDate="{{ServiceItemChildren.close_time}} ">
+                                                <div *ngIf="serviceExistenceCheck(ServiceItemChildren.id)">
+                                                    <input type="checkbox" name="" [value]="ServiceItemChildren.id +'-'+ ServiceItemChildren.name"  id="service{{ServiceItemChildren.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItemChildren.serving_time}}" attr.startDate="{{ServiceItemChildren.open_time}} " attr.endDate="{{ServiceItemChildren.close_time}} " checked>
                                                     <!-- (click)="getSelectedServiceId($event,ServiceItemChildren.id,ServiceItem.name)" -->
                                                     <label for="service{{ServiceItemChildren.id}}">{{ServiceItemChildren.name}}</label>
+                                                </div>
+                                                <div *ngIf="!serviceExistenceCheck(ServiceItemChildren.id)">
+                                                    <input type="checkbox" name="" [value]="ServiceItemChildren.id +'-'+ ServiceItemChildren.name"  id="service{{ServiceItemChildren.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItemChildren.serving_time}}" attr.startDate="{{ServiceItemChildren.open_time}} " attr.endDate="{{ServiceItemChildren.close_time}} " >
+                                                    <!-- (click)="getSelectedServiceId($event,ServiceItemChildren.id,ServiceItem.name)" -->
+                                                    <label for="service{{ServiceItemChildren.id}}">{{ServiceItemChildren.name}}</label>
+                                                </div>
                                                 </div>
                                             </div>
 
@@ -37,9 +44,21 @@
                                                 <div class="collapse" id="collapse{{ServiceItemChildren.name}}">
                                                 <div class="card" *ngFor="let ServiceItemChildrenLevel of ServiceItemChildren.children">
                                                     <div class="card-checkbox btn-checkbox">
-                                                    <input type="checkbox" name="" [value]="ServiceItemChildrenLevel.id +'-'+ ServiceItemChildren.name"  id="service{{ServiceItemChildrenLevel.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItemChildrenLevel.serving_time}}" attr.startDate="{{ServiceItemChildrenLevel.open_time}} " attr.endDate="{{ServiceItemChildrenLevel.close_time}} ">
+                                                    
+                                                    <div *ngIf="serviceExistenceCheck(ServiceItemChildrenLevel.id)">
+                                                    <input type="checkbox" name="" [value]="ServiceItemChildrenLevel.id +'-'+ ServiceItemChildren.name"  id="service{{ServiceItemChildrenLevel.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItemChildrenLevel.serving_time}}" attr.startDate="{{ServiceItemChildrenLevel.open_time}} " attr.endDate="{{ServiceItemChildrenLevel.close_time}} " checked>
                                                     <!-- (click)="getSelectedServiceId($event,ServiceItemChildren.id,ServiceItem.name)" -->
                                                     <label for="service{{ServiceItemChildrenLevel.id}}">{{ServiceItemChildrenLevel.name}}</label>
+                                                    </div>
+                                                    
+                                                    <div *ngIf="!serviceExistenceCheck(ServiceItemChildrenLevel.id)">
+                                                      <input type="checkbox" name="" [value]="ServiceItemChildrenLevel.id +'-'+ ServiceItemChildren.name"  id="service{{ServiceItemChildrenLevel.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItemChildrenLevel.serving_time}}" attr.startDate="{{ServiceItemChildrenLevel.open_time}} " attr.endDate="{{ServiceItemChildrenLevel.close_time}} ">
+                                                    <!-- (click)="getSelectedServiceId($event,ServiceItemChildren.id,ServiceItem.name)" -->
+                                                    <label for="service{{ServiceItemChildrenLevel.id}}">{{ServiceItemChildrenLevel.name}}</label>
+                                                    
+                                                    
+                                                    
+                                                    </div>
                                                 </div>
                                                 </div>
                                                 </div>
@@ -54,13 +73,40 @@
                               </div>
                               <div *ngIf="!ServiceItem.children">                                  
                                 <div class="card-checkbox btn-checkbox">
-                                    <input type="checkbox" name="" [value]="ServiceItem.id +'-'+ ServiceItem.name" id="service{{ServiceItem.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItem.serving_time}}" attr.startDate="{{ServiceItem.open_time}} " attr.endDate="{{ServiceItem.close_time}} ">
+                                   <div *ngIf="serviceExistenceCheck(ServiceItem.id)">
+                                
+                                    <input type="checkbox" name="" [value]="ServiceItem.id +'-'+ ServiceItem.name" id="service{{ServiceItem.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItem.serving_time}}" attr.startDate="{{ServiceItem.open_time}} " attr.endDate="{{ServiceItem.close_time}} " checked>
                                     <label for="service{{ServiceItem.id}}">{{ServiceItem.name}}</label>
+                                    
+                                    </div>
+                                    
+                                       <div *ngIf="!serviceExistenceCheck(ServiceItem.id)">
+                                               <input type="checkbox" name="" [value]="ServiceItem.id +'-'+ ServiceItem.name" id="service{{ServiceItem.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItem.serving_time}}" attr.startDate="{{ServiceItem.open_time}} " attr.endDate="{{ServiceItem.close_time}} ">
+                                    <label for="service{{ServiceItem.id}}">{{ServiceItem.name}}</label>
+                                       
+                                       
+                                       
+                                       
+                                       </div>
                                 </div>
                                 <div class="card" *ngFor="let ServiceItemChildren of ServiceItem.children">
+                                
                                     <div class="card-checkbox btn-checkbox">
-                                        <input type="checkbox" name=""[value]="ServiceItemChildren.id +'-'+ ServiceItemChildren.name" id="service{{ServiceItemChildren.id}}" (click)="getSelectedServiceId($event)"  attr.servingTime="{{ServiceItemChildren.serving_time}}" attr.startDate="{{ServiceItemChildren.open_time}} " attr.endDate="{{ServiceItemChildren.close_time}} ">
+                                      <div *ngIf="serviceExistenceCheck(ServiceItem.id)">
+                                        <input type="checkbox" name=""[value]="ServiceItemChildren.id +'-'+ ServiceItemChildren.name" id="service{{ServiceItemChildren.id}}" (click)="getSelectedServiceId($event)"  attr.servingTime="{{ServiceItemChildren.serving_time}}" attr.startDate="{{ServiceItemChildren.open_time}} " attr.endDate="{{ServiceItemChildren.close_time}} " checked>
                                         <label for="service{{ServiceItemChildren.id}}">{{ServiceItemChildren.name}}</label>
+                                        </div>
+                                        
+                                        
+                                          <div *ngIf="!serviceExistenceCheck(ServiceItemChildren.id)">
+                                                           <input type="checkbox" name=""[value]="ServiceItemChildren.id +'-'+ ServiceItemChildren.name" id="service{{ServiceItemChildren.id}}" (click)="getSelectedServiceId($event)"  attr.servingTime="{{ServiceItemChildren.serving_time}}" attr.startDate="{{ServiceItemChildren.open_time}} " attr.endDate="{{ServiceItemChildren.close_time}} " >
+                                        <label for="service{{ServiceItemChildren.id}}">{{ServiceItemChildren.name}}</label>
+                                          
+                                          
+                                          
+                                          
+                                          
+                                          </div>
                                     </div>                                    
                                 </div>                                                                
                               </div>
@@ -92,8 +138,17 @@
                     <div *ngIf="allBranchesServiceWise">
                     <div class="card" *ngFor="let BranchItem of allBranchesServiceWise">
                         <div class="card-checkbox btn-checkbox">
-                                    <input type="checkbox" name="myCheckbox" [value]="BranchItem.id  +'-'+ BranchItem.name" (change)="getSelectedBranchId($event)"  class="example branch-checkbox" id="branch{{BranchItem.id}}" >
+                        <div *ngIf="branchExistenceCheck(BranchItem.id)">
+                                    <input type="checkbox" name="myCheckbox" [value]="BranchItem.id  +'-'+ BranchItem.name" (change)="getSelectedBranchId($event)"  class="example branch-checkbox" id="branch{{BranchItem.id}}" checked>
                                     <label for="branch{{BranchItem.id}}">{{BranchItem.name}}</label>
+                                </div>
+                                
+                                <div *ngIf="!branchExistenceCheck(BranchItem.id)">
+                                <input type="checkbox" name="myCheckbox" [value]="BranchItem.id  +'-'+ BranchItem.name" (change)="getSelectedBranchId($event)"  class="example branch-checkbox" id="branch{{BranchItem.id}}" >
+                                    <label for="branch{{BranchItem.id}}">{{BranchItem.name}}</label>
+                                
+                                
+                                </div>
                                 </div>
 
 
@@ -135,9 +190,9 @@
                 </div>
             
             <div class="col-lg-6 pt-md-3 pl-xl-5">
-                <!-- <div class="row row-gap time-list" id="slotNotfound">
+                <div class="row row-gap time-list" id="slotNotfound" style="display: none;">
                     {{this.datetimeMsg}}
-                </div> -->
+                </div>
                 <div class="row row-gap time-list" id="slotfound">
                     <div class="col-sm-4 col-6 btn-radio"  *ngFor="let datetime of datetimeArray;let i = index">
                         <input type="radio" name="TimeSlot"  id="time{{i}}" value="{{datetime}}" (change)="onItemChangeTime(i)" >
@@ -381,7 +436,7 @@
             </div>
             <div class="modal-body p-5 text-center" id="cancelError">	
                 <p class="medium text-large">Do you want to Reschedule this appointment?</p>
-                <button type="button"  (click)="reschedule()"  class="btn btn-primary">Reschedule Now</button>	      
+                <button type="button"  class="btn btn-primary"><a href="{{this.final_result_2}}/reschedule" >Reschedule Now</a></button>	      
             </div>
             
                     

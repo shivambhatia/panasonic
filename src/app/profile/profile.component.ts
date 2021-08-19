@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../_services/authentication.service';
+declare var $: any;
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -10,6 +11,7 @@ import { AuthenticationService } from '../_services/authentication.service';
 export class ProfileComponent implements OnInit {
   title = 'My Profile';
   userData:any;
+  message_1:any;
   name = new FormControl('', [Validators.required, Validators.maxLength(40)]);
   email = new FormControl('', Validators.required); 
   //phone = new FormControl('', Validators.required); 
@@ -32,7 +34,13 @@ export class ProfileComponent implements OnInit {
     console.log(data);
     let resp=this.http.post('http://65.1.176.15:5050/apis/updateCustomer',data, { headers: headers});
    
-    resp.subscribe((result:any)=>{    
+    resp.subscribe((result:any)=>{   
+      console.log(result,"updated") 
+        if(result.success == true){
+          
+          $('#UpdateModal').modal('show');
+        }
+      
         this.userData.result.name=result.result.name;
         this.userData.result.email=result.result.email;
         localStorage.setItem('currentUser', JSON.stringify(this.userData));
@@ -41,6 +49,9 @@ export class ProfileComponent implements OnInit {
         this.email.setValue(result.result.email);
           
     })
+  } 
+  confirm(){
+    $('#UpdateModal').modal('hide');
   }
   getAllValues(){
 

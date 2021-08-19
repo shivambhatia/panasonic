@@ -30,7 +30,7 @@ const routes: Routes = [
   { path: 'book-appointment', component: BookAppointmentComponent },
   { path: 'terms', component: TermsComponent },
   { path: 'policy', component: PolicyComponent },
-  { path: 'reschedule', component: RescheduleComponent },
+  { path: ':booking_id/reschedule', component: RescheduleComponent },
   
 ];
 

@@ -498,6 +498,9 @@ togglePrevious(pageType:string){
   }
 
   getSelectedBranchId(e:any){
+    $(".branch-checkbox").prop('checked', false);
+    $('#' + e.target.id).prop('checked', true);
+    this.selectedBranch=[];
 
     // $('.example').on('change', (()=> {
     //   console.log("chnagge")

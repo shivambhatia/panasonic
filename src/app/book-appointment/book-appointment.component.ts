@@ -162,9 +162,7 @@ togglePrevious(pageType:string){
         this.profileForm.controls["profilename"].setValue(this.userDataProfile.name);
        this.profileForm.controls["email"].setValue(this.userDataProfile.email);
         this.profileForm.controls["phone"].setValue(this.userDataProfile.phone);
-        this.profileForm.controls['profilename'].disable();
-        this.profileForm.controls['email'].disable();
-        this.profileForm.controls['phone'].disable();
+        
         this.email=this.userDataProfile.email;
         this.name=this.userDataProfile.name;
         this.phone=this.userDataProfile.phone;
@@ -267,9 +265,9 @@ togglePrevious(pageType:string){
   }
 
    profileForm = new FormGroup({
-    profilename: new FormControl({value:''}, Validators.required),
-    email: new FormControl({value:'',disabled:true}, Validators.required),
-    phone :new FormControl({value:'',disabled:true}, Validators.required),
+    profilename: new FormControl({value:'',disabled: this.userDataProfile && this.userDataProfile.name?true:false}, Validators.required),
+    email: new FormControl({value:'',disabled:this.userDataProfile && this.userDataProfile.email?true:false}, Validators.required),
+    phone :new FormControl({value:'',disabled:this.userDataProfile && this.userDataProfile.phone?true:false}, Validators.required),
     tnc :new FormControl('', Validators.required),
     note:new FormControl('', Validators.required)
     

@@ -18,11 +18,36 @@
                                 <div id="collapse{{ServiceItem.name}}" class="collapse" aria-labelledby="" data-parent="#accordionServices">
                                     <div class="card-body">
                                         <div class="card" *ngFor="let ServiceItemChildren of ServiceItem.children">
-                                            <div class="card-checkbox btn-checkbox">
-                                                <input type="checkbox" name="" [value]="ServiceItemChildren.id +'-'+ ServiceItemChildren.name"  id="service{{ServiceItemChildren.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItemChildren.serving_time}}" attr.startDate="{{ServiceItemChildren.open_time}} " attr.endDate="{{ServiceItemChildren.close_time}} ">
-                                                <!-- (click)="getSelectedServiceId($event,ServiceItemChildren.id,ServiceItem.name)" -->
-                                                <label for="service{{ServiceItemChildren.id}}">{{ServiceItemChildren.name}}</label>
-                                            </div>                                    
+                                            
+                                            <div class="card" *ngIf="!ServiceItemChildren.children">
+
+                                                <div class="card-checkbox btn-checkbox">
+                                                    <input type="checkbox" name="" [value]="ServiceItemChildren.id +'-'+ ServiceItemChildren.name"  id="service{{ServiceItemChildren.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItemChildren.serving_time}}" attr.startDate="{{ServiceItemChildren.open_time}} " attr.endDate="{{ServiceItemChildren.close_time}} ">
+                                                    <!-- (click)="getSelectedServiceId($event,ServiceItemChildren.id,ServiceItem.name)" -->
+                                                    <label for="service{{ServiceItemChildren.id}}">{{ServiceItemChildren.name}}</label>
+                                                </div>
+                                            </div>
+
+                                             <div class="card" *ngIf="ServiceItemChildren.children"> 
+
+                                <a class="collapsed card-header" type="button" data-toggle="collapse" href="#collapse{{ServiceItemChildren.name}}" aria-expanded="false" aria-controls="" id="Title{{ServiceItemChildren.name}}">
+                                                                    {{ServiceItemChildren.name}}
+                                        </a>
+
+                                                <div class="collapse" id="collapse{{ServiceItemChildren.name}}">
+                                                <div class="card" *ngFor="let ServiceItemChildrenLevel of ServiceItemChildren.children">
+                                                    <div class="card-checkbox btn-checkbox">
+                                                    <input type="checkbox" name="" [value]="ServiceItemChildrenLevel.id +'-'+ ServiceItemChildren.name"  id="service{{ServiceItemChildrenLevel.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItemChildrenLevel.serving_time}}" attr.startDate="{{ServiceItemChildrenLevel.open_time}} " attr.endDate="{{ServiceItemChildrenLevel.close_time}} ">
+                                                    <!-- (click)="getSelectedServiceId($event,ServiceItemChildren.id,ServiceItem.name)" -->
+                                                    <label for="service{{ServiceItemChildrenLevel.id}}">{{ServiceItemChildrenLevel.name}}</label>
+                                                </div>
+                                                </div>
+                                                </div>
+                                             </div>
+
+
+
+
                                         </div>
                                     </div>
                                 </div>

@@ -162,10 +162,17 @@ togglePrevious(pageType:string){
         this.profileForm.controls["profilename"].setValue(this.userDataProfile.name);
        this.profileForm.controls["email"].setValue(this.userDataProfile.email);
         this.profileForm.controls["phone"].setValue(this.userDataProfile.phone);
+<<<<<<< HEAD
         
+=======
+        // this.profileForm.controls['profilename'].disable();
+        // this.profileForm.controls['email'].disable();
+        // this.profileForm.controls['phone'].disable();
+>>>>>>> 55a6c911b0c8a2c645610d7669af43446afb52b5
         this.email=this.userDataProfile.email;
         this.name=this.userDataProfile.name;
         this.phone=this.userDataProfile.phone;
+        console.log(this.email,this.name,this.phone,"details")
          
       }
         
@@ -232,8 +239,8 @@ togglePrevious(pageType:string){
     }
   }
   if(pageType=='requirement'){
-    console.log(this.name,this.note,this.phone,this.email,this.profileForm.value.note,"++++++++")
-    if(this.name ==  " "  || this.email == "" || this.phone == "" || this.profileForm.value.note == ""){
+    console.log(this.name,this.note,this.phone,this.email,this.profileForm.value.note,this.profileForm.value.email,this.profileForm.value.profilename,this.profileForm.value.phone,"++++++++")
+    if(this.profileForm.value.profilename ==  " "  || this.profileForm.value.email == "" || this.profileForm.value.phone == "" || this.profileForm.value.note == ""){
       // this.dataContact=false;
       this.dataReview=false;
       this.message_8 = "Please enter service requirements"
@@ -265,9 +272,9 @@ togglePrevious(pageType:string){
   }
 
    profileForm = new FormGroup({
-    profilename: new FormControl({value:'',disabled: this.userDataProfile && this.userDataProfile.name?true:false}, Validators.required),
-    email: new FormControl({value:'',disabled:this.userDataProfile && this.userDataProfile.email?true:false}, Validators.required),
-    phone :new FormControl({value:'',disabled:this.userDataProfile && this.userDataProfile.phone?true:false}, Validators.required),
+    profilename: new FormControl({value:''}, Validators.required),
+    email: new FormControl({value:'',disabled:true}, Validators.required),
+    phone :new FormControl({value:'',disabled:true}, Validators.required),
     tnc :new FormControl('', Validators.required),
     note:new FormControl('', Validators.required)
     
@@ -303,13 +310,13 @@ togglePrevious(pageType:string){
    createAppointment(){
     var final_date = moment(this.appointment_date).format("DD-MM-YYYY");
         const headers = { 'Authorization': 'Bearer '+this.token }
-    var request={"appointment_date":this.appointment_date,"appointment_time":this.time,"email":this.email,"name":this.name,"note":this.profileForm.value.note,"tnc":this.tnc,"mobile":this.phone,"services":[this.selectedServices],"mode":"web","branch":[[this.selectedBranch]]};
+    var request={"appointment_date":this.appointment_date,"appointment_time":this.time,"email":this.profileForm.value.email,"name":this.profileForm.value.profilename,"note":this.profileForm.value.note,"tnc":this.tnc,"mobile":this.profileForm.value.phone,"services":[this.selectedServices],"mode":"web","branch":[[this.selectedBranch]]};
     console.log("data to submit",request); 
     let resp=this.http.post('http://65.1.176.15:5050/apis/create_appointment',request, { headers: headers});
     
     resp.subscribe((result)=>{
       // debugger;
-      var request_create ={"email":this.email,"phone":this.phone};
+      var request_create ={"email":this.profileForm.value.email,"phone":this.profileForm.value.phone};
       let resp_create_notification = this.http.post('http://65.1.176.15:5050/apis/create_notification',request_create,{ headers: headers});
    
       resp_create_notification.subscribe((result:any)=>{    
@@ -646,7 +653,7 @@ togglePrevious(pageType:string){
       console.log("cancel success", result)
 
       if(result.success == true){
-        var request_cancel ={"email":this.email,"phone":this.phone};
+        var request_cancel ={"email":this.profileForm.value.email,"phone":this.profileForm.value.phone};
      console.log("cancel not data", request_cancel)
         let resp_cancel_notification = this.http.post('http://65.1.176.15:5050/apis/cancel_notification',request_cancel,{ headers: headers});
    

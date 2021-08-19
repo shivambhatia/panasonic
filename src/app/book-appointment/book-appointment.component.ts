@@ -162,12 +162,13 @@ togglePrevious(pageType:string){
         this.profileForm.controls["profilename"].setValue(this.userDataProfile.name);
        this.profileForm.controls["email"].setValue(this.userDataProfile.email);
         this.profileForm.controls["phone"].setValue(this.userDataProfile.phone);
-        this.profileForm.controls['profilename'].disable();
-        this.profileForm.controls['email'].disable();
-        this.profileForm.controls['phone'].disable();
+        // this.profileForm.controls['profilename'].disable();
+        // this.profileForm.controls['email'].disable();
+        // this.profileForm.controls['phone'].disable();
         this.email=this.userDataProfile.email;
         this.name=this.userDataProfile.name;
         this.phone=this.userDataProfile.phone;
+        console.log(this.email,this.name,this.phone,"details")
          
       }
         
@@ -234,7 +235,7 @@ togglePrevious(pageType:string){
     }
   }
   if(pageType=='requirement'){
-    console.log(this.name,this.note,this.phone,this.email,this.profileForm.value.note,"++++++++")
+    console.log(this.name,this.note,this.phone,this.email,this.profileForm.value.note,this.profileForm.value.email,this.profileForm.value.profilename,this.profileForm.value.phone,"++++++++")
     if(this.name ==  " "  || this.email == "" || this.phone == "" || this.profileForm.value.note == ""){
       // this.dataContact=false;
       this.dataReview=false;
@@ -267,9 +268,9 @@ togglePrevious(pageType:string){
   }
 
    profileForm = new FormGroup({
-    profilename: new FormControl({value:''}, Validators.required),
-    email: new FormControl({value:'',disabled:true}, Validators.required),
-    phone :new FormControl({value:'',disabled:true}, Validators.required),
+    profilename: new FormControl('', Validators.required),
+    email: new FormControl('', Validators.required),
+    phone :new FormControl('', Validators.required),
     tnc :new FormControl('', Validators.required),
     note:new FormControl('', Validators.required)
     

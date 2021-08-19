@@ -18,6 +18,7 @@ export class OtpComponent implements OnInit {
   title:string;
   detail:any [];
   daysLeft:Number;
+  token :any =[];
   constructor(private http: HttpClient,private router: ActivatedRoute) { 
     //this.tempDate=formatDate(this.myDate, 'dd/MM/yyyy','En-Us');
          //console.log(this.router.getCurrentNavigation().extras.state.example);
@@ -27,8 +28,9 @@ export class OtpComponent implements OnInit {
     console.log(this.router.snapshot.params.id);
     let users = JSON.parse(localStorage.getItem('currentUser') || '{}');
     console.log("Users data",users);
+
     const headers = { 'Authorization': 'Bearer '+users.token }
-    
+    this.token = users.token
     this.detail=new Array<string>();
     let resp=this.http.post('http://65.1.176.15:5050/apis/getCustomerAppointments',{"id":users.result.id}, { headers: headers});
     resp.subscribe((result)=>{    
@@ -62,6 +64,34 @@ export class OtpComponent implements OnInit {
       }
 
 
+      
+    })
+  }
+  cancel(){
+    const headers = { 'Authorization': 'Bearer '+this.token }
+    console.log(this.detail[0].appointment_no, this.detail[0],"app no")
+    let resp_cancel = this.http.post('http://65.1.176.15:5050/apis/cancelAppointment',{"booking_id": this.detail[0].appointment_no}, { headers: headers});
+   
+    resp_cancel.subscribe((result:any)=>{    
+      console.log("cancel success", result)
+
+      if(result.success == true){
+        var request_cancel ={"email":this.detail[0].appointment_no,"phone":this.detail[0].appointment_no};
+     console.log("cancel not data", request_cancel)
+        let resp_cancel_notification = this.http.post('http://65.1.176.15:5050/apis/cancel_notification',request_cancel,{ headers: headers});
+   
+        // resp_cancel_notification.subscribe((result:any)=>{    
+        //   console.log("cancel success notification", result)
+        //   if(result.success == true){
+        //     $("#cancelSuccess").show();
+        //     $("#CancelModalLabel").hide();
+        //     $("#cancelError").hide();
+        //   }
+         
+          
+        // })
+      }
+     
       
     })
   }

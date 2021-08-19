@@ -18,36 +18,11 @@
                                 <div id="collapse{{ServiceItem.name}}" class="collapse" aria-labelledby="" data-parent="#accordionServices">
                                     <div class="card-body">
                                         <div class="card" *ngFor="let ServiceItemChildren of ServiceItem.children">
-                                            
-                                            <div class="card" *ngIf="!ServiceItemChildren.children">
-
-                                                <div class="card-checkbox btn-checkbox">
-                                                    <input type="checkbox" name="" [value]="ServiceItemChildren.id +'-'+ ServiceItemChildren.name"  id="service{{ServiceItemChildren.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItemChildren.serving_time}}" attr.startDate="{{ServiceItemChildren.open_time}} " attr.endDate="{{ServiceItemChildren.close_time}} ">
-                                                    <!-- (click)="getSelectedServiceId($event,ServiceItemChildren.id,ServiceItem.name)" -->
-                                                    <label for="service{{ServiceItemChildren.id}}">{{ServiceItemChildren.name}}</label>
-                                                </div>
-                                            </div>
-
-                                             <div class="card" *ngIf="ServiceItemChildren.children"> 
-
-                                <a class="collapsed card-header" type="button" data-toggle="collapse" href="#collapse{{ServiceItemChildren.name}}" aria-expanded="false" aria-controls="" id="Title{{ServiceItemChildren.name}}">
-                                                                    {{ServiceItemChildren.name}}
-                                        </a>
-
-                                                <div class="collapse" id="collapse{{ServiceItemChildren.name}}">
-                                                <div class="card" *ngFor="let ServiceItemChildrenLevel of ServiceItemChildren.children">
-                                                    <div class="card-checkbox btn-checkbox">
-                                                    <input type="checkbox" name="" [value]="ServiceItemChildrenLevel.id +'-'+ ServiceItemChildren.name"  id="service{{ServiceItemChildrenLevel.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItemChildrenLevel.serving_time}}" attr.startDate="{{ServiceItemChildrenLevel.open_time}} " attr.endDate="{{ServiceItemChildrenLevel.close_time}} ">
-                                                    <!-- (click)="getSelectedServiceId($event,ServiceItemChildren.id,ServiceItem.name)" -->
-                                                    <label for="service{{ServiceItemChildrenLevel.id}}">{{ServiceItemChildrenLevel.name}}</label>
-                                                </div>
-                                                </div>
-                                                </div>
-                                             </div>
-
-
-
-
+                                            <div class="card-checkbox btn-checkbox">
+                                                <input type="checkbox" name="" [value]="ServiceItemChildren.id +'-'+ ServiceItemChildren.name"  id="service{{ServiceItemChildren.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItemChildren.serving_time}}" attr.startDate="{{ServiceItemChildren.open_time}} " attr.endDate="{{ServiceItemChildren.close_time}} ">
+                                                <!-- (click)="getSelectedServiceId($event,ServiceItemChildren.id,ServiceItem.name)" -->
+                                                <label for="service{{ServiceItemChildren.id}}">{{ServiceItemChildren.name}}</label>
+                                            </div>                                    
                                         </div>
                                     </div>
                                 </div>
@@ -296,7 +271,7 @@
 <!--Confirm-Request-->
 <section class="apps apps-container" *ngIf="dataRequest"> 
     <header class="text-white bg-primary d-flex align-items-center app-title mb-4">
-        <!-- <a routerLink="/appointment" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a> -->
+        <a routerLink="/appointment" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a>
         <h1 class="h4 text-uppercase m-0">Request Confirmed</h1>
     </header>
     <div class="app-container d-flex flex-column">
@@ -344,7 +319,7 @@
         <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
             <a (click)="cancel()" class="btn btn-lg btn-outline-primary btn-block mr-2">CANCEL</a>
             <a routerLink="/appointment" class="btn btn-lg btn-outline-primary btn-block mr-2">DONE</a>
-            <a (click)="reschedule()" class="btn btn-lg btn-primary btn-block mt-0">RESCHEDULE</a>
+            <a routerLink="/appointment" class="btn btn-lg btn-primary btn-block mt-0">RESCHEDULE</a>
         </div>                   
     </div>
 </section>

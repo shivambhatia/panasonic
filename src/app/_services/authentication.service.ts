@@ -22,7 +22,7 @@ export class AuthenticationService {
     }
 
     login(mobile:any) {
-        return this.http.post<any>(`http://65.1.176.15:5050/apis/customerLogin`, {"orgId":"revlon123", "phone":mobile})
+        return this.http.post<any>(`http://65.1.176.15:5050/apis/customerLogin`, {"orgId":"mmt", "phone":mobile})
             .pipe(map(user => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 return user;
@@ -30,7 +30,7 @@ export class AuthenticationService {
     }
 
     verifyOtp(otp:any,mobile:any){
-         return this.http.post<any>(`http://65.1.176.15:5050/apis/verifyLoginOtp`, {"orgId":"revlon123", "phone":mobile,"otp":otp})
+         return this.http.post<any>(`http://65.1.176.15:5050/apis/verifyLoginOtp`, {"orgId":"mmt", "phone":mobile,"otp":otp})
             .pipe(map(user => {
                 localStorage.setItem('currentUser', JSON.stringify(user));
                 if (user.success){

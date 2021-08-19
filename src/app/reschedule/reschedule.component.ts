@@ -10,11 +10,11 @@ declare var $: any;
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-book-appointment',
-  templateUrl: './book-appointment.component.html',
-  styleUrls: ['./book-appointment.component.css']
+  selector: 'app-reschedule',
+  templateUrl: './reschedule.component.html',
+  styleUrls: ['./reschedule.component.css']
 })
-export class BookAppointmentComponent implements OnInit {
+export class RescheduleComponent implements OnInit {
   minDate = new Date();
   public mytime: Date = new Date();
   currentYear: any = this.mytime.getUTCFullYear();

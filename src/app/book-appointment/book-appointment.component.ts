@@ -28,7 +28,8 @@ export class BookAppointmentComponent implements OnInit {
   private token : string;
   selectedServices:string []; 
   public filterDate:any=[]; 
-  selectedBranch:string [];  
+  selectedBranch:string []; 
+  final_result_2: string; 
   allBranchesServiceWise:any[];
   dataService = true;
   dataBranch = false;
@@ -295,6 +296,34 @@ togglePrevious(pageType:string){
   
   });
 
+  serviceExistenceCheck(id:string){
+    
+
+
+    if(this.selectedServices.indexOf(''+id)==-1){
+      return false;
+    }
+    else{
+      return true;
+    }
+  
+
+  }
+
+  branchExistenceCheck(id:string){
+    
+    
+    if(this.selectedBranch!=undefined && this.selectedBranch.includes(''+ id)){
+      return true;
+    }
+    else{
+      return false;
+    }
+  
+
+  }
+
+
 
   
    createAppointment(){
@@ -319,6 +348,14 @@ togglePrevious(pageType:string){
           this.final_result = result;
           this.final_results = this.final_result.data;
           this.final_result_1 = this.final_result.data.result;
+        
+      
+         
+          this.final_result_2 = "Afg1Jcfgc" + this.final_result_1.id;
+          console.log(this.final_result_1.id)
+          this.final_result_2 = btoa(this.final_result_2)
+          this.final_result_2 = this.final_result_2.replaceAll('=', '');
+          console.log(this.final_result_2,"booking id")
           this.dataRequest = true;
           this.dataReview = false;
       // this.router.navigate(['/appointment']);
@@ -671,22 +708,16 @@ togglePrevious(pageType:string){
 
     resp_Bookslots.subscribe((data:any)=>{
       console.log(data,"slots available")
-      if(data.status ==  false){
-        $("#slotNotfound").show();
-        $("#slotfound").hide()
-        this.datetimeMsg = " No Slots Found"
-      }
-      else{
-        $("#slotfound").show();
-        $("#slotNotfound").hide();
+   
         var slots = data.availableslots;
         console.log(slots,"slots")
         // var availableSlots = slots.availableslots;
         // console.log(availableSlots,"ava slot")
-        this.datetimeArray=slots;
+        this.datetimeArray=slots; 
+       
         console.log(this.datetimeArray ,"++++++slots")
         
-      }
+      
      
     })
       

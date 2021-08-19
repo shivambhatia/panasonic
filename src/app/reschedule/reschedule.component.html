@@ -1,1 +1,138 @@
-<p>RESCHEDULE</p>
+<section class="apps apps-container" id="dataDateTime"> 
+    <header class="text-white bg-primary d-flex align-items-center app-title mb-4">
+        <a (click)="togglePrevious('datetime')" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a>
+        <h1 class="h4 text-uppercase m-0">Select Date &amp; Time</h1>
+    </header>
+    <div class="app-container d-flex flex-column">
+        <div class="flex-fill">  
+            <div class="row">
+                <div class="col-lg-6 bg-md-light mb-lg-0 mb-5">
+                    <!-- <div class="accordion-group"> -->
+                        <!-- <div class="datepicker" id="datepicker"></div>	 -->
+                        <input type="hidden" [min]="minDate" name="mydate" angular-mydatepicker
+                        [options]="myDpOptions"  [(ngModel)]="filterDate"  [ngModelOptions]="{standalone: true}"
+                        (dateChanged)="onDateChanged($event)"/>
+     
+     
+                    <!-- </div> -->
+                </div>
+            
+            <div class="col-lg-6 pt-md-3 pl-xl-5">
+                <div class="row row-gap time-list" id="slotNotfound" style="display: none;">
+                    {{this.datetimeMsg}}
+                </div>
+                <div class="row row-gap time-list" id="slotfound">
+                    <div class="col-sm-4 col-6 btn-radio"  *ngFor="let datetime of datetimeArray;let i = index">
+                        <input type="radio" name="TimeSlot"  id="time{{i}}" value="{{datetime}}" (change)="onItemChangeTime(i)" >
+                        <label for="time{{i}}">{{datetime}}</label>
+                    </div>
+                   
+                    
+                </div>
+            </div>
+        </div>          
+        <div id="err4" class="error-text">{{this.message_4}}</div>        
+        </div>
+        <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
+            <a (click)="togglePrevious('datetime')" class="btn btn-lg btn-outline-primary btn-block mr-2">PREVIOUS</a>
+            <button (click)="createAppointment()" class="btn btn-lg btn-primary btn-block mt-0">NEXT</button>
+        </div>                    
+    </div>
+    
+</section>
+
+<section class="apps apps-container" id="dataRequest"> 
+    <header class="text-white bg-primary d-flex align-items-center app-title mb-4">
+        <!-- <a routerLink="/appointment" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a> -->
+        <h1 class="h4 text-uppercase m-0">Request Confirmed</h1>
+    </header>
+    <div class="app-container d-flex flex-column">
+        <div class="flex-fill">            
+            <div class="row">
+                <div class="col-xl-6 col-md-10 m-auto">
+                    <div class="row mb-3">
+                        <div class="col-8">
+                            <!-- <h4 class="text-primary">3 Days Left</h4> -->
+                            <h5 class="mb-4">Appointment No: {{final_result_1.appointment_no}}</h5>
+                            <div class="ng-service">
+                                <p class="mb-2"><strong class="medium">Service:</strong></p>  
+                                <ul class="list-unstyled mb-0">
+                                    {{final_result_1.all_services}}
+                                </ul>
+                            </div>
+                        </div>	
+                        <div class="col-4">
+                            <img src="{{final_results.qrCode}}"  alt="{{final_results.qrCode}}">
+                        </div>
+                    </div>
+                    <div class="ng-branch mb-3">
+                        <p class="mb-2"><strong class="medium">Branch:</strong></p>
+                        <div class="d-flex align-items-start mb-3">
+                            <img src="./assets/images/route-icon.svg" alt="route icon" class="mr-3">
+                            <div class="rich-text flex-fill">{{final_result_1["branch.name"]}}<br>
+                                <a target="_blank" href='http://maps.google.com/maps/dir//{{final_result_1["branch.name"]}}'><u>Get Directions</u></a>
+                            </div>
+                        </div>  
+                    </div>  
+                    <div class="ng-date mb-3">
+                        <p class="mb-2"><strong class="medium">Date:</strong> {{final_result_1.appointment_date}} </p>
+                        <p class="mb-0"><strong class="medium">Time:</strong> {{final_result_1.appointment_time}}</p>
+                    </div>
+                    <h5 class="seprator-title text-center mt-5 mb-4"><span>Personal Details</span></h5>
+                    <div class="rich-text personal-info">
+                        <p><strong class="medium">Name:</strong> {{final_result_1["customer.name"]}} </p>
+                        <p><strong class="medium">Email Address:</strong> {{final_result_1["customer.email"]}} </p>
+                        <p><strong class="medium">Mobile Number:</strong>  +91{{final_result_1["customer.contact_no"]}} </p>
+                        <p><strong class="medium">Describe Service Requirement/Issues </strong><br>{{final_result_1["note"]}}</p>
+                    </div>	            
+                </div>
+            </div> 
+        </div>
+        <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
+            <a  data-toggle="modal" data-target="#CancelModal" class="btn btn-lg btn-outline-primary btn-block mr-2">CANCEL</a>
+            <a routerLink="/appointment" class="btn btn-lg btn-outline-primary btn-block mr-2">DONE</a>
+            <a data-toggle="modal" data-target="#RescheduleModal" class="btn btn-lg btn-primary btn-block mt-0">RESCHEDULE</a>
+        </div>                   
+    </div>
+    <div class="modal fade" id="CancelModal" tabindex="-1" aria-labelledby="CancelModal" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header ">
+              <h5 class="modal-title" id="CancelModalLabel">Cancel Appointment</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body p-5 text-center" id="cancelError">	
+                <p class="medium text-large">Do you want to Cancel this appointment?</p>
+                <button type="button"  class="btn btn-primary">Cancel Now</button>	      
+            </div>
+            <div class="modal-body p-5 text-center " id="cancelSuccess" style="display: none;">	
+                <p class="medium text-large">Your Appointment has been cancelled</p>
+                <button type="button" routerLink="/appointment"    data-dismiss="modal" aria-label="Close" class="btn btn-primary ">OK</button>
+                	      
+            </div>
+                    
+          </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="RescheduleModal" tabindex="-1" aria-labelledby="RescheduleModal" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header ">
+              <h5 class="modal-title" id="RescheduleModalLabel">Reschedule Appointment</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body p-5 text-center" id="cancelError">	
+                <p class="medium text-large">Do you want to Reschedule this appointment?</p>
+                <button type="button"  class="btn btn-primary"><a href="{{this.final_result_2}}/reschedule" >Reschedule Now</a></button>	      
+            </div>
+            
+                    
+          </div>
+        </div>
+    </div>
+</section>

@@ -16,12 +16,16 @@ import { TitlebarComponent } from './titlebar/titlebar.component';
 import { AngularMyDatePickerModule } from 'angular-mydatepicker';
 import { RequestReviewComponent } from './request-review/request-review.component';
 import { RequestConfirmedComponent } from './request-confirmed/request-confirmed.component';
+
 import { ProfileComponent } from './profile/profile.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { UserAppointmentService } from './user-appointment.service';
 import { BookAppointmentComponent } from './book-appointment/book-appointment.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PolicyComponent } from './policy/policy.component';
+import { RescheduleComponent } from './reschedule/reschedule.component';
+import { TermsComponent } from './terms/terms.component';
 
 @NgModule({
   declarations: [
@@ -32,13 +36,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ServicesComponent,
     HeaderComponent,
     BranchComponent,
+   
     DatetimeComponent,
     ContactformComponent,
     TitlebarComponent,
     RequestReviewComponent,
     RequestConfirmedComponent,
     ProfileComponent,
-    BookAppointmentComponent
+    BookAppointmentComponent,
+    PolicyComponent,
+    RescheduleComponent,
+    TermsComponent
   ],
   imports: [
     BrowserModule,

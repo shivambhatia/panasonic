@@ -12,6 +12,7 @@ import { RequestConfirmedComponent } from './request-confirmed/request-confirmed
 import { RequestReviewComponent } from './request-review/request-review.component';
 import { ServicesComponent } from './services/services.component';
 
+
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'appointment-details/:id', component: OtpComponent },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'request-confirmed', component: RequestConfirmedComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'book-appointment', component: BookAppointmentComponent },
+  
 ];
 
 @NgModule({

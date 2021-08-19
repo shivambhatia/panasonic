@@ -236,7 +236,7 @@ togglePrevious(pageType:string){
   }
   if(pageType=='requirement'){
     console.log(this.name,this.note,this.phone,this.email,this.profileForm.value.note,this.profileForm.value.email,this.profileForm.value.profilename,this.profileForm.value.phone,"++++++++")
-    if(this.name ==  " "  || this.email == "" || this.phone == "" || this.profileForm.value.note == ""){
+    if(this.profileForm.value.profilename ==  " "  || this.profileForm.value.email == "" || this.profileForm.value.phone == "" || this.profileForm.value.note == ""){
       // this.dataContact=false;
       this.dataReview=false;
       this.message_8 = "Please enter service requirements"
@@ -306,13 +306,13 @@ togglePrevious(pageType:string){
    createAppointment(){
     var final_date = moment(this.appointment_date).format("DD-MM-YYYY");
         const headers = { 'Authorization': 'Bearer '+this.token }
-    var request={"appointment_date":this.appointment_date,"appointment_time":this.time,"email":this.email,"name":this.name,"note":this.profileForm.value.note,"tnc":this.tnc,"mobile":this.phone,"services":[this.selectedServices],"mode":"web","branch":[[this.selectedBranch]]};
+    var request={"appointment_date":this.appointment_date,"appointment_time":this.time,"email":this.profileForm.value.email,"name":this.profileForm.value.profilename,"note":this.profileForm.value.note,"tnc":this.tnc,"mobile":this.profileForm.value.phone,"services":[this.selectedServices],"mode":"web","branch":[[this.selectedBranch]]};
     console.log("data to submit",request); 
     let resp=this.http.post('http://65.1.176.15:5050/apis/create_appointment',request, { headers: headers});
     
     resp.subscribe((result)=>{
       // debugger;
-      var request_create ={"email":this.email,"phone":this.phone};
+      var request_create ={"email":this.profileForm.value.email,"phone":this.profileForm.value.phone};
       let resp_create_notification = this.http.post('http://65.1.176.15:5050/apis/create_notification',request_create,{ headers: headers});
    
       resp_create_notification.subscribe((result:any)=>{    
@@ -649,7 +649,7 @@ togglePrevious(pageType:string){
       console.log("cancel success", result)
 
       if(result.success == true){
-        var request_cancel ={"email":this.email,"phone":this.phone};
+        var request_cancel ={"email":this.profileForm.value.email,"phone":this.profileForm.value.phone};
      console.log("cancel not data", request_cancel)
         let resp_cancel_notification = this.http.post('http://65.1.176.15:5050/apis/cancel_notification',request_cancel,{ headers: headers});
    

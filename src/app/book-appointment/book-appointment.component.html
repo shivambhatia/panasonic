@@ -92,7 +92,7 @@
                     <div *ngIf="allBranchesServiceWise">
                     <div class="card" *ngFor="let BranchItem of allBranchesServiceWise">
                         <div class="card-checkbox btn-checkbox">
-                                    <input type="checkbox" name="myCheckbox" [value]="BranchItem.id  +'-'+ BranchItem.name" (change)="getSelectedBranchId($event)"  class="example" id="branch{{BranchItem.id}}" >
+                                    <input type="checkbox" name="myCheckbox" [value]="BranchItem.id  +'-'+ BranchItem.name" (change)="getSelectedBranchId($event)"  class="example branch-checkbox" id="branch{{BranchItem.id}}"  >
                                     <label for="branch{{BranchItem.id}}">{{BranchItem.name}}</label>
                                 </div>
 

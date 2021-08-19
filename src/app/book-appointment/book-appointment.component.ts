@@ -300,6 +300,8 @@ togglePrevious(pageType:string){
   //   })
 
   //  }
+
+
   
    createAppointment(){
     var final_date = moment(this.appointment_date).format("DD-MM-YYYY");
@@ -431,6 +433,13 @@ togglePrevious(pageType:string){
            
       
     })
+    $(document).ready(function(){
+      $(".branch-checkbox").change(function(e:any) {
+        $(".branch-checkbox").prop('checked', false);
+        console.log(e);
+        //$(this).prop('checked', true);
+      });
+    })
     // $(document).ready(function() {
     //   $('.datepicker').datepicker({
     //     format: "yy-mm-dd",
@@ -489,7 +498,9 @@ togglePrevious(pageType:string){
   }
 
   getSelectedBranchId(e:any){
-
+    $(".branch-checkbox").prop('checked', false);
+    $('#' + e.target.id).prop('checked', true);
+    this.selectedBranch=[];
     // $('.example').on('change', (()=> {
     //   console.log("chnagge")
     //   $('.example').not(this).prop('checked', false);
@@ -512,7 +523,7 @@ togglePrevious(pageType:string){
         branch.removeAt(index);
       }
       this.selectedBranch = this.form.value.branch[0];
-      console.log(this.selectedBranch,"branch selected")
+      console.log(this.selectedBranch,"STEP 22")
       if(this.selectedBranch.length > 0){
         const headers = { 'Authorization': 'Bearer '+this.token, 'My-Custom-Header': '' }
     

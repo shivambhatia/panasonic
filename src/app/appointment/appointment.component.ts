@@ -51,7 +51,7 @@ export class AppointmentComponent implements OnInit {
     resp.subscribe((result)=>{    
       this.data=result
       this.appointment = this.data.result
-      console.log("Check Resposne",this.appointment);
+      
       if(this.data.status){
         this.data.result.map((item:any)=>{
             let temp=item.appointment_date.replaceAll('-','');

@@ -218,13 +218,16 @@ togglePrevious(pageType:string){
                 + currentdate.getDate()),
     endDate: new Date(someDate.getFullYear() + "/"
                 + (someDate.getMonth()+1)  + "/" 
-                + someDate.getDate())
+                + someDate.getDate()),
+
       }).on('changeDate', function(e:any) {  
         parent=e.date
         //this.getDateTimeOnSelectedBranch();    
     
 
-      });   
+      });
+
+       
       
     });
 
@@ -488,7 +491,7 @@ togglePrevious(pageType:string){
     }
     this.selectedServices = myStringArray[0] 
    this.myStringArray={ service: [myStringArray[0]]} ;
-   console.log(this.selectedServices)
+   //console.log(this.selectedServices)
     // if(e.target.checked){
     //   this.selectedServices=[];
     //   //console.log("Checked Id",id);
@@ -503,6 +506,32 @@ togglePrevious(pageType:string){
     // }
     //console.log("Checking all the data",this.selectedServices);
   }
+  serviceExistenceCheck(id:string){
+    
+
+    if(this.selectedServices.indexOf(''+id)==-1){
+      return false;
+    }
+    else{
+      return true;
+    }
+  
+
+  }
+
+  branchExistenceCheck(id:string){
+    
+    
+    if(this.selectedBranch!=undefined && this.selectedBranch.includes(''+ id)){
+      return true;
+    }
+    else{
+      return false;
+    }
+  
+
+  }
+
 
   getSelectedBranchId(e:any){
     $(".branch-checkbox").prop('checked', false);
@@ -530,7 +559,7 @@ togglePrevious(pageType:string){
         branch.removeAt(index);
       }
       this.selectedBranch = this.form.value.branch[0];
-      console.log(this.selectedBranch,"STEP 22")
+      
       if(this.selectedBranch.length > 0){
         const headers = { 'Authorization': 'Bearer '+this.token, 'My-Custom-Header': '' }
     
@@ -605,7 +634,7 @@ togglePrevious(pageType:string){
     //console.log("Checking all the data",this.selectedServices);
   }
   datetimeChangeCheck(value:any){
-    console.log("Check Value",value);
+    
 
   } 
   onDateChanged(event: IMyDateModel): void {
@@ -621,7 +650,7 @@ togglePrevious(pageType:string){
       this.appointment_date = moment(new Date()).format("DD-MM-YYYY");
       var date_op = this.appointment_date;
         const headers = { 'Authorization': 'Bearer '+this.token, 'My-Custom-Header': '' }
-     console.log(this.appointment_date,"app date")
+     
     var bookdate  = this.appointment_date.split('-').reverse().join('-')
     console.log(bookdate,"book date")
     var request_slots={"serviceID":this.selectedServices,"branchID":this.selectedBranch[0],"bookdate":bookdate} 

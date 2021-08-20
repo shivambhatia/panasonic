@@ -16,9 +16,9 @@ import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@ang
 export class RescheduleComponent implements OnInit {
   minDate = new Date();
   public mytime: Date = new Date();
-  currentYear: any = this.mytime.getUTCFullYear();
-  currentDate: any = this.mytime.getUTCDate() - 1;
-  currentMonth: any = this.mytime.getUTCMonth() + 1;
+  currentYear: any = this.mytime.getFullYear();
+  currentDate: any = this.mytime.getDate() - 1;
+  currentMonth: any = this.mytime.getMonth() + 1;
   data : any;
   temp :any;
   public policies:any = [];
@@ -244,7 +244,7 @@ timeslots_active :any =[];
 
               })
             })
-            var request_slots={"serviceID":data.booking_detail.services,"branchID": data.booking_detail.branch_id,"bookdate":bookdate} 
+            var request_slots={"serviceID":data.booking_detail.primary_service,"branchID": data.booking_detail.branch_id,"bookdate":bookdate} 
             console.log("Step 4",request_slots)  
             let resp_Bookslots = this.http.post('http://65.1.176.15:5050/apis/getAvailableSlot',request_slots, { headers: headers});
         

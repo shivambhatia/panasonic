@@ -1,6 +1,6 @@
 <section class="apps apps-container" id="dataDateTime"> 
     <header class="text-white bg-primary d-flex align-items-center app-title mb-4">
-        <a (click)="togglePrevious('datetime')" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a>
+        <!-- <a (click)="togglePrevious('datetime')" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a> -->
         <h1 class="h4 text-uppercase m-0">Select Date &amp; Time</h1>
     </header>
     <div class="app-container d-flex flex-column">
@@ -34,14 +34,14 @@
         <div id="err4" class="error-text">{{this.message_4}}</div>        
         </div>
         <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
-            <a (click)="togglePrevious('datetime')" class="btn btn-lg btn-outline-primary btn-block mr-2">PREVIOUS</a>
-            <button (click)="createAppointment()" class="btn btn-lg btn-primary btn-block mt-0">NEXT</button>
+            <!-- <a (click)="togglePrevious('datetime')" class="btn btn-lg btn-outline-primary btn-block mr-2">PREVIOUS</a> -->
+            <button (click)="createAppointment()" class="btn btn-lg btn-primary btn-block mt-0">CONFIRM</button>
         </div>                    
     </div>
     
 </section>
 
-<section class="apps apps-container" id="dataRequest"> 
+<section class="apps apps-container" id="dataRequest" style="display: none;"> 
     <header class="text-white bg-primary d-flex align-items-center app-title mb-4">
         <!-- <a routerLink="/appointment" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a> -->
         <h1 class="h4 text-uppercase m-0">Request Confirmed</h1>
@@ -91,7 +91,7 @@
         <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
             <a  data-toggle="modal" data-target="#CancelModal" class="btn btn-lg btn-outline-primary btn-block mr-2">CANCEL</a>
             <a routerLink="/appointment" class="btn btn-lg btn-outline-primary btn-block mr-2">DONE</a>
-            <a data-toggle="modal" data-target="#RescheduleModal" class="btn btn-lg btn-primary btn-block mt-0">RESCHEDULE</a>
+            <!-- <a data-toggle="modal" data-target="#RescheduleModal" class="btn btn-lg btn-primary btn-block mt-0">RESCHEDULE</a> -->
         </div>                   
     </div>
     <div class="modal fade" id="CancelModal" tabindex="-1" aria-labelledby="CancelModal" aria-hidden="true" style="display: none;">
@@ -105,7 +105,7 @@
             </div>
             <div class="modal-body p-5 text-center" id="cancelError">	
                 <p class="medium text-large">Do you want to Cancel this appointment?</p>
-                <button type="button"  class="btn btn-primary">Cancel Now</button>	      
+                <button type="button"   (click)="cancel()" class="btn btn-primary">Cancel Now</button>	      
             </div>
             <div class="modal-body p-5 text-center " id="cancelSuccess" style="display: none;">	
                 <p class="medium text-large">Your Appointment has been cancelled</p>

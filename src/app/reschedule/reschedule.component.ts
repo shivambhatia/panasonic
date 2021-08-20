@@ -124,11 +124,13 @@ timeslots_active :any =[];
    }
 
   ngOnInit(): void {
+    console.log(this.currentDate,"+++++++")
     let bookingid = atob(this.route.snapshot.params.booking_id);
     var staticString = "Afg1Jcfgc";
     this.booking_id = parseInt(bookingid.replace(staticString,''));
     const headers = { 'Authorization': 'Bearer '+this.token, 'My-Custom-Header': '' }
     console.log("Step 1",headers);
+    $("#dataRequest").hide();
     var parent=this;
     let resp=this.http.post('http://65.1.176.15:5050/apis/reshedule',{"booking_id":  this.booking_id}, { headers: headers});
     resp.subscribe((data:any)=>{    
@@ -167,19 +169,8 @@ timeslots_active :any =[];
       this.otpData = { ...email, ...phone}
       // this.form.patchValue({appointment_time: this.appointment_time})
       this.bookedDate1 =moment(this.bookedDate1).format("DD-MM-YYYY");
-      var branchData = { branch: this.branch_selected};
-      var serviceData=   {service: this.service_selected }
-      serviceData = { ...branchData, ...serviceData}
-      const headers = { 'Authorization': 'Bearer '+this.token }
-      let resp_3=this.http.post('http://65.1.176.15:5050/apis/getServiceData',serviceData, { headers: headers});
-       
-      resp_3.subscribe((data:any)=>{ 
-            if(data.success == true){
-              this.startDate = data.result.open_time;
-              this.endDate = data.result.close_time;
-              this.servingTime = data.result.serving_time;
-            }
-          })
+      
+     
 
           var appointment_date = data.booking_detail.appointment_date;
           this.bookedDate= appointment_date.split("-");
@@ -253,7 +244,7 @@ timeslots_active :any =[];
 
               })
             })
-            var request_slots={"serviceID":this.service_selected,"branchID": this.branch_selected,"bookdate":bookdate} 
+            var request_slots={"serviceID":data.booking_detail.services,"branchID": data.booking_detail.branch_id,"bookdate":bookdate} 
             console.log("Step 4",request_slots)  
             let resp_Bookslots = this.http.post('http://65.1.176.15:5050/apis/getAvailableSlot',request_slots, { headers: headers});
         
@@ -300,7 +291,7 @@ timeslots_active :any =[];
      console.log(this.appointment_date,"app date")
     var bookdate  = this.appointment_date.split('-').reverse().join('-')
     console.log(bookdate,"book date")
-    var request_slots={"serviceID":this.selectedServices,"branchID":this.selectedBranch[0],"bookdate":bookdate} 
+    var request_slots={"serviceID":this.service_selected,"branchID":this.branch_selected,"bookdate":bookdate} 
     console.log("Step 4",request_slots)  
     let resp_Bookslots = this.http.post('http://65.1.176.15:5050/apis/getAvailableSlot',request_slots, { headers: headers});
 
@@ -336,7 +327,8 @@ timeslots_active :any =[];
    
    resp.subscribe((result:any)=>{
     console.log(result,"reschedule uodate")
-    
+    $("#dataDateTime").hide();
+    $("#dataRequest").show();
     
      let resp_create_notification = this.http.post('http://65.1.176.15:5050/apis/reschedule_appointment',this.request_create,{ headers: headers});
   
@@ -366,6 +358,35 @@ timeslots_active :any =[];
 
 
   }
+  cancel(){
+    // $('#CancelModal').modal('show');
+    const headers = { 'Authorization': 'Bearer '+this.token, 'My-Custom-Header': '' }
+    this.request_create = { ...this.request_create, "booking_id":this.booking_id}
+    let resp_cancel = this.http.post('http://65.1.176.15:5050/apis/cancelAppointment',this.request_create, { headers: headers});
+   
+    resp_cancel.subscribe((result:any)=>{    
+      console.log("cancel success", result)
+
+      if(result.success == true){
+       
+     
+        let resp_cancel_notification = this.http.post('http://65.1.176.15:5050/apis/cancel_notification',this.request_create,{ headers: headers});
+   
+        resp_cancel_notification.subscribe((result:any)=>{    
+          console.log("cancel success notification", result)
+          if(result.success == true){
+            $("#cancelSuccess").show();
+            $("#CancelModalLabel").hide();
+            $("#cancelError").hide();
+          }
+         
+          
+        })
+      }
+     
+      
+    })
+  }
   reviewReq(){
     this.dataReview = false;
     this.dataContact = true;
@@ -382,116 +403,7 @@ timeslots_active :any =[];
     // $("input[name=TimeSlot][value=" + this.time + "]").attr('checked', 'checked');
     $('input:radio[name="TimeSlot"][value=' + this.time + ']').attr('checked',true);
   }
-  togglePrevious(pageType:string){
-    if (pageType=='branch'){
-      this.dataService=true;
-      this.dataBranch=false;
-      console.log(this.allService,"services checked")
-    }
-    if(pageType=='datetime'){
-      console.log(this.selectedBranch[0],typeof this.selectedBranch[0], "brajhbkjb")
-      // console.log($('input[name="myCheckbox"][id=branch' + this.selectedBranch[0] + ']').prop("checked", true));
-      // $('input[name="myCheckbox"][id=branch' + this.selectedBranch[0] + ']').prop("checked", true);
-      // $('#branch' + this.selectedBranch[0] + '').prop('checked', true); 
-      console.log('#branch' + this.selectedBranch[0] + '' )
-      this.dataBranch=true;
-      $('#branch' + this.selectedBranch[0] + '').attr('checked', true);
-      this.dataDateTime=false;
-    }
-    if(pageType=='requirement'){
-      this.dataDateTime=true;
-      this.dataContact=false;
-    }
-  
-  }
-   toggle(pageType:string){
-    
-      
-    if(pageType=='datetime'){
-      console.log(this.appointment_date,this.time,"date and time")
-      if(this.appointment_date && this.time!== ""){
-        console.log("coming till here")
-        // if(parent && this.time){
-          //   this.dateData=JSON.stringify(parent).split('T')[0];
-  
-          //   this.dateData=this.dateData.replaceAll('"',"");
-          //   var temp=this.dateData.split('-');
-          //   this.dateData=temp[2]+"-"+temp[1]+'-'+temp[0]
-          // console.log(this.dateData,"date selected")
-            
-  
-          this.dataDateTime=false;
-          this.dataContact=true;
-          if(this.userDataProfile){
-          this.profileForm.controls["profilename"].setValue(this.userDataProfile.name);
-         this.profileForm.controls["email"].setValue(this.userDataProfile.email);
-          this.profileForm.controls["phone"].setValue(this.userDataProfile.phone);
-          // this.profileForm.controls['profilename'].disable();
-          // this.profileForm.controls['email'].disable();
-          // this.profileForm.controls['phone'].disable();
-          this.email=this.userDataProfile.email;
-          this.name=this.userDataProfile.name;
-          this.phone=this.userDataProfile.phone;
-          console.log(this.email,this.name,this.phone,"details")
-           
-        }
-          
-           
-        }
-        else{
-          this.message_4 = "Please select date and time "
-          $("#err4").show();
-         setTimeout(function(){
-             $("#err4").hide();
-           }, 3000);
-          console.log("Select toh kr le");
-        }
-    }
-  
-   
-    if(pageType=='requirement'){
-      console.log(this.name,this.note,this.phone,this.email,this.profileForm.value.note,this.profileForm.value.email,this.profileForm.value.profilename,this.profileForm.value.phone,"++++++++")
-      if(this.profileForm.value.profilename ==  " "  || this.profileForm.value.email == "" || this.profileForm.value.phone == "" || this.profileForm.value.note == ""){
-        // this.dataContact=false;
-        this.dataReview=false;
-        this.message_8 = "Please enter service requirements"
-        $("#err8").show();
-       setTimeout(function(){
-           $("#err8").hide();
-         }, 3000);
-      }
-      else if(!$('.tnc:checked').is(':checked')){
-        this.dataReview=false;
-        this.message_1 = "Please check terms and conditions"
-        $("#err1").show();
-       setTimeout(function(){
-           $("#err1").hide();
-         }, 3000);
-      }
-      else{
-      this.dataContact=false;
-      this.dataReview=true;
-      const headers = { 'Authorization': 'Bearer '+this.token }
-      
-      var data={"id":this.userData.result.id,"name":this.profileForm.value.profilename,"email":this.profileForm.value.email};
-      console.log(data);
-      let resp=this.http.post('http://65.1.176.15:5050/apis/updateCustomer',data, { headers: headers});
-     
-      resp.subscribe((result:any)=>{    
-          this.userData.result.name=result.result.name;
-          this.userData.result.email=result.result.email;
-          localStorage.setItem('currentUser', JSON.stringify(this.userData));
-          this.name = result.result.name;
-          this.email = result.result.email;
-          // console.log(this.name,this.email,"userssssssssssssssssssss")
-          // this.name.setValue(result.result.name);
-          // this.email.setValue(result.result.email);
-            
-      })
-      }
-    }
-  
-    }
+ 
     profileForm = new FormGroup({
       profilename: new FormControl('', Validators.required),
       email: new FormControl('', Validators.required),

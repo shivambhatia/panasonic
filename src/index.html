@@ -32,16 +32,46 @@ link = document.createElement('link');
 
       link.href = 'manifest2.webmanifest';
     link.rel = 'manifest';
+    var css = ':root{--primary:#ff0000}',
+    head = document.head || document.getElementsByTagName('head')[0],
+    style = document.createElement('style');
+
+head.appendChild(style);
+
+style.type = 'text/css';
+if (style.styleSheet){
+  // This is required for IE8 and below.
+  style.styleSheet.cssText = css;
+} else {
+  style.appendChild(document.createTextNode(css));
+}
+    
     
    }
    else{
 
       link.href = 'manifest.webmanifest';
     link.rel = 'manifest';
+    var css = ':root{--primary:#17469e}',
+    head = document.head || document.getElementsByTagName('head')[0],
+    style = document.createElement('style');
+
+head.appendChild(style);
+
+style.type = 'text/css';
+if (style.styleSheet){
+  // This is required for IE8 and below.
+  style.styleSheet.cssText = css;
+} else {
+  style.appendChild(document.createTextNode(css));
+}
+    
    }
+   
 
 
    
 document.getElementsByTagName('head')[0].appendChild(link);
 </script>
+
 </html>

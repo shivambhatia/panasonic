@@ -82,6 +82,7 @@ final_result :any = [];;
   final_slots  :any =[];
 timeslots_active :any =[];
   timeslots  :any =[];
+  arrayactive:any=  [];
   datetimeMsg:any = [];
   userData:any=[];
   constructor(private http: HttpClient,private router: Router,private fb: FormBuilder) { 
@@ -151,6 +152,7 @@ togglePrevious(pageType:string){
     }
   }
   if(pageType=='datetime'){
+    
     console.log(this.appointment_date,this.time,"date and time")
     if(this.appointment_date && this.time!== ""){
       console.log("coming till here")
@@ -251,6 +253,7 @@ togglePrevious(pageType:string){
      setTimeout(function(){
          $("#err8").hide();
        }, 3000);
+       return;
     }
     else if(!$('.tnc:checked').is(':checked')){
       this.dataReview=false;
@@ -259,6 +262,7 @@ togglePrevious(pageType:string){
      setTimeout(function(){
          $("#err1").hide();
        }, 3000);
+       return;
     }
     else{
     this.dataContact=false;
@@ -308,7 +312,22 @@ togglePrevious(pageType:string){
   
 
   }
+  timeExistenceCheck(id:any){
 
+
+    
+    if(this.time==id){
+      return true;
+
+    }
+    else{
+      return false;
+    }
+
+
+
+
+  }
   branchExistenceCheck(id:string){
     
     
@@ -411,7 +430,9 @@ togglePrevious(pageType:string){
 
   }
   onItemChangeTime(value:any){
-    this.time=this.datetimeArray[value];
+    this.time=this.arrayactive[value].time;
+    console.log(this.time,"time")
+
 
   }
 
@@ -485,6 +506,7 @@ togglePrevious(pageType:string){
   reviewReq(){
     this.dataReview = false;
     this.dataContact = true;
+    
  
   }
   servicesTab(){
@@ -655,7 +677,15 @@ togglePrevious(pageType:string){
   onDateChanged(event: IMyDateModel): void {
 
     var weekOff = this.branchOff;
+    var date_today = moment(new Date()).format("DD-MM-YYYY");
+    for(let i =0 ; i < weekOff.length; i++){
 
+      if(weekOff[i] == date_today){
+        var notActiveSlots = weekOff[i];
+       console.log("today is off")
+
+      }
+    }
 
 
     $("input[type=radio][name=TimeSlot]").prop('checked', false);
@@ -676,13 +706,28 @@ togglePrevious(pageType:string){
       console.log(data,"slots available")
    
         var slots = data.availableslots;
-        console.log(slots,"slots")
         // var availableSlots = slots.availableslots;
         // console.log(availableSlots,"ava slot")
         this.datetimeArray=slots; 
-       
-        console.log(this.datetimeArray ,"++++++slots")
-        
+        this.arrayactive= [];
+        if(date_op === date_today && date_today == notActiveSlots) {
+          for(let i=0; i< this.datetimeArray.length; i++){
+            let net = {"time":this.datetimeArray[i],"value":"unactive"};
+            this.arrayactive.push(net);
+           
+          
+          }
+        }
+        else{
+          for(let i=0; i< this.datetimeArray.length; i++){
+            let net = {"time":this.datetimeArray[i],"value":"active"};
+            this.arrayactive.push(net);
+           
+          
+          }
+          console.log(this.arrayactive)
+         
+        }
       
      
     })

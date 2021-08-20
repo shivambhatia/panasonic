@@ -194,10 +194,22 @@
                     {{this.datetimeMsg}}
                 </div>
                 <div class="row row-gap time-list" id="slotfound">
-                    <div class="col-sm-4 col-6 btn-radio"  *ngFor="let datetime of datetimeArray;let i = index">
-                        <input type="radio" name="TimeSlot"  id="time{{i}}" value="{{datetime}}" (change)="onItemChangeTime(i)" >
-                        <label for="time{{i}}">{{datetime}}</label>
+                    <div class="col-sm-4 col-6 btn-radio"  *ngFor="let timeslot of arrayactive;let i = index">
+                    <div *ngIf="!timeExistenceCheck(timeslot.time)">
+                        <input type="radio" name="TimeSlot"class="{{timeslot.value}}"  value="{{timeslot.time}}"  id="{{timeslot.time}}" (change)="onItemChangeTime(i)" >
+                        <label for="{{timeslot.time}}">{{timeslot.time}}</label>
                     </div>
+                    
+                    <div *ngIf="timeExistenceCheck(timeslot.time)">
+                    <input type="radio" name="TimeSlot"class="{{timeslot.value}}"  value="{{timeslot.time}}"  id="{{timeslot.time}}" (change)="onItemChangeTime(i)" checked>
+                        <label for="{{timeslot.time}}">{{timeslot.time}}</label>
+                    
+                    
+                    
+                    </div>
+                    </div>
+                    
+                    
                    
                     
                 </div>
@@ -255,17 +267,18 @@
                 <div class="form-group form-input">
                     <label for="FieldNotes" class="control-label">Describe Service Requirement/Issues</label>
                     <textarea class="form-control" required placeholder="Enter notes here" id="FieldNotes"  formControlName="note"></textarea>
+                    
                 </div>
+                <div id="err8" class="error-text" style="display: none;">{{this.message_8}}</div>
                 <div class="form-group btn-checkbox">
                     <input type="checkbox" name="" value="" id="tnc"  class="tnc" formControlName="tnc">
                     <label for="tnc" class="text-muted regular">I agree to the  <a target="_blank" href="terms"> terms and conditions</a> and<a target="_blank" href="policy"> privacy policy</a></label>
                 </div>
             
             </div> 
-            <div id="err8" class="error-text">{{this.message_8}}</div> 
-            <div id="err1" class="error-text">{{this.message_1}}</div> 
-            <!-- <p>Complete the form to enable button.</p> -->
-<!-- <button type="submit" [disabled]="!profileForm.valid">Submit</button> -->
+            
+            <div id="err1" class="error-text" style="display: none;">{{this.message_1}}</div> 
+         
             </form>       
         </div>
 

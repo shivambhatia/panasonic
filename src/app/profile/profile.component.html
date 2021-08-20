@@ -12,8 +12,11 @@
                         <div class="form-group form-input">
                         <label for="FieldName" class="control-label text-muted small">Name</label>
                             <input type="name" class="form-control" placeholder="Enter name here" id="" value="{{userData.result.name}}" [formControl]="name">
+                           
                             <button class="btn btn-edit" type="button">Edit</button>
+                            
                         </div>
+                        <div id="err3">{{this.message_3}}</div>
                         <div class="form-group form-input">
                             <label for="FieldMobile" class="control-label text-muted small">Mobile</label>
                             <input type="tel" class="form-control" disabled="" placeholder="Enter name here" id="" value="{{userData.result.phone}}" >                           
@@ -21,16 +24,14 @@
                         <div class="form-input mb-md-0 mb-4">									
                             <label for="FieldEmail" class="control-label text-muted small">Email</label>
                             <input type="email" class="form-control" placeholder="Enter email here" id="" value="{{userData.result.email}}" [formControl]="email">
+
                             <button class="btn btn-edit" type="button">Edit</button>
+                           
                         </div>
+                        <div id="err2">{{this.message_2}}</div>
+                        <div id="err8">{{this.message_8}}</div>
                         <br>
-                        <div *ngIf="name.errors?.required" style="color:red">
-    *Name is required.
-  </div>
-  <br>
-  <div *ngIf="email.errors?.required" style="color:red">
-    *Email is required.
-  </div>
+                        
                                    <button type="submit" class="btn btn-lg btn-primary" (click)="getAllValues()">UPDATE</button>
                                   
                     </div>

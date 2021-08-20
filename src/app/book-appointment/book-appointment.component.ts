@@ -17,9 +17,9 @@ import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@ang
 export class BookAppointmentComponent implements OnInit {
   minDate = new Date();
   public mytime: Date = new Date();
-  currentYear: any = this.mytime.getUTCFullYear();
-  currentDate: any = this.mytime.getUTCDate() - 1;
-  currentMonth: any = this.mytime.getUTCMonth() + 1;
+  currentYear: any = this.mytime.getFullYear();
+  currentDate: any = this.mytime.getDate() - 1;
+  currentMonth: any = this.mytime.getMonth() + 1;
   data : any;
   temp :any;
   public policies:any = [];
@@ -299,7 +299,7 @@ togglePrevious(pageType:string){
     
 
 
-    if(this.selectedServices.indexOf(''+id)==-1){
+    if(this.allService==undefined || this.allService.indexOf(''+id)==-1){
       return false;
     }
     else{

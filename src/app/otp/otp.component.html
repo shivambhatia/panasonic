@@ -54,10 +54,50 @@
                     </div>                  
                 </div>
                 <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
-                    <button type="submit" class="btn btn-lg btn-outline-primary btn-block mr-2" onclick="location.href='appointment.html';">CANCEL</button>
-                    <button type="submit" class="btn btn-lg btn-primary btn-block mt-0" onclick="location.href='appointment.html';">RESCHEDULE</button>
+                    <button type="submit" class="btn btn-lg btn-outline-primary btn-block mr-2"  data-toggle="modal" data-target="#CancelModal">CANCEL</button>
+                    <button type="submit" class="btn btn-lg btn-primary btn-block mt-0" data-toggle="modal" data-target="#RescheduleModal">RESCHEDULE</button>
                 </div>
             </div>
-            
+            <div class="modal fade" id="CancelModal" tabindex="-1" aria-labelledby="CancelModal" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header ">
+                      <h5 class="modal-title" id="CancelModalLabel">Cancel Appointment</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body p-5 text-center" id="cancelError">	
+                        <p class="medium text-large">Do you want to Cancel this appointment?</p>
+                        <button type="button" (click)="cancel()" class="btn btn-primary">Cancel Now</button>	      
+                    </div>
+                    <div class="modal-body p-5 text-center " id="cancelSuccess" style="display: none;">	
+                        <p class="medium text-large">Your Appointment has been cancelled</p>
+                        <button type="button" routerLink="/appointment"    data-dismiss="modal" aria-label="Close" class="btn btn-primary ">OK</button>
+                                  
+                    </div>
+                            
+                  </div>
+                </div>
+            </div>
+        
+            <div class="modal fade" id="RescheduleModal" tabindex="-1" aria-labelledby="RescheduleModal" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header ">
+                      <h5 class="modal-title" id="RescheduleModalLabel">Reschedule Appointment</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body p-5 text-center" id="cancelError">	
+                        <p class="medium text-large">Do you want to Reschedule this appointment?</p>
+                        <a  class="btn btn-primary" href="{{this.final_result_2}}/reschedule" >Reschedule Now</a>	      
+                    </div>
+                    
+                            
+                  </div>
+                </div>
+            </div>
         </section>
         

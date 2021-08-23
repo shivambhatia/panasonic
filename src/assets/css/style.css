@@ -1,7 +1,6 @@
 /* CSS Document */
 :root {
-	--default: #314252;
- 	
+	--default: #314252; 	
 	--gray: #C8C8C8;
 	--black: #000000;
 	--green: #32DA08;
@@ -168,7 +167,7 @@ select.form-control, select, .custom-select { -webkit-appearance: none; -moz-app
 .splash-logo { position: relative; z-index: 10000; padding: 2rem; max-width: 280px; margin: 0 auto;}
 .brand-logo img { max-width: 200px; }
 
-.active-num { position: relative; padding-right: 24px; display: inline-block; line-height: 1.6; }
+.active-num { position: relative; padding-right: 24px; display: inline-block; line-height: 1.6; cursor: pointer;}
 .active-num:before { content:''; position: absolute; right: 0; top:2px; background: url(../images/edit-icon.svg) no-repeat center; background-size: 100%; width: 14px; height: 14px; }
 .otp-input .form-control { padding-left:1rem; font-size: 1rem; letter-spacing: 1rem; color: var(--black)}
 .otp-input .form-control::placeholder { letter-spacing: normal; font-size: 0.8rem; }

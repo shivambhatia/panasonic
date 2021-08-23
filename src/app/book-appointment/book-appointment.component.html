@@ -242,7 +242,7 @@
                             <a tabindex="0" class="info-icon ml-1" role="button" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="This information is we will used for this service only. "><img src="./assets/images/info-icon.svg" alt="info icon"></a>
                         
                             <label for="FieldName" class="control-label">Name</label>
-                            <input type="text" class="form-control" placeholder="Enter name here" id="FieldName"  formControlName="profilename" >
+                            <input type="text" (keypress)="omit_special_char($event)"  maxlength="20" class="form-control" placeholder="Enter name here" id="FieldName"  formControlName="profilename" >
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -260,7 +260,7 @@
                         <div class="form-group form-input">
                             <a tabindex="0" class="info-icon ml-1" role="button" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="This information is we will used for this service only. "><img src="./assets/images/info-icon.svg" alt="info icon"></a>
                             <label for="FieldEmail" class="control-label">Email</label>
-                            <input type="email" class="form-control" placeholder="Enter email here" id="FieldEmail"  formControlName="email">
+                            <input type="email"  maxlength="25"  class="form-control" placeholder="Enter email here" id="FieldEmail"  formControlName="email">
                         </div>
                     </div>
                 </div>                                    
@@ -372,7 +372,7 @@
             <div class="row">
                 <div class="col-xl-6 col-md-10 m-auto">
                     <div class="row mb-3">
-                        <div class="col-8">
+                        <div class="col-md-9 col-8">
                             <!-- <h4 class="text-primary">3 Days Left</h4> -->
                             <h5 class="mb-4">Appointment No: {{final_result_1.appointment_no}}</h5>
                             <div class="ng-service">
@@ -382,7 +382,7 @@
                                 </ul>
                             </div>
                         </div>	
-                        <div class="col-4">
+                        <div class="col-md-3 col-4 pl-md-5">
                             <img src="{{final_results.qrCode}}"  alt="{{final_results.qrCode}}">
                         </div>
                     </div>
@@ -409,10 +409,13 @@
                 </div>
             </div> 
         </div>
-        <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
-            <a  data-toggle="modal" data-target="#CancelModal" class="btn btn-lg btn-outline-primary btn-block mr-2">CANCEL</a>
-            <a routerLink="/appointment" class="btn btn-lg btn-outline-primary btn-block mr-2">DONE</a>
-            <a data-toggle="modal" data-target="#RescheduleModal" class="btn btn-lg btn-primary btn-block mt-0">RESCHEDULE</a>
+        <div class="app-footer-cta d-md-flex col-md-4 m-auto pt-md-5 justify-content-start">
+            <!-- <a data-toggle="modal" data-target="#CancelModal" class="btn btn-lg btn-outline-primary btn-block mr-md-2">CANCEL</a> -->
+            <a  routerLink="/appointment" class="btn btn-lg btn-outline-primary btn-block mr-md-2">DONE</a>
+           
+            <a data-toggle="modal" data-target="#RescheduleModal" class="btn btn-lg btn-outline-primary btn-block mr-md-2 mt-md-0 mt-2">RESCHEDULE</a>
+            <!-- <a data-toggle="modal" data-target="#RescheduleModal" class="btn btn-lg btn-primary btn-block mt-md-0 mt-2">RESCHEDULE</a> -->
+            <a data-toggle="modal" data-target="#CancelModal" class="btn btn-lg btn-primary btn-block mt-md-0 mt-2">CANCEL</a>
         </div>                   
     </div>
     <div class="modal fade" id="CancelModal" tabindex="-1" aria-labelledby="CancelModal" aria-hidden="true" style="display: none;">

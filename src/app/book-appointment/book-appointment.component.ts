@@ -116,14 +116,10 @@ togglePrevious(pageType:string){
   if (pageType=='branch'){
     this.dataService=true;
     this.dataBranch=false;
-    console.log(this.allService,"services checked")
+  
   }
   if(pageType=='datetime'){
-    console.log(this.selectedBranch[0],typeof this.selectedBranch[0], "brajhbkjb")
-    // console.log($('input[name="myCheckbox"][id=branch' + this.selectedBranch[0] + ']').prop("checked", true));
-    // $('input[name="myCheckbox"][id=branch' + this.selectedBranch[0] + ']').prop("checked", true);
-    // $('#branch' + this.selectedBranch[0] + '').prop('checked', true); 
-    console.log('#branch' + this.selectedBranch[0] + '' )
+   
     this.dataBranch=true;
     $('#branch' + this.selectedBranch[0] + '').attr('checked', true);
     this.dataDateTime=false;
@@ -178,14 +174,18 @@ togglePrevious(pageType:string){
         this.name=this.userDataProfile.name;
         this.phone=this.userDataProfile.phone;
         console.log(this.email,this.name,this.phone,"details")
-        if(this.name!== "" || this.profileForm.value.profilename!== ""){
-          $("#FieldName").attr("disabled", true);}
-          if(this.phone!== "" || this.profileForm.value.phone!== ""){
-            $("#FieldMobile").attr("disabled", true);
-          }
-          if(this.email!== "" || this.profileForm.value.email!== ""){
-            $("#FieldEmail").attr("disabled", true);
-          }
+      //   var regex =  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; 
+      // if((this.name!== "" || this.profileForm.value.profilename!== "") && (this.name!== null || this.profileForm.value.profilename!== null)){
+      // $("#FieldName").attr("disabled", true);
+      // }
+      // if((this.phone!== "" || this.profileForm.value.phone!== "") && (this.phone!== null || this.profileForm.value.phone!== null)){
+      //   $("#FieldMobile").attr("disabled", true);
+      // }
+      // console.log(((this.email!== "" || this.profileForm.value.email!== "") && (this.email!== null || this.profileForm.value.email!== null)) && (regex.test(this.profileForm.value.email)))
+      //     console.log((regex.test(this.profileForm.value.email)))
+      // if(((this.email!== "" || this.profileForm.value.email!== "") && (this.email!== null || this.profileForm.value.email!== null)) && (regex.test(this.profileForm.value.email)) ){
+      //   $("#FieldEmail").attr("disabled", true);
+      // }
          
       }
         
@@ -197,7 +197,7 @@ togglePrevious(pageType:string){
        setTimeout(function(){
            $("#err4").hide();
          }, 3000);
-        console.log("Select toh kr le");
+    
       }
   }
 
@@ -252,17 +252,19 @@ togglePrevious(pageType:string){
     }
   }
   if(pageType=='requirement'){
-    console.log((this.name!== "" || this.profileForm.value.profilename!== ""),(this.phone!== "" || this.profileForm.value.phone!== ""),(this.email!== "" || this.profileForm.value.email!== ""))
-    if(this.name!== "" || this.profileForm.value.profilename!== ""){
-    $("#FieldName").attr("disabled", true);}
-    if(this.phone!== "" || this.profileForm.value.phone!== ""){
-      $("#FieldMobile").attr("disabled", true);
-    }
-    if(this.email!== "" || this.profileForm.value.email!== ""){
-      $("#FieldEmail").attr("disabled", true);
-    }
-    console.log(this.name,this.note,this.phone,this.email,this.profileForm.value.note,this.profileForm.value.email,this.profileForm.value.profilename,this.profileForm.value.phone,"++++++++")
-    if(this.profileForm.value.email == ""){
+    var regex =  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    // if((this.name!== "" || this.profileForm.value.profilename!== "") && (this.name!== null || this.profileForm.value.profilename!== null)){
+    // $("#FieldName").attr("disabled", true);
+    // }
+    // if((this.phone!== "" || this.profileForm.value.phone!== "") && (this.phone!== null || this.profileForm.value.phone!== null)){
+    //   $("#FieldMobile").attr("disabled", true);
+    // }
+    // if(((this.email!== "" || this.profileForm.value.email!== "") && (this.email!== null || this.profileForm.value.email!== null)) && (regex.test(this.profileForm.value.email)) ){
+    //   $("#FieldEmail").attr("disabled", true);
+    // }
+   
+    if(this.profileForm.value.email == null || this.profileForm.value.email == ""){
       this.dataReview=false;
       this.message_8 = "Please enter email"
       $("#err8").show();
@@ -271,7 +273,17 @@ togglePrevious(pageType:string){
        }, 3000);
        return;
     }
-    else if( this.profileForm.value.phone == ""){
+    else if((this.profileForm.value.email!== null || this.profileForm.value.email!== "") && (!regex.test(this.profileForm.value.email))){
+      this.dataReview=false;
+      this.message_8 = "Please enter valid email"
+      $("#err8").show();
+     setTimeout(function(){
+         $("#err8").hide();
+       }, 3000);
+       return;
+    }
+
+    else if( this.profileForm.value.phone == null || this.profileForm.value.phone == ""){
         this.dataReview=false;
       this.message_8 = "Please enter phone no"
       $("#err8").show();
@@ -280,7 +292,7 @@ togglePrevious(pageType:string){
        }, 3000);
        return;
     }
-    else if(this.profileForm.value.profilename ==  " "){
+    else if(this.profileForm.value.profilename == null || this.profileForm.value.profilename == ""){
         this.dataReview=false;
         this.message_8 = "Please enter name"
         $("#err8").show();
@@ -289,7 +301,7 @@ togglePrevious(pageType:string){
          }, 3000);
          return;
     }
-    else if(this.profileForm.value.note == ""){
+    else if(this.profileForm.value.note == null || this.profileForm.value.note == ""){
     
       this.dataReview=false;
       this.message_8 = "Please enter service requirements"
@@ -342,7 +354,12 @@ togglePrevious(pageType:string){
     
   
   });
-
+  omit_special_char(event:any)
+  {
+    var k;
+    k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+    return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+  }
   serviceExistenceCheck(id:string){
     
 

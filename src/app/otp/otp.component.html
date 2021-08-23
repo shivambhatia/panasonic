@@ -28,13 +28,12 @@
                                     <div class="ng-service">
                                         <p class="mb-2"><strong class="medium">Service:</strong></p>  
                                         <ul class="list-unstyled mb-0" >
-                                    
-                                            <li>{{this.allServices}}</li>
+                                     {{this.allServices}}
                                             
                                         </ul>
                                     </div>
                                 </div>  
-                                <div class="col-4">
+                                <div class="col-4" id="qr_code" > 
                                     <img src="{{item.qrcode}}" alt="QR-CODE">
                                 </div>
                             </div>
@@ -55,7 +54,7 @@
                         </div>                  
                     </div>                  
                 </div>
-                <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
+                <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start" id="footer-button" >
                     <button type="submit" class="btn btn-lg btn-outline-primary btn-block mr-2"  data-toggle="modal" data-target="#CancelModal">CANCEL</button>
                     <button type="submit" class="btn btn-lg btn-primary btn-block mt-0" data-toggle="modal" data-target="#RescheduleModal">RESCHEDULE</button>
                 </div>

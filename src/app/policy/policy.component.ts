@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { formatDate } from "@angular/common";
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from '../_services/authentication.service';
+import { first } from 'rxjs/operators';
 @Component({
   selector: 'app-policy',
   templateUrl: './policy.component.html',
@@ -13,7 +15,7 @@ export class PolicyComponent implements OnInit {
  
   userDataProfile:any=[];
   token:any=[];
-  constructor(private http: HttpClient,private router: Router) {
+  constructor(private http: HttpClient,private router: Router,private authentication: AuthenticationService,) {
     let users = JSON.parse(localStorage.getItem('currentUser') || '{}');
     if(users.success){
       // debugger;
@@ -32,20 +34,27 @@ export class PolicyComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    const headers = { 'Authorization': 'Bearer '+this.token, 'My-Custom-Header': '' }
-    console.log("Step 1",headers);
-    var parent=this;
-    let resp=this.http.post('http://65.1.176.15:5050/apis/getbookingdate',{}, { headers: headers});
-    //resp.subscribe((result)=>this.users=result);
-    // this.selectedServices=new Array<string>();
-    resp.subscribe((data:any)=>{  
-      console.log(data," terms")  
-      this.policies = data.result.privacypolicy;
-      this.terms = data.result.privacypolicy_terms;
-      // console.log(this.policies,this.terms)
+    this.authentication.termsCondition().pipe(first())
+        .subscribe((data:any) => {
+          console.log(data)
+          this.policies = data.result.privacypolicy;
+          this.terms = data.result.privacypolicy_terms;
+          
+        })
+    // const headers = { 'Authorization': 'Bearer '+this.token, 'My-Custom-Header': '' }
+    // console.log("Step 1",headers);
+    // var parent=this;
+    // let resp=this.http.post('http://65.1.176.15:5050/apis/getbookingdate',{}, { headers: headers});
+    // //resp.subscribe((result)=>this.users=result);
+    // // this.selectedServices=new Array<string>();
+    // resp.subscribe((data:any)=>{  
+    //   console.log(data," terms")  
+    //   this.policies = data.result.privacypolicy;
+    //   this.terms = data.result.privacypolicy_terms;
+    //   // console.log(this.policies,this.terms)
            
       
-    })
+    // })
   }
 
 }

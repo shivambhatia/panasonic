@@ -40,6 +40,10 @@ export class AppointmentComponent implements OnInit {
 
   ngOnInit() {
     let users = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    console.log("Step 1",users);
+    if(!users.success){
+      this.router.navigate([''])
+    }
     const headers = { 'Authorization': 'Bearer '+users.token }
     console.log("Check Headers",headers);
     
@@ -51,10 +55,12 @@ export class AppointmentComponent implements OnInit {
     resp.subscribe((result)=>{    
       this.data=result
       this.appointment = this.data.result
-      console.log("Check Resposne",this.appointment);
+   
       if(this.data.status){
         this.data.result.map((item:any)=>{
             let temp=item.appointment_date.replaceAll('-','');
+            
+            
             
             if(temp<this.tempDate){
               
@@ -76,6 +82,8 @@ export class AppointmentComponent implements OnInit {
       }    
       
     })
+   
+    
   }
   
   

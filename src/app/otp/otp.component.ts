@@ -5,6 +5,7 @@ import { User } from '../_models/users';
 import {ActivatedRoute} from '@angular/router';
 import {IAngularMyDpOptions, IMyDateModel, MM} from 'angular-mydatepicker';
 declare var $: any;
+import * as moment from 'moment';
 import { formatDate } from '@angular/common';
 @Component({
   selector: 'app-otp',
@@ -45,7 +46,31 @@ export class OtpComponent implements OnInit {
           this.detail=this.appointment.filter((item:any)=>item.id==this.router.snapshot.params.id);
           
           //let appointment_date=Date(this.detail[0].appointment_date);
+          var today =  moment().format('YYYY-MM-DD');
+          // var appBookdate = bookedData.appointment_date;
+          // var bookedData = data.booking_detail;
+          var appBookdate =  this.detail[0].appointment_date;
+          var d = new Date();
+          var h =  d.getHours();
+          var m = d.getMinutes();
+          var currentTime = h + ":" + m
+          var appBook_time = this.detail[0].appointment_time.split("-")[0];
+         
+          var regex = new RegExp(':', 'g');
+          if(today > appBookdate)
+          {
+            console.log("i'm missed")
+            // $('#footer-button').attr("style", "display: none !important");
+            $('#qr_code').attr("style", "display: none !important");
+            $('#footer-button').hide();
+            
           
+           
+          }
+          else{
+            $('#footer-button').show();
+            $('#qr_code').show();
+          }
           let dateString = formatDate(this.detail[0].appointment_date,'yyyy/MM/dd','En-US');
           console.log(this.detail,"user data")
          var services = this.detail[0].serviceNames.toString();

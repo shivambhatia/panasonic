@@ -27,6 +27,8 @@ export class LoginComponent implements OnInit {
     valid:any =[];
     invalid:any =[];
     resend_otp:any = [];
+    policies:any=[];
+    terms:any=[]
   otp = false;
   constructor(private formBuilder: FormBuilder,
         private route: ActivatedRoute,
@@ -47,6 +49,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
         let users = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        console.log(users,"user")
         if(users.success){
              this.router.navigate(['/appointment']);
         }
@@ -61,6 +64,13 @@ export class LoginComponent implements OnInit {
         });
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['otp'] || '/';
+        this.authentication.termsCondition().pipe(first())
+        .subscribe((data:any) => {
+          console.log(data)
+          this.policies = data.result.privacypolicy;
+          this.terms = data.result.privacypolicy_terms;
+          
+        })
 
 
     $(document).ready(function() {	

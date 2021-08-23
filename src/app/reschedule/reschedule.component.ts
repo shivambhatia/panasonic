@@ -136,6 +136,7 @@ timeslots_active :any =[];
     resp.subscribe((data:any)=>{    
     
       console.log(data, "reschedule data")
+    
       var today =  moment().format('YYYY-MM-DD');
       // var appBookdate = bookedData.appointment_date;
       var bookedData = data.booking_detail;
@@ -148,7 +149,15 @@ timeslots_active :any =[];
       console.log(today,appBookdate,today > appBookdate)
       var regex = new RegExp(':', 'g');
     
-     
+      if(bookedData.close == 1){
+        $('#cancelApp').modal('show');
+       }
+       else if(today > appBookdate)
+       {
+         $('#missedApp').modal('show');
+       }
+       
+       else{
       this.service_selected = data.services.id;
       this.branch_selected = data.booking_detail.branch_id;
       this.bookedDate1 = data.booking_detail.appointment_date;
@@ -195,7 +204,7 @@ timeslots_active :any =[];
               disableWeekdays:this.nonWorking_days,
 
               };
-              console.log(this.myDpOptions,"mydppoption")
+             
               var abc = parseInt(this.bookedDate[0])
               var branch_select =  {branch_id: [this.branch_selected] };
               branch_select = { ...branch_select};
@@ -262,6 +271,7 @@ timeslots_active :any =[];
               
              
             })
+          }
 
           
     

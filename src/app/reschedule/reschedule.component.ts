@@ -97,7 +97,7 @@ timeslots_active :any =[];
   public booking_id:any = [];
  public request_create:any = [];
   public BranchId:any=[];
-  
+  public arrayactive:any=[];
   public otpData :any = [];
  
 
@@ -278,6 +278,15 @@ timeslots_active :any =[];
   onDateChanged(event: IMyDateModel): void {
 
     var weekOff = this.branchOff;
+    var date_today = moment(new Date()).format("DD-MM-YYYY");
+    for(let i =0 ; i < weekOff.length; i++){
+
+      if(weekOff[i] == date_today){
+        var notActiveSlots = weekOff[i];
+       console.log("today is off")
+
+      }
+    }
 
 
 
@@ -303,8 +312,25 @@ timeslots_active :any =[];
         // var availableSlots = slots.availableslots;
         // console.log(availableSlots,"ava slot")
         this.datetimeArray=slots; 
-       
-        console.log(this.datetimeArray ,"++++++slots")
+        this.arrayactive= [];
+        if(date_op === date_today && date_today == notActiveSlots) {
+          for(let i=0; i< this.datetimeArray.length; i++){
+            let net = {"time":this.datetimeArray[i],"value":"unactive"};
+            this.arrayactive.push(net);
+           
+          
+          }
+        }
+        else{
+          for(let i=0; i< this.datetimeArray.length; i++){
+            let net = {"time":this.datetimeArray[i],"value":"active"};
+            this.arrayactive.push(net);
+           
+          
+          }
+          console.log(this.arrayactive)
+         
+        }
         
       
      

@@ -30,10 +30,16 @@ export class ProfileComponent implements OnInit {
     //debugger;
     console.log(this.userData)
   }
+  omit_special_char(event:any)
+  {
+    var k;
+    k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+    return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+  }
   updateProfile(){
     var regex =  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-    if(this.email.value == ""){
+console.log(this.name.value, this.email.value)
+    if(this.email.value == "" || this.email.value == null){
       this.message_2 = "Email is required"
       $("#err2").show();
       setTimeout(function(){
@@ -42,7 +48,7 @@ export class ProfileComponent implements OnInit {
       return;
 
     }
-    else if(this.name.value ==""){
+    else if(this.name.value =="" ||  this.name.value == null){
       this.message_3 = "Name is required"
       $("#err3").show();
       setTimeout(function(){

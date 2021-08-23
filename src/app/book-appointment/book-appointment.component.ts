@@ -178,6 +178,14 @@ togglePrevious(pageType:string){
         this.name=this.userDataProfile.name;
         this.phone=this.userDataProfile.phone;
         console.log(this.email,this.name,this.phone,"details")
+        if(this.name!== "" || this.profileForm.value.profilename!== ""){
+          $("#FieldName").attr("disabled", true);}
+          if(this.phone!== "" || this.profileForm.value.phone!== ""){
+            $("#FieldMobile").attr("disabled", true);
+          }
+          if(this.email!== "" || this.profileForm.value.email!== ""){
+            $("#FieldEmail").attr("disabled", true);
+          }
          
       }
         
@@ -244,9 +252,45 @@ togglePrevious(pageType:string){
     }
   }
   if(pageType=='requirement'){
+    console.log((this.name!== "" || this.profileForm.value.profilename!== ""),(this.phone!== "" || this.profileForm.value.phone!== ""),(this.email!== "" || this.profileForm.value.email!== ""))
+    if(this.name!== "" || this.profileForm.value.profilename!== ""){
+    $("#FieldName").attr("disabled", true);}
+    if(this.phone!== "" || this.profileForm.value.phone!== ""){
+      $("#FieldMobile").attr("disabled", true);
+    }
+    if(this.email!== "" || this.profileForm.value.email!== ""){
+      $("#FieldEmail").attr("disabled", true);
+    }
     console.log(this.name,this.note,this.phone,this.email,this.profileForm.value.note,this.profileForm.value.email,this.profileForm.value.profilename,this.profileForm.value.phone,"++++++++")
-    if(this.profileForm.value.profilename ==  " "  || this.profileForm.value.email == "" || this.profileForm.value.phone == "" || this.profileForm.value.note == ""){
-      // this.dataContact=false;
+    if(this.profileForm.value.email == ""){
+      this.dataReview=false;
+      this.message_8 = "Please enter email"
+      $("#err8").show();
+     setTimeout(function(){
+         $("#err8").hide();
+       }, 3000);
+       return;
+    }
+    else if( this.profileForm.value.phone == ""){
+        this.dataReview=false;
+      this.message_8 = "Please enter phone no"
+      $("#err8").show();
+     setTimeout(function(){
+         $("#err8").hide();
+       }, 3000);
+       return;
+    }
+    else if(this.profileForm.value.profilename ==  " "){
+        this.dataReview=false;
+        this.message_8 = "Please enter name"
+        $("#err8").show();
+       setTimeout(function(){
+           $("#err8").hide();
+         }, 3000);
+         return;
+    }
+    else if(this.profileForm.value.note == ""){
+    
       this.dataReview=false;
       this.message_8 = "Please enter service requirements"
       $("#err8").show();
@@ -501,7 +545,7 @@ togglePrevious(pageType:string){
     this.dataDateTime = true;
     console.log(this.time,"time checked")
     // $("input[name=TimeSlot][value=" + this.time + "]").attr('checked', 'checked');
-    $('input:radio[name="TimeSlot"][value=' + this.time + ']').attr('checked',true);
+    // $('input:radio[name="TimeSlot"][value=' + this.time + ']').attr('checked',true);
   }
   reviewReq(){
     this.dataReview = false;

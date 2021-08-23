@@ -21,6 +21,7 @@ export class OtpComponent implements OnInit {
   daysLeft:Number;
   token :any =[];
   users:any =[];
+  allServices:any =[];
   final_result_2:any=[];
   constructor(private http: HttpClient,private router: ActivatedRoute) { 
     //this.tempDate=formatDate(this.myDate, 'dd/MM/yyyy','En-Us');
@@ -47,8 +48,10 @@ export class OtpComponent implements OnInit {
           
           let dateString = formatDate(this.detail[0].appointment_date,'yyyy/MM/dd','En-US');
           console.log(this.detail,"user data")
+         var services = this.detail[0].serviceNames.toString();
+         this.allServices = services.toString();
           this.final_result_2 = "Afg1Jcfgc" + this.detail[0].id;
-          console.log(this.detail[0].id)
+          console.log(this.detail[0].id,this.detail[0].serviceNames.toString())
           this.final_result_2 = btoa(this.final_result_2)
           this.final_result_2 = this.final_result_2.replaceAll('=', '');
           console.log(this.final_result_2,"booking id")

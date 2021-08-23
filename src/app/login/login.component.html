@@ -73,8 +73,11 @@
                                     <button type="submit" class="btn btn-lg btn-primary btn-block" >SIGN IN</button>
                                     <div id="resend_otp"  class="error-text">{{this.resend_otp}}</div>
                                 </div>
-                        <p class="text-muted mt-4 medium mb-0">By Logging in you agree to <a href="#" class="text-muted"><u>T&Cs</u></a> &amp; that you
-    have read our <a routerLink="/otp" class="text-muted"><u>Privacy Policy</u></a></p>
+                        <p class="text-muted mt-4 medium mb-0">By Logging in you agree to <a target="_blank" href="terms"class="text-muted"><u>T&Cs</u></a> &amp; that you
+    have read our <a target="_blank" href="policy" class="text-muted"><u>Privacy Policy</u></a></p>
+
+
+  
                                     </form>
                                 <p class="mt-4 medium mb-0 ten1" style="display: none;"><a (click)="resendOtp()" class="text-black"><u>Resend OTP</u></a></p>
                                 <p class="mt-4 medium mb-0 count"><u>Resend OTP in<b  class="countdown"></b></u></p>

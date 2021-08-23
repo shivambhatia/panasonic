@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../_services/authentication.service';
+import { Router } from '@angular/router';
+
 declare var $: any;
 @Component({
   selector: 'app-profile',
@@ -18,10 +20,14 @@ export class ProfileComponent implements OnInit {
   name = new FormControl('', [Validators.required, Validators.maxLength(40)]);
   email = new FormControl('', Validators.required); 
   //phone = new FormControl('', Validators.required); 
-  constructor(private http: HttpClient,  private authentication: AuthenticationService,) { }
+  constructor(private http: HttpClient,  private authentication: AuthenticationService,private router: Router) { }
 
   ngOnInit(): void {
     let users = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    if(!users.success){
+      this.router.navigate(['']);
+    }
+    
     this.userData=users;
 
         this.name.setValue(this.userData.result.name);
@@ -38,7 +44,7 @@ export class ProfileComponent implements OnInit {
   }
   updateProfile(){
     var regex =  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-console.log(this.name.value, this.email.value)
+    var regex_name=/^([a-zA-Z' ]+)$/;
     if(this.email.value == "" || this.email.value == null){
       this.message_2 = "Email is required"
       $("#err2").show();
@@ -58,6 +64,15 @@ console.log(this.name.value, this.email.value)
     }
     else if(!regex.test(this.email.value)){
       this.message_8 = "Email must be a valid email address"
+      $("#err8").show();
+      setTimeout(function(){
+          $("#err8").hide();
+        }, 5000);
+      return;
+
+    }
+    else if(!regex_name.test(this.name.value)){
+      this.message_8 = "Name must be a valid and must contain space and alphabets only"
       $("#err8").show();
       setTimeout(function(){
           $("#err8").hide();

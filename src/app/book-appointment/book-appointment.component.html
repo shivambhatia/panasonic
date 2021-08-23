@@ -238,12 +238,15 @@
             <div class="contact-form">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="form-group form-input">
+                        <div class="form-group">
+                        <div class="form-group form-input mb-0">
                             <a tabindex="0" class="info-icon ml-1" role="button" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="This information is we will used for this service only. "><img src="./assets/images/info-icon.svg" alt="info icon"></a>
                         
                             <label for="FieldName" class="control-label">Name</label>
-                            <input type="text" (keypress)="omit_special_char($event)"  maxlength="20" class="form-control" placeholder="Enter name here" id="FieldName"  formControlName="profilename" >
+                            <input type="text"   (keypress)="omit_special_char($event)"  maxlength="20" class="form-control" placeholder="Enter name here" id="FieldName"  formControlName="profilename" >
                         </div>
+                        <div id="err8Name" class="error-text" style="display: none;">{{this.message_name}}</div>
+                   	 </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group form-input">
@@ -257,19 +260,24 @@
                         </div>	
                     </div>
                     <div class="col-md-4">
-                        <div class="form-group form-input">
+                        <div class="form-group">
+                         <div class="form-group form-input mb-0">
                             <a tabindex="0" class="info-icon ml-1" role="button" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="This information is we will used for this service only. "><img src="./assets/images/info-icon.svg" alt="info icon"></a>
                             <label for="FieldEmail" class="control-label">Email</label>
                             <input type="email"  maxlength="25"  class="form-control" placeholder="Enter email here" id="FieldEmail"  formControlName="email">
                         </div>
+                        <div id="err8Email" class="error-text" style="display: none;">{{this.message_email}}</div>
+                    	</div>
                     </div>
                 </div>                                    
-                <div class="form-group form-input">
-                    <label for="FieldNotes" class="control-label">Describe Service Requirement/Issues</label>
-                    <textarea class="form-control" required placeholder="Enter notes here" id="FieldNotes"  formControlName="note"></textarea>
-                    
-                </div>
-                <div id="err8" class="error-text" style="display: none;">{{this.message_8}}</div>
+                <div class="form-group">
+					<div class="form-group form-input mb-0">
+						<label for="FieldNotes" class="control-label">Describe Service Requirement/Issues</label>
+						<textarea class="form-control" required placeholder="Enter notes here" id="FieldNotes"  formControlName="note"></textarea>
+
+					</div>
+					<div id="err8" class="error-text" style="display: none;">{{this.message_8}}</div>
+				</div>
                 <div class="form-group btn-checkbox">
                     <input type="checkbox" name="" value="" id="tnc"  class="tnc" formControlName="tnc">
                     <label for="tnc" class="text-muted regular">I agree to the  <a target="_blank" href="terms"> terms and conditions</a> and<a target="_blank" href="policy"> privacy policy</a></label>

@@ -59,6 +59,7 @@ export class AppointmentComponent implements OnInit {
       if(this.data.status){
         this.data.result.map((item:any)=>{
             let temp=item.appointment_date.replaceAll('-','');
+            item.serviceNames=JSON.parse(item.serviceNames).join(",");
             
             
             
@@ -75,12 +76,13 @@ export class AppointmentComponent implements OnInit {
             else if(temp==this.tempDate){
 
               this.currentAppointment.push(item);
+              
             }
 
         });
 
       }    
-      
+      console.log("Step 1",this.currentAppointment);
     })
    
     

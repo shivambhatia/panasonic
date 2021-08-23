@@ -85,6 +85,8 @@ timeslots_active :any =[];
   arrayactive:any=  [];
   datetimeMsg:any = [];
   userData:any=[];
+  message_name:any=[];
+  message_email:any=[];
   constructor(private http: HttpClient,private router: Router,private fb: FormBuilder) { 
     
     let users = JSON.parse(localStorage.getItem('currentUser') || '{}');
@@ -114,15 +116,21 @@ timeslots_active :any =[];
     }
 togglePrevious(pageType:string){
   if (pageType=='branch'){
+    $("#err9").hide();
     this.dataService=true;
     this.dataBranch=false;
+    
+    console.log("hii 1")
   
   }
   if(pageType=='datetime'){
-   
+    console.log("hii 1231")
+    $("#err2").css("display", "none");
+    this.message_3 == ""
     this.dataBranch=true;
     $('#branch' + this.selectedBranch[0] + '').attr('checked', true);
     this.dataDateTime=false;
+    
   }
   if(pageType=='requirement'){
     this.dataDateTime=true;
@@ -203,6 +211,7 @@ togglePrevious(pageType:string){
 
   if(pageType=='branch'){
 
+
   if(!$('.example:checked').is(':checked')){
         // this.dataDateTime=false;
         
@@ -212,6 +221,7 @@ togglePrevious(pageType:string){
          setTimeout(function(){
           $("#err2").hide();
         }, 3000);
+        return;
 
       }
     else{
@@ -252,8 +262,9 @@ togglePrevious(pageType:string){
     }
   }
   if(pageType=='requirement'){
+   
     var regex =  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
+    var regex_name=/^([a-zA-Z' ]+)$/;
     // if((this.name!== "" || this.profileForm.value.profilename!== "") && (this.name!== null || this.profileForm.value.profilename!== null)){
     // $("#FieldName").attr("disabled", true);
     // }
@@ -263,27 +274,29 @@ togglePrevious(pageType:string){
     // if(((this.email!== "" || this.profileForm.value.email!== "") && (this.email!== null || this.profileForm.value.email!== null)) && (regex.test(this.profileForm.value.email)) ){
     //   $("#FieldEmail").attr("disabled", true);
     // }
-   
+    if(this.profileForm.value.phone==null || this.profileForm.value.phone==""){
+      this.profileForm.value.phone=this.userDataProfile.phone;
+    }
     if(this.profileForm.value.email == null || this.profileForm.value.email == ""){
       this.dataReview=false;
-      this.message_8 = "Please enter email"
-      $("#err8").show();
+      this.message_email = "Please enter email"
+      $("#err8Email").show();
      setTimeout(function(){
-         $("#err8").hide();
+         $("#err8Email").hide();
        }, 3000);
        return;
     }
     else if((this.profileForm.value.email!== null || this.profileForm.value.email!== "") && (!regex.test(this.profileForm.value.email))){
       this.dataReview=false;
-      this.message_8 = "Please enter valid email"
-      $("#err8").show();
+      this.message_email = "Please enter valid email"
+      $("#err8Email").show();
      setTimeout(function(){
-         $("#err8").hide();
+         $("#err8Email").hide();
        }, 3000);
        return;
     }
 
-    else if( this.profileForm.value.phone == null || this.profileForm.value.phone == ""){
+    else if( this.profileForm.value.phone == null || this.profileForm.value.phone == "" ){
         this.dataReview=false;
       this.message_8 = "Please enter phone no"
       $("#err8").show();
@@ -292,12 +305,22 @@ togglePrevious(pageType:string){
        }, 3000);
        return;
     }
+    else if((this.profileForm.value.profilename!== null || this.profileForm.value.profilename!== "") && (!regex_name.test(this.profileForm.value.profilename.trim()))){
+      this.dataReview=false;
+      this.message_name = "Please enter valid name with only alpabets and space"
+      $("#err8Name").show();
+     setTimeout(function(){
+         $("#err8Name").hide();
+       }, 3000);
+       return;
+    }
+
     else if(this.profileForm.value.profilename == null || this.profileForm.value.profilename == ""){
         this.dataReview=false;
-        this.message_8 = "Please enter name"
-        $("#err8").show();
+        this.message_name = "Please enter name"
+        $("#err8Name").show();
        setTimeout(function(){
-           $("#err8").hide();
+           $("#err8Name").hide();
          }, 3000);
          return;
     }
@@ -348,7 +371,7 @@ togglePrevious(pageType:string){
    profileForm = new FormGroup({
     profilename: new FormControl('', Validators.required),
     email: new FormControl('', Validators.required),
-    phone :new FormControl('', Validators.required),
+    phone :new FormControl({value:'',disabled:true}, Validators.required),
     tnc :new FormControl('', Validators.required),
     note:new FormControl('', Validators.required)
     
@@ -359,6 +382,7 @@ togglePrevious(pageType:string){
     var k;
     k = event.charCode;  //         k = event.keyCode;  (Both can be used)
     return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+    
   }
   serviceExistenceCheck(id:string){
     
@@ -573,6 +597,7 @@ togglePrevious(pageType:string){
   servicesTab(){
     this.dataReview = false;
     this.dataService = true;
+   
   }
   contactForm(){
     this.dataContact = true;

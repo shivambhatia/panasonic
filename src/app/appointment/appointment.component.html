@@ -11,7 +11,7 @@
                 <div class="col-md-6 col-xl-4 mb-4" *ngFor="let item of currentAppointment">
                     <a routerLink="/appointment-details/{{item.id}}" class="card p-4 text-default">
                         <h5 class="text-primary mb-3">Ticket No.:{{item.appointment_no}}</h5>
-                        <p class="mb-2"><strong class="medium">Service:</strong>  {{item.services}}</p>
+                        <p class="mb-2"><strong class="medium">Service:</strong>  {{item.serviceNames}}</p>
                         <p class="mb-2"><strong class="medium">Branch:</strong> 
                             {{item.branchname}} {{item.branchAddress}}  {{item.branchPincode}}</p>
                         <div class="d-flex flex-wrap align-items-center"><span><strong class="medium">Date:</strong> {{item.appointment_date}}</span><span class="pl-2 pr-2">|</span><span><strong class="medium">Time:</strong> {{item.appointment_time}}</span></div>
@@ -25,7 +25,7 @@
                 <div class="col-md-6 col-xl-4 mb-4" *ngFor="let item of upcomingAppointment">
                     <a routerLink="/appointment-details/{{item.id}}" class="card p-4 text-default">
                         <h5 class="text-primary mb-3">Ticket No.:{{item.appointment_no}}</h5>
-                        <p class="mb-2"><strong class="medium">Service:</strong>  {{item.services}}</p>
+                        <p class="mb-2"><strong class="medium">Service:</strong>  {{item.serviceNames}}</p>
                         <p class="mb-2"><strong class="medium">Branch:</strong> 
                             {{item.branchname}} {{item.branchAddress}} {{item.branchPincode}}</p>
                         <div class="d-flex flex-wrap align-items-center"><span><strong class="medium">Date:</strong> {{item.appointment_date}}</span><span class="pl-2 pr-2">|</span><span><strong class="medium">Time:</strong> {{item.appointment_time}}</span></div>
@@ -40,7 +40,7 @@
                     <a class="card p-4 text-default" routerLink="/appointment-details/{{item.id}}">
                         <h5 class="text-primary mb-3">Ticket No.:{{item.appointment_no}}</h5>
                 
-                        <p class="mb-2"><strong class="medium">Service:</strong>  {{item.services}}</p>
+                        <p class="mb-2"><strong class="medium">Service:</strong>  {{item.serviceNames}}</p>
                         <p class="mb-2"><strong class="medium">Branch:</strong> 
                             {{item.branchname}} {{item.branchAddress}} {{item.branchPincode}}</p>
                         <div class="d-flex flex-wrap align-items-center"><span><strong class="medium">Date:</strong> {{item.appointment_date}}</span><span class="pl-2 pr-2">|</span><span><strong class="medium">Time:</strong> {{item.appointment_time}}</span></div>

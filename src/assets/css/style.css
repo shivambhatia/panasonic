@@ -141,7 +141,7 @@ select.form-control, select, .custom-select { -webkit-appearance: none; -moz-app
 .form-input .control-label { margin: 0;}
 .form-input .form-control { padding: 0; border-radius: 0; border:none; font-weight: 600;}
 .form-input .form-control:focus, .form-input .custom-select:focus { box-shadow: none;}
-.form-input .custom-select { border:none; max-width: 65px;}
+.form-input .custom-select { border:none; max-width: 65px; font-weight: 600; font-size: 0.8rem;}
 
 .info-block { transition-duration: 0.4s; font-weight: 600;}
 .service-list { padding: 0 0 0 0.5rem; margin: 0;}
@@ -168,6 +168,7 @@ select.form-control, select, .custom-select { -webkit-appearance: none; -moz-app
 .brand-logo img { max-width: 200px; }
 
 .active-num { position: relative; padding-right: 24px; display: inline-block; line-height: 1.6; cursor: pointer;}
+.count, .btn-logout {cursor: pointer;}
 .active-num:before { content:''; position: absolute; right: 0; top:2px; background: url(../images/edit-icon.svg) no-repeat center; background-size: 100%; width: 14px; height: 14px; }
 .otp-input .form-control { padding-left:1rem; font-size: 1rem; letter-spacing: 1rem; color: var(--black)}
 .otp-input .form-control::placeholder { letter-spacing: normal; font-size: 0.8rem; }

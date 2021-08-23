@@ -21,9 +21,13 @@ export class OtpComponent implements OnInit {
   detail:any [];
   daysLeft:Number;
   token :any =[];
+  dataToken =  true;
+  dataScan = true;
+  dataButton =  true;
   users:any =[];
   allServices:any =[];
   final_result_2:any=[];
+  tokenNo:any=[];
   constructor(private http: HttpClient,private router: ActivatedRoute) { 
     //this.tempDate=formatDate(this.myDate, 'dd/MM/yyyy','En-Us');
          //console.log(this.router.getCurrentNavigation().extras.state.example);
@@ -42,9 +46,10 @@ export class OtpComponent implements OnInit {
       this.data=result
       this.appointment = this.data.result
       if(this.data.status){
-        
+        console.log(this.detail[0])
           this.detail=this.appointment.filter((item:any)=>item.id==this.router.snapshot.params.id);
-          
+          console.log(this.detail[0].token)
+         
           //let appointment_date=Date(this.detail[0].appointment_date);
           var today =  moment().format('YYYY-MM-DD');
           // var appBookdate = bookedData.appointment_date;
@@ -55,32 +60,54 @@ export class OtpComponent implements OnInit {
           var m = d.getMinutes();
           var currentTime = h + ":" + m
           var appBook_time = this.detail[0].appointment_time.split("-")[0];
-         
+         console.log(today>appBookdate)
           var regex = new RegExp(':', 'g');
           if(today > appBookdate)
           {
-            console.log("i'm missed")
-            // $('#footer-button').attr("style", "display: none !important");
-            $('#qr_code').attr("style", "display: none !important");
-            $('#footer-button').hide();
             
-          
+            // $('#footer-button').attr("style", "display: none !important");
+            // $('#qr_code').addClass("d-none")
+            // $('#footer-button').addClass("d-none")
+            this.dataScan = false;
+            this.dataButton = false;
+          console.log("if")
            
           }
-          else{
-            $('#footer-button').show();
-            $('#qr_code').show();
+         
+           
+            // $('#footer-button').show();
+            // $('#qr_code').show();
+            // this.dataScan = true;
+            // this.dataButton = true;
+            else if(this.detail[0].token!== null){
+              console.log("jjj")
+              this.dataButton = false;
+            this.tokenNo = this.detail[0].token.token_number
+            this.dataToken = true;
+          
+            console.log(this.tokenNo,"tokenbbbbbbbb")
           }
-          let dateString = formatDate(this.detail[0].appointment_date,'yyyy/MM/dd','En-US');
+  
+            else{
+             
+              this.dataButton = true;
+              this.dataScan = true;
+              this.dataToken = false
+            }
+          
+          console.log(this.detail[0].appointment_time.split('-')[0]);
+          let dateString = formatDate(this.detail[0].appointment_date+' '+this.detail[0].appointment_time.split('-')[0],'yyyy/MM/dd %H:%m','En-US');
           console.log(this.detail,"user data")
          var services = this.detail[0].serviceNames.toString();
-         this.allServices = services.toString();
+         this.allServices = JSON.parse(services).join(',');
           this.final_result_2 = "Afg1Jcfgc" + this.detail[0].id;
           console.log(this.detail[0].id,this.detail[0].serviceNames.toString())
           this.final_result_2 = btoa(this.final_result_2)
           this.final_result_2 = this.final_result_2.replaceAll('=', '');
           console.log(this.final_result_2,"booking id")
           let newDate = new Date(dateString);
+          console.log("NewDate",newDate);
+          console.log(this.myDate);
           if(newDate>this.myDate){
             this.title="UPCOMING"
 

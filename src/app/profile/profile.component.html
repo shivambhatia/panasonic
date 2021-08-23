@@ -11,9 +11,9 @@
                     <div class="col-md-8">
                         <div class="form-group form-input">
                         <label for="FieldName" class="control-label text-muted small">Name</label>
-                            <input type="name"  (keypress)="omit_special_char($event)" class="form-control" placeholder="Enter name here" id="" value="{{userData.result.name}}" [formControl]="name">
+                            <input type="name"  (keypress)="omit_special_char($event)" class="form-control" placeholder="Enter name here" id="name" value="{{userData.result.name}}" [formControl]="name">
                            
-                            <button class="btn btn-edit" type="button">Edit</button>
+                            <button class="btn btn-edit" (click)="edit()" type="button">Edit</button>
                             
                         </div>
                         <div id="err3" class="error-text">{{this.message_3}}</div>
@@ -23,9 +23,9 @@
                         </div>
                         <div class="form-input mb-md-0 mb-4">									
                             <label for="FieldEmail" class="control-label text-muted small">Email</label>
-                            <input type="email" class="form-control" placeholder="Enter email here" id="" value="{{userData.result.email}}" [formControl]="email">
+                            <input type="email" class="form-control" placeholder="Enter email here" id="email" value="{{userData.result.email}}" [formControl]="email">
 
-                            <button class="btn btn-edit" type="button">Edit</button>
+                            <button class="btn btn-edit" (click)="edit()" type="button">Edit</button>
                            
                         </div>
                         <div id="err2" class="error-text">{{this.message_2}}</div>

@@ -70,6 +70,7 @@ export class OtpComponent implements OnInit {
             // $('#footer-button').addClass("d-none")
             this.dataScan = false;
             this.dataButton = false;
+            this.dataToken = false;
           console.log("if")
            
           }
@@ -89,7 +90,7 @@ export class OtpComponent implements OnInit {
           }
   
             else{
-             
+             console.log("else")
               this.dataButton = true;
               this.dataScan = true;
               this.dataToken = false

@@ -29,12 +29,24 @@ export class ProfileComponent implements OnInit {
     }
     
     this.userData=users;
-
+console.log(this.userData)
         this.name.setValue(this.userData.result.name);
         this.email.setValue(this.userData.result.email);
+        if(this.userData.result.name!== null || this.userData.result.email!== null){
+          $('#name').prop("disabled", true);
+          $('#email').prop("disabled", true);
+        }
+        else{
+          $('#name').prop("disabled", false);
+          $('#email').prop("disabled", false);
+        }
 
     //debugger;
     console.log(this.userData)
+  }
+  edit(){
+    $('#name').prop("disabled", false);
+    $('#email').prop("disabled", false);
   }
   omit_special_char(event:any)
   {
@@ -90,7 +102,8 @@ export class ProfileComponent implements OnInit {
       resp.subscribe((result:any)=>{   
         console.log(result,"updated") 
           if(result.success == true){
-            
+            $('#name').prop("disabled", true);
+            $('#email').prop("disabled", true);
             $('#UpdateModal').modal('show');
           }
         

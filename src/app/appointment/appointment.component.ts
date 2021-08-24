@@ -25,15 +25,17 @@ export class AppointmentComponent implements OnInit {
   currentAppointment:any[];
   upcomingAppointment:any[];
   pastAppointment:any[];
+  blank :any;
   constructor(private http: HttpClient,private datePipe: DatePipe,private router: Router) {    
     
     this.selectedServices=[];
     
-    this.tempDate=parseInt(formatDate(this.myDate, 'yyyyMMddhhmm','En-Us'));
+    this.tempDate=parseInt(formatDate(this.myDate, 'yyyyMMddhh','En-Us'));
    
     this.pastAppointment=[];
     this.currentAppointment=[];
     this.upcomingAppointment=[];
+    this.blank=false;
     
 
     
@@ -42,12 +44,12 @@ export class AppointmentComponent implements OnInit {
 
   ngOnInit() {
     let users = JSON.parse(localStorage.getItem('currentUser') || '{}');
-    console.log("Step 1",users);
+    
     if(!users.success){
       this.router.navigate([''])
     }
     const headers = { 'Authorization': 'Bearer '+users.token }
-    console.log("Check Headers",headers);
+    
     
     
     let resp=this.http.post('http://65.1.176.15:5050/apis/getCustomerAppointments',{"id":users.result.id}, { headers: headers});
@@ -57,12 +59,16 @@ export class AppointmentComponent implements OnInit {
     resp.subscribe((result)=>{    
       this.data=result
       this.appointment = this.data.result
+      if(this.appointment.length==0){
+        this.blank=true;
+      }
    
       if(this.data.status){
         this.data.result.map((item:any)=>{
 
             let temp=item.appointment_date.replaceAll('-','')+item.appointment_time.split('-')[0].split(':')[0];
             console.log(temp);
+            console.log("Current",this.tempDate);
             item.serviceNames=JSON.parse(item.serviceNames).join(",");
             
             
@@ -84,6 +90,7 @@ export class AppointmentComponent implements OnInit {
             }
 
         });
+        
 
       }    
       console.log("Step 1",this.currentAppointment);

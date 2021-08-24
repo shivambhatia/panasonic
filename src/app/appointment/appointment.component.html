@@ -5,6 +5,9 @@
         <a routerLink="/book-appointment" class="btn btn-sm btn-light ml-auto d-md-block d-none">CREATE APPOINTMENT</a>
     </header>
     <div class="app-container" >
+      <div *ngIf="blank">
+        <h1>No Scheduled Appointment Found</h1>
+      </div> 
         <div class="apmt-list" *ngIf="currentAppointment?.length">
             <h2 class="h5 mb-3">Current Appointment</h2>
             <div class="row">

@@ -305,7 +305,7 @@ togglePrevious(pageType:string){
        }, 3000);
        return;
     }
-    else if((this.profileForm.value.profilename!== null || this.profileForm.value.profilename!== "") && (!regex_name.test(this.profileForm.value.profilename.trim()))){
+    else if((this.profileForm.value.profilename!== null && this.profileForm.value.profilename!== "") && (!regex_name.test(this.profileForm.value.profilename.trim()))){
       this.dataReview=false;
       this.message_name = "Please enter valid name with only alpabets and space"
       $("#err8Name").show();

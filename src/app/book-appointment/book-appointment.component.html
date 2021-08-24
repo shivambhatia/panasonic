@@ -46,13 +46,13 @@
                                                     <div class="card-checkbox btn-checkbox">
                                                     
                                                     <div *ngIf="serviceExistenceCheck(ServiceItemChildrenLevel.id)">
-                                                    <input type="checkbox" name="" [value]="ServiceItemChildrenLevel.id +'-'+ ServiceItemChildren.name"  id="service{{ServiceItemChildrenLevel.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItemChildrenLevel.serving_time}}" attr.startDate="{{ServiceItemChildrenLevel.open_time}} " attr.endDate="{{ServiceItemChildrenLevel.close_time}} " checked>
+                                                    <input type="checkbox" name="" [value]="ServiceItemChildrenLevel.id +'-'+ ServiceItemChildrenLevel.name"  id="service{{ServiceItemChildrenLevel.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItemChildrenLevel.serving_time}}" attr.startDate="{{ServiceItemChildrenLevel.open_time}} " attr.endDate="{{ServiceItemChildrenLevel.close_time}} " checked>
                                                     <!-- (click)="getSelectedServiceId($event,ServiceItemChildren.id,ServiceItem.name)" -->
                                                     <label for="service{{ServiceItemChildrenLevel.id}}">{{ServiceItemChildrenLevel.name}}</label>
                                                     </div>
                                                     
                                                     <div *ngIf="!serviceExistenceCheck(ServiceItemChildrenLevel.id)">
-                                                      <input type="checkbox" name="" [value]="ServiceItemChildrenLevel.id +'-'+ ServiceItemChildren.name"  id="service{{ServiceItemChildrenLevel.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItemChildrenLevel.serving_time}}" attr.startDate="{{ServiceItemChildrenLevel.open_time}} " attr.endDate="{{ServiceItemChildrenLevel.close_time}} ">
+                                                      <input type="checkbox" name="" [value]="ServiceItemChildrenLevel.id +'-'+ ServiceItemChildrenLevel.name"  id="service{{ServiceItemChildrenLevel.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItemChildrenLevel.serving_time}}" attr.startDate="{{ServiceItemChildrenLevel.open_time}} " attr.endDate="{{ServiceItemChildrenLevel.close_time}} ">
                                                     <!-- (click)="getSelectedServiceId($event,ServiceItemChildren.id,ServiceItem.name)" -->
                                                     <label for="service{{ServiceItemChildrenLevel.id}}">{{ServiceItemChildrenLevel.name}}</label>
                                                     
@@ -111,7 +111,7 @@
                                 </div>                                                                
                               </div>
                          </div>   
-                         <div id="err9" class="error-text">{{this.message_2}}</div>
+                         <div id="err9"  style="display: none;" class="error-text">{{this.message_2}}</div>
                                       
                         
             </div>
@@ -160,7 +160,7 @@
                     
                 </div>
             </div> 
-            <div id="err2" class="error-text">{{this.message_3}}</div>        
+            <div id="err2" style="display: none;" class="error-text">{{this.message_3}}</div>        
         </div>
         <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
             <a (click)="togglePrevious('branch')" class="btn btn-lg btn-outline-primary btn-block mr-2">PREVIOUS</a>
@@ -215,7 +215,7 @@
                 </div>
             </div>
         </div>          
-        <div id="err4" class="error-text">{{this.message_4}}</div>        
+        <div id="err4" style="display: none;" class="error-text">{{this.message_4}}</div>        
         </div>
         <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
             <a (click)="togglePrevious('datetime')" class="btn btn-lg btn-outline-primary btn-block mr-2">PREVIOUS</a>
@@ -291,7 +291,7 @@
         </div>
 
         <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
-            <a routerLink="togglePrevious('requirement')" class="btn btn-lg btn-outline-primary btn-block mr-2">PREVIOUS</a>
+            <a (click)="togglePrevious('requirement')" class="btn btn-lg btn-outline-primary btn-block mr-2">PREVIOUS</a>
             <button (click)="toggle('requirement')" class="btn btn-lg btn-primary btn-block mt-0" >NEXT</button>
         </div>                    
     </div>

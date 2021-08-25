@@ -23,8 +23,18 @@
                 </div>
                 <div class="row row-gap time-list" id="slotfound">
                     <div class="col-sm-4 col-6 btn-radio"  *ngFor="let datetime of datetimeArray;let i = index">
-                        <input type="radio" name="TimeSlot"  id="time{{i}}" value="{{datetime}}" (change)="onItemChangeTime(i)" >
+                    <div *ngIf="timeScheduleExistenceCheck(datetime)">
+               
+                        <input type="radio" name="TimeSlot"  id="time{{i}}" value="{{datetime}}" (change)="onItemChangeTime(i)" checked>
                         <label for="time{{i}}">{{datetime}}</label>
+                        
+                    </div>
+                    
+                    <div *ngIf="!timeScheduleExistenceCheck(datetime)">
+                      <input type="radio" name="TimeSlot"  id="time{{i}}" value="{{datetime}}" (change)="onItemChangeTime(i)" >
+                        <label for="time{{i}}">{{datetime}}</label>
+                    
+                    </div>
                     </div>
                    
                     

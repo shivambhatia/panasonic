@@ -100,10 +100,17 @@ timeslots_active :any =[];
   public arrayactive:any=[];
   public otpData :any = [];
  
-
+ 
   public Branchid:any =[];
   constructor(private http: HttpClient,private router: Router,private route: ActivatedRoute,private fb: FormBuilder) { 
-     let users = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    {
+      this.form = this.fb.group({
+      
+      appointment_time: [''],
+     
+      })
+  }
+    let users = JSON.parse(localStorage.getItem('currentUser') || '{}');
           if(users.success){
             // debugger;
             this.userData=users;
@@ -122,6 +129,7 @@ timeslots_active :any =[];
         }
        
    }
+  
 
   ngOnInit(): void {
     console.log(this.currentDate,"+++++++")
@@ -129,13 +137,13 @@ timeslots_active :any =[];
     var staticString = "Afg1Jcfgc";
     this.booking_id = parseInt(bookingid.replace(staticString,''));
     const headers = { 'Authorization': 'Bearer '+this.token, 'My-Custom-Header': '' }
-    console.log("Step 1",headers);
+    
     $("#dataRequest").hide();
     var parent=this;
     let resp=this.http.post('http://65.1.176.15:5050/apis/reshedule',{"booking_id":  this.booking_id}, { headers: headers});
     resp.subscribe((data:any)=>{    
     
-      console.log(data, "reschedule data")
+     
     
       var today =  moment().format('YYYY-MM-DD');
       // var appBookdate = bookedData.appointment_date;
@@ -176,7 +184,10 @@ timeslots_active :any =[];
       this.userName = {...userName, ...email, ...note, ...contactNo, ...service_select, ...branchSelect, ...book_id};
       this.request_create ={"email": bookedData["customer.email"],"phone":bookedData["customer.contact_no"]};
       this.otpData = { ...email, ...phone}
-      // this.form.patchValue({appointment_time: this.appointment_time})
+      console.log("Step 63",this.appointment_time)
+      this.form.patchValue({appointment_time: this.appointment_time})
+
+      console.log( this.form.patchValue({appointment_time: this.appointment_time}))
       this.bookedDate1 =moment(this.bookedDate1).format("DD-MM-YYYY");
       
      
@@ -284,6 +295,15 @@ timeslots_active :any =[];
   onItemChangeTime(value:any){
     this.time=this.datetimeArray[value];
 
+  }
+
+  timeScheduleExistenceCheck(value:string){
+    console.log("Step 78",value,this.appointment_time);
+    console.log("Step 80",value==this.appointment_time);
+    if(value==this.appointment_time){
+      return true;
+    }
+    return false;
   }
   onDateChanged(event: IMyDateModel): void {
 

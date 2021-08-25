@@ -307,7 +307,7 @@ togglePrevious(pageType:string){
     }
     else if((this.profileForm.value.profilename!== null && this.profileForm.value.profilename!== "") && (!regex_name.test(this.profileForm.value.profilename.trim()))){
       this.dataReview=false;
-      this.message_name = "Please enter valid name with only alpabets and space"
+      this.message_name = "Please enter valid name with only alphabets and space"
       $("#err8Name").show();
      setTimeout(function(){
          $("#err8Name").hide();

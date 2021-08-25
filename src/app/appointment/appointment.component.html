@@ -6,7 +6,7 @@
     </header>
     <div class="app-container" >
       <div *ngIf="blank">
-        <h1>No Scheduled Appointment Found</h1>
+        <div class="no-record text-md-left text-center">No Scheduled Appointment Found</div>
       </div> 
         <div class="apmt-list" *ngIf="currentAppointment?.length">
             <h2 class="h5 mb-3">Current Appointment</h2>

@@ -57,9 +57,9 @@
                         <form [formGroup]="formOtp" (ngSubmit)="onOtpSubmit()">
                         <div class="form-group otp-input">
                             <input type="tel" name="" placeholder="Enter OTP" id="otp" class="form-control form-control-lg" maxlength="6" formControlName="otpValue">
-							 <div id="err3" class="error-text">{{message_3}}</div>
-                             <div id="err_valid" class="error-text" >{{this.valid}}</div>
-                             <div id="err_invalid" class="error-text">{{this.invalid}}</div>
+							 <div id="err3" style="display: none;" class="error-text">{{message_3}}</div>
+                             <div id="err_valid"  style="display: none;" class="error-text" >{{this.valid}}</div>
+                             <div id="err_invalid"  style="display: none;" class="error-text">{{this.invalid}}</div>
                         </div>
                       
                         <!-- <div *ngIf="submitted && f.otpValue.errors" class="invalid-feedback" style="display: block;">
@@ -73,11 +73,14 @@
                                     <button type="submit" class="btn btn-lg btn-primary btn-block" >SIGN IN</button>
                                     <div id="resend_otp"  class="error-text">{{this.resend_otp}}</div>
                                 </div>
-                        <p class="text-muted mt-4 medium mb-0">By Logging in you agree to <a href="#" class="text-muted"><u>T&Cs</u></a> &amp; that you
-    have read our <a routerLink="/otp" class="text-muted"><u>Privacy Policy</u></a></p>
+                        <p class="text-muted mt-4 medium mb-0">By Logging in you agree to <a target="_blank" href="terms"class="text-muted"><u>T&Cs</u></a> &amp; that you
+    have read our <a target="_blank" href="policy" class="text-muted"><u>Privacy Policy</u></a></p>
+
+
+  
                                     </form>
-                                <p class="mt-4 medium mb-0 ten1" style="display: none;"><a (click)="resendOtp()" class="text-black"><u>Resend OTP</u></a></p>
-                                <p class="mt-4 medium mb-0 count"><u>Resend OTP in<b  class="countdown"></b></u></p>
+                                <p class="mt-4 medium mb-0 ten1 count" style="display: none;"><a (click)="resendOtp()" class="count text-black"><u>Resend OTP</u></a></p>
+                                <p class="mt-4 medium mb-0 count"><u>Resend OTP in <b class="countdown"></b></u></p>
                                
                     </div>
                 </div>

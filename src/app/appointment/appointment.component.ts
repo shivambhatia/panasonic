@@ -25,13 +25,17 @@ export class AppointmentComponent implements OnInit {
   currentAppointment:any[];
   upcomingAppointment:any[];
   pastAppointment:any[];
+  blank :any;
   constructor(private http: HttpClient,private datePipe: DatePipe,private router: Router) {    
     
     this.selectedServices=[];
-    this.tempDate=parseInt(formatDate(this.myDate, 'yyyyMMdd','En-Us'));
+    
+    this.tempDate=parseInt(formatDate(this.myDate, 'yyyyMMddhh','En-Us'));
+   
     this.pastAppointment=[];
     this.currentAppointment=[];
     this.upcomingAppointment=[];
+    this.blank=false;
     
 
     
@@ -40,8 +44,12 @@ export class AppointmentComponent implements OnInit {
 
   ngOnInit() {
     let users = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    
+    if(!users.success){
+      this.router.navigate([''])
+    }
     const headers = { 'Authorization': 'Bearer '+users.token }
-    console.log("Check Headers",headers);
+    
     
     
     let resp=this.http.post('http://65.1.176.15:5050/apis/getCustomerAppointments',{"id":users.result.id}, { headers: headers});
@@ -51,10 +59,23 @@ export class AppointmentComponent implements OnInit {
     resp.subscribe((result)=>{    
       this.data=result
       this.appointment = this.data.result
+<<<<<<< HEAD
       
+=======
+      if(this.appointment.length==0){
+        this.blank=true;
+      }
+   
+>>>>>>> 3531e665052a6fd509b35041e76e85428be74b00
       if(this.data.status){
         this.data.result.map((item:any)=>{
-            let temp=item.appointment_date.replaceAll('-','');
+
+            let temp=item.appointment_date.replaceAll('-','')+item.appointment_time.split('-')[0].split(':')[0];
+            console.log(temp);
+            console.log("Current",this.tempDate);
+            item.serviceNames=JSON.parse(item.serviceNames).join(",");
+            
+            
             
             if(temp<this.tempDate){
               
@@ -69,13 +90,17 @@ export class AppointmentComponent implements OnInit {
             else if(temp==this.tempDate){
 
               this.currentAppointment.push(item);
+              
             }
 
         });
+        
 
       }    
-      
+      console.log("Step 1",this.currentAppointment);
     })
+   
+    
   }
   
   

@@ -39,6 +39,12 @@ export class AuthenticationService {
                 return user;
             }));        
     }
+    termsCondition(){
+        return this.http.post<any>(`http://65.1.176.15:5050/apis/gettnc`, {"orgId":"mmt"})
+           .pipe(map(user => {
+               return user;
+           }));        
+   }
     
      logout() {
         // remove user from local storage and set current user to null

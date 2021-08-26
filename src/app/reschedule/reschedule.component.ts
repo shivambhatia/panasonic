@@ -97,13 +97,20 @@ timeslots_active :any =[];
   public booking_id:any = [];
  public request_create:any = [];
   public BranchId:any=[];
-  
+  public arrayactive:any=[];
   public otpData :any = [];
  
-
+ 
   public Branchid:any =[];
   constructor(private http: HttpClient,private router: Router,private route: ActivatedRoute,private fb: FormBuilder) { 
-     let users = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    {
+      this.form = this.fb.group({
+      
+      appointment_time: [''],
+     
+      })
+  }
+    let users = JSON.parse(localStorage.getItem('currentUser') || '{}');
           if(users.success){
             // debugger;
             this.userData=users;
@@ -122,6 +129,7 @@ timeslots_active :any =[];
         }
        
    }
+  
 
   ngOnInit(): void {
     console.log(this.currentDate,"+++++++")
@@ -129,13 +137,14 @@ timeslots_active :any =[];
     var staticString = "Afg1Jcfgc";
     this.booking_id = parseInt(bookingid.replace(staticString,''));
     const headers = { 'Authorization': 'Bearer '+this.token, 'My-Custom-Header': '' }
-    console.log("Step 1",headers);
+    
     $("#dataRequest").hide();
     var parent=this;
     let resp=this.http.post('http://65.1.176.15:5050/apis/reshedule',{"booking_id":  this.booking_id}, { headers: headers});
     resp.subscribe((data:any)=>{    
     
-      console.log(data, "reschedule data")
+     
+    
       var today =  moment().format('YYYY-MM-DD');
       // var appBookdate = bookedData.appointment_date;
       var bookedData = data.booking_detail;
@@ -148,7 +157,15 @@ timeslots_active :any =[];
       console.log(today,appBookdate,today > appBookdate)
       var regex = new RegExp(':', 'g');
     
-     
+      if(bookedData.close == 1){
+        $('#cancelApp').modal('show');
+       }
+       else if(today > appBookdate)
+       {
+         $('#missedApp').modal('show');
+       }
+       
+       else{
       this.service_selected = data.services.id;
       this.branch_selected = data.booking_detail.branch_id;
       this.bookedDate1 = data.booking_detail.appointment_date;
@@ -167,7 +184,10 @@ timeslots_active :any =[];
       this.userName = {...userName, ...email, ...note, ...contactNo, ...service_select, ...branchSelect, ...book_id};
       this.request_create ={"email": bookedData["customer.email"],"phone":bookedData["customer.contact_no"]};
       this.otpData = { ...email, ...phone}
-      // this.form.patchValue({appointment_time: this.appointment_time})
+      console.log("Step 63",this.appointment_time)
+      this.form.patchValue({appointment_time: this.appointment_time})
+
+      console.log( this.form.patchValue({appointment_time: this.appointment_time}))
       this.bookedDate1 =moment(this.bookedDate1).format("DD-MM-YYYY");
       
      
@@ -195,7 +215,7 @@ timeslots_active :any =[];
               disableWeekdays:this.nonWorking_days,
 
               };
-              console.log(this.myDpOptions,"mydppoption")
+             
               var abc = parseInt(this.bookedDate[0])
               var branch_select =  {branch_id: [this.branch_selected] };
               branch_select = { ...branch_select};
@@ -262,6 +282,7 @@ timeslots_active :any =[];
               
              
             })
+          }
 
           
     
@@ -275,9 +296,27 @@ timeslots_active :any =[];
     this.time=this.datetimeArray[value];
 
   }
+
+  timeScheduleExistenceCheck(value:string){
+    console.log("Step 78",value,this.appointment_time);
+    console.log("Step 80",value==this.appointment_time);
+    if(value==this.appointment_time){
+      return true;
+    }
+    return false;
+  }
   onDateChanged(event: IMyDateModel): void {
 
     var weekOff = this.branchOff;
+    var date_today = moment(new Date()).format("DD-MM-YYYY");
+    for(let i =0 ; i < weekOff.length; i++){
+
+      if(weekOff[i] == date_today){
+        var notActiveSlots = weekOff[i];
+       console.log("today is off")
+
+      }
+    }
 
 
 
@@ -303,8 +342,25 @@ timeslots_active :any =[];
         // var availableSlots = slots.availableslots;
         // console.log(availableSlots,"ava slot")
         this.datetimeArray=slots; 
-       
-        console.log(this.datetimeArray ,"++++++slots")
+        this.arrayactive= [];
+        if(date_op === date_today && date_today == notActiveSlots) {
+          for(let i=0; i< this.datetimeArray.length; i++){
+            let net = {"time":this.datetimeArray[i],"value":"unactive"};
+            this.arrayactive.push(net);
+           
+          
+          }
+        }
+        else{
+          for(let i=0; i< this.datetimeArray.length; i++){
+            let net = {"time":this.datetimeArray[i],"value":"active"};
+            this.arrayactive.push(net);
+           
+          
+          }
+          console.log(this.arrayactive)
+         
+        }
         
       
      

@@ -46,13 +46,13 @@
                                                     <div class="card-checkbox btn-checkbox">
                                                     
                                                     <div *ngIf="serviceExistenceCheck(ServiceItemChildrenLevel.id)">
-                                                    <input type="checkbox" name="" [value]="ServiceItemChildrenLevel.id +'-'+ ServiceItemChildren.name"  id="service{{ServiceItemChildrenLevel.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItemChildrenLevel.serving_time}}" attr.startDate="{{ServiceItemChildrenLevel.open_time}} " attr.endDate="{{ServiceItemChildrenLevel.close_time}} " checked>
+                                                    <input type="checkbox" name="" [value]="ServiceItemChildrenLevel.id +'-'+ ServiceItemChildrenLevel.name"  id="service{{ServiceItemChildrenLevel.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItemChildrenLevel.serving_time}}" attr.startDate="{{ServiceItemChildrenLevel.open_time}} " attr.endDate="{{ServiceItemChildrenLevel.close_time}} " checked>
                                                     <!-- (click)="getSelectedServiceId($event,ServiceItemChildren.id,ServiceItem.name)" -->
                                                     <label for="service{{ServiceItemChildrenLevel.id}}">{{ServiceItemChildrenLevel.name}}</label>
                                                     </div>
                                                     
                                                     <div *ngIf="!serviceExistenceCheck(ServiceItemChildrenLevel.id)">
-                                                      <input type="checkbox" name="" [value]="ServiceItemChildrenLevel.id +'-'+ ServiceItemChildren.name"  id="service{{ServiceItemChildrenLevel.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItemChildrenLevel.serving_time}}" attr.startDate="{{ServiceItemChildrenLevel.open_time}} " attr.endDate="{{ServiceItemChildrenLevel.close_time}} ">
+                                                      <input type="checkbox" name="" [value]="ServiceItemChildrenLevel.id +'-'+ ServiceItemChildrenLevel.name"  id="service{{ServiceItemChildrenLevel.id}}" (click)="getSelectedServiceId($event)" attr.servingTime="{{ServiceItemChildrenLevel.serving_time}}" attr.startDate="{{ServiceItemChildrenLevel.open_time}} " attr.endDate="{{ServiceItemChildrenLevel.close_time}} ">
                                                     <!-- (click)="getSelectedServiceId($event,ServiceItemChildren.id,ServiceItem.name)" -->
                                                     <label for="service{{ServiceItemChildrenLevel.id}}">{{ServiceItemChildrenLevel.name}}</label>
                                                     
@@ -111,7 +111,7 @@
                                 </div>                                                                
                               </div>
                          </div>   
-                         <div id="err9" class="error-text">{{this.message_2}}</div>
+                         <div id="err9"  style="display: none;" class="error-text">{{this.message_2}}</div>
                                       
                         
             </div>
@@ -168,7 +168,7 @@
                     
                 </div>
             </div> 
-            <div id="err2" class="error-text">{{this.message_3}}</div>        
+            <div id="err2" style="display: none;" class="error-text">{{this.message_3}}</div>        
         </div>
         <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
             <a (click)="togglePrevious('branch')" class="btn btn-lg btn-outline-primary btn-block mr-2">PREVIOUS</a>
@@ -202,16 +202,28 @@
                     {{this.datetimeMsg}}
                 </div>
                 <div class="row row-gap time-list" id="slotfound">
-                    <div class="col-sm-4 col-6 btn-radio"  *ngFor="let datetime of datetimeArray;let i = index">
-                        <input type="radio" name="TimeSlot"  id="time{{i}}" value="{{datetime}}" (change)="onItemChangeTime(i)" >
-                        <label for="time{{i}}">{{datetime}}</label>
+                    <div class="col-sm-4 col-6 btn-radio"  *ngFor="let timeslot of arrayactive;let i = index">
+                    <div *ngIf="!timeExistenceCheck(timeslot.time)">
+                        <input type="radio" name="TimeSlot"class="{{timeslot.value}}"  value="{{timeslot.time}}"  id="{{timeslot.time}}" (change)="onItemChangeTime(i)" >
+                        <label for="{{timeslot.time}}">{{timeslot.time}}</label>
                     </div>
+                    
+                    <div *ngIf="timeExistenceCheck(timeslot.time)">
+                    <input type="radio" name="TimeSlot"class="{{timeslot.value}}"  value="{{timeslot.time}}"  id="{{timeslot.time}}" (change)="onItemChangeTime(i)" checked>
+                        <label for="{{timeslot.time}}">{{timeslot.time}}</label>
+                    
+                    
+                    
+                    </div>
+                    </div>
+                    
+                    
                    
                     
                 </div>
             </div>
         </div>          
-        <div id="err4" class="error-text">{{this.message_4}}</div>        
+        <div id="err4" style="display: none;" class="error-text">{{this.message_4}}</div>        
         </div>
         <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
             <a (click)="togglePrevious('datetime')" class="btn btn-lg btn-outline-primary btn-block mr-2">PREVIOUS</a>
@@ -234,12 +246,15 @@
             <div class="contact-form">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="form-group form-input">
+                        <div class="form-group">
+                        <div class="form-group form-input mb-0">
                             <a tabindex="0" class="info-icon ml-1" role="button" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="This information is we will used for this service only. "><img src="./assets/images/info-icon.svg" alt="info icon"></a>
                         
                             <label for="FieldName" class="control-label">Name</label>
-                            <input type="text" class="form-control" placeholder="Enter name here" id="FieldName"  formControlName="profilename" >
+                            <input type="text"   (keypress)="omit_special_char($event)"  maxlength="20" class="form-control" placeholder="Enter name here" id="FieldName"  formControlName="profilename" >
                         </div>
+                        <div id="err8Name" class="error-text" style="display: none;">{{this.message_name}}</div>
+                   	 </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group form-input">
@@ -253,32 +268,38 @@
                         </div>	
                     </div>
                     <div class="col-md-4">
-                        <div class="form-group form-input">
+                        <div class="form-group">
+                         <div class="form-group form-input mb-0">
                             <a tabindex="0" class="info-icon ml-1" role="button" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="This information is we will used for this service only. "><img src="./assets/images/info-icon.svg" alt="info icon"></a>
                             <label for="FieldEmail" class="control-label">Email</label>
-                            <input type="email" class="form-control" placeholder="Enter email here" id="FieldEmail"  formControlName="email">
+                            <input type="email"  maxlength="25"  class="form-control" placeholder="Enter email here" id="FieldEmail"  formControlName="email">
                         </div>
+                        <div id="err8Email" class="error-text" style="display: none;">{{this.message_email}}</div>
+                    	</div>
                     </div>
                 </div>                                    
-                <div class="form-group form-input">
-                    <label for="FieldNotes" class="control-label">Describe Service Requirement/Issues</label>
-                    <textarea class="form-control" required placeholder="Enter notes here" id="FieldNotes"  formControlName="note"></textarea>
-                </div>
+                <div class="form-group">
+					<div class="form-group form-input mb-0">
+						<label for="FieldNotes" class="control-label">Describe Service Requirement/Issues</label>
+						<textarea class="form-control" required  maxlength="150" placeholder="Enter notes here" id="FieldNotes"  formControlName="note"></textarea>
+
+					</div>
+					<div id="err8" class="error-text" style="display: none;">{{this.message_8}}</div>
+				</div>
                 <div class="form-group btn-checkbox">
                     <input type="checkbox" name="" value="" id="tnc"  class="tnc" formControlName="tnc">
                     <label for="tnc" class="text-muted regular">I agree to the  <a target="_blank" href="terms"> terms and conditions</a> and<a target="_blank" href="policy"> privacy policy</a></label>
                 </div>
             
             </div> 
-            <div id="err8" class="error-text">{{this.message_8}}</div> 
-            <div id="err1" class="error-text">{{this.message_1}}</div> 
-            <!-- <p>Complete the form to enable button.</p> -->
-<!-- <button type="submit" [disabled]="!profileForm.valid">Submit</button> -->
+            
+            <div id="err1" class="error-text" style="display: none;">{{this.message_1}}</div> 
+         
             </form>       
         </div>
 
         <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
-            <a routerLink="togglePrevious('requirement')" class="btn btn-lg btn-outline-primary btn-block mr-2">PREVIOUS</a>
+            <a (click)="togglePrevious('requirement')" class="btn btn-lg btn-outline-primary btn-block mr-2">PREVIOUS</a>
             <button (click)="toggle('requirement')" class="btn btn-lg btn-primary btn-block mt-0" >NEXT</button>
         </div>                    
     </div>
@@ -367,7 +388,7 @@
             <div class="row">
                 <div class="col-xl-6 col-md-10 m-auto">
                     <div class="row mb-3">
-                        <div class="col-8">
+                        <div class="col-md-9 col-8">
                             <!-- <h4 class="text-primary">3 Days Left</h4> -->
                             <h5 class="mb-4">Appointment No: {{final_result_1.appointment_no}}</h5>
                             <div class="ng-service">
@@ -377,7 +398,7 @@
                                 </ul>
                             </div>
                         </div>	
-                        <div class="col-4">
+                        <div class="col-md-3 col-4 pl-md-5">
                             <img src="{{final_results.qrCode}}"  alt="{{final_results.qrCode}}">
                         </div>
                     </div>
@@ -404,10 +425,13 @@
                 </div>
             </div> 
         </div>
-        <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
-            <a  data-toggle="modal" data-target="#CancelModal" class="btn btn-lg btn-outline-primary btn-block mr-2">CANCEL</a>
-            <a routerLink="/appointment" class="btn btn-lg btn-outline-primary btn-block mr-2">DONE</a>
-            <a data-toggle="modal" data-target="#RescheduleModal" class="btn btn-lg btn-primary btn-block mt-0">RESCHEDULE</a>
+        <div class="app-footer-cta d-md-flex col-md-4 m-auto pt-md-5 justify-content-start">
+            <!-- <a data-toggle="modal" data-target="#CancelModal" class="btn btn-lg btn-outline-primary btn-block mr-md-2">CANCEL</a> -->
+            <a  routerLink="/appointment" class="btn btn-lg btn-outline-primary btn-block mr-md-2">DONE</a>
+           
+            <a data-toggle="modal" data-target="#RescheduleModal" class="btn btn-lg btn-outline-primary btn-block mr-md-2 mt-md-0 mt-2">RESCHEDULE</a>
+            <!-- <a data-toggle="modal" data-target="#RescheduleModal" class="btn btn-lg btn-primary btn-block mt-md-0 mt-2">RESCHEDULE</a> -->
+            <a data-toggle="modal" data-target="#CancelModal" class="btn btn-lg btn-primary btn-block mt-md-0 mt-2">CANCEL</a>
         </div>                   
     </div>
     <div class="modal fade" id="CancelModal" tabindex="-1" aria-labelledby="CancelModal" aria-hidden="true" style="display: none;">

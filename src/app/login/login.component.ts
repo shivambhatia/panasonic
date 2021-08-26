@@ -27,6 +27,8 @@ export class LoginComponent implements OnInit {
     valid:any =[];
     invalid:any =[];
     resend_otp:any = [];
+    policies:any=[];
+    terms:any=[]
   otp = false;
   constructor(private formBuilder: FormBuilder,
         private route: ActivatedRoute,
@@ -47,6 +49,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
         let users = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        console.log(users,"user")
         if(users.success){
              this.router.navigate(['/appointment']);
         }
@@ -61,6 +64,13 @@ export class LoginComponent implements OnInit {
         });
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['otp'] || '/';
+        this.authentication.termsCondition().pipe(first())
+        .subscribe((data:any) => {
+          console.log(data)
+          this.policies = data.result.privacypolicy;
+          this.terms = data.result.privacypolicy_terms;
+          
+        })
 
 
     $(document).ready(function() {	
@@ -92,13 +102,13 @@ export class LoginComponent implements OnInit {
             }, 5000);
           return;
 
-          }
+         }
          
         else if (this.form.invalid) {
           return;
 
-  }
-
+        }
+       
         this.loading = true;
         this.authentication.login(this.f.mobile.value).pipe(first())
             .subscribe((data:any) => {
@@ -140,6 +150,8 @@ export class LoginComponent implements OnInit {
       
       resendOtp(){
         this.resend_otp = "OTP has been resend"
+        console.log("Step 1",this.mobile);
+        console.log("Step 2",this.message);
           
         $("#resend_otp").show();
         setTimeout(function(){
@@ -189,7 +201,7 @@ export class LoginComponent implements OnInit {
         $("#err3").show();
         setTimeout(function(){
             $("#err3").hide();
-          }, 5000);
+          }, 3000);
         return;
         }
         // console.log("Checking this otp",this.f2.otpValue.value);
@@ -229,8 +241,15 @@ export class LoginComponent implements OnInit {
       login_page(){
         // $("#login_div").attr("style", "display: inline !important");
         // $("#otp_div").attr("style", "display: none !important");
+        
         this.login=true;
                    this.otp=false;
+                   
+                   this.f2.otpValue.setValue(''); 
+                   $("#err3").hide();
+                   $("#err_valid").hide();
+                   $("#err_invalid").hide();
+                  
         
       }
 

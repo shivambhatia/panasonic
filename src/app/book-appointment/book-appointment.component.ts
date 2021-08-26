@@ -82,8 +82,11 @@ final_result :any = [];;
   final_slots  :any =[];
 timeslots_active :any =[];
   timeslots  :any =[];
+  arrayactive:any=  [];
   datetimeMsg:any = [];
   userData:any=[];
+  message_name:any=[];
+  message_email:any=[];
   constructor(private http: HttpClient,private router: Router,private fb: FormBuilder) { 
     
     let users = JSON.parse(localStorage.getItem('currentUser') || '{}');
@@ -113,19 +116,21 @@ timeslots_active :any =[];
     }
 togglePrevious(pageType:string){
   if (pageType=='branch'){
+    $("#err9").hide();
     this.dataService=true;
     this.dataBranch=false;
-    console.log(this.allService,"services checked")
+    
+    console.log("hii 1")
+  
   }
   if(pageType=='datetime'){
-    console.log(this.selectedBranch[0],typeof this.selectedBranch[0], "brajhbkjb")
-    // console.log($('input[name="myCheckbox"][id=branch' + this.selectedBranch[0] + ']').prop("checked", true));
-    // $('input[name="myCheckbox"][id=branch' + this.selectedBranch[0] + ']').prop("checked", true);
-    // $('#branch' + this.selectedBranch[0] + '').prop('checked', true); 
-    console.log('#branch' + this.selectedBranch[0] + '' )
+    console.log("hii 1231")
+    $("#err2").css("display", "none");
+    this.message_3 == ""
     this.dataBranch=true;
     $('#branch' + this.selectedBranch[0] + '').attr('checked', true);
     this.dataDateTime=false;
+    
   }
   if(pageType=='requirement'){
     this.dataDateTime=true;
@@ -151,6 +156,7 @@ togglePrevious(pageType:string){
     }
   }
   if(pageType=='datetime'){
+    
     console.log(this.appointment_date,this.time,"date and time")
     if(this.appointment_date && this.time!== ""){
       console.log("coming till here")
@@ -174,6 +180,18 @@ togglePrevious(pageType:string){
         this.name=this.userDataProfile.name;
         this.phone=this.userDataProfile.phone;
         console.log(this.email,this.name,this.phone,"details")
+      //   var regex =  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; 
+      // if((this.name!== "" || this.profileForm.value.profilename!== "") && (this.name!== null || this.profileForm.value.profilename!== null)){
+      // $("#FieldName").attr("disabled", true);
+      // }
+      // if((this.phone!== "" || this.profileForm.value.phone!== "") && (this.phone!== null || this.profileForm.value.phone!== null)){
+      //   $("#FieldMobile").attr("disabled", true);
+      // }
+      // console.log(((this.email!== "" || this.profileForm.value.email!== "") && (this.email!== null || this.profileForm.value.email!== null)) && (regex.test(this.profileForm.value.email)))
+      //     console.log((regex.test(this.profileForm.value.email)))
+      // if(((this.email!== "" || this.profileForm.value.email!== "") && (this.email!== null || this.profileForm.value.email!== null)) && (regex.test(this.profileForm.value.email)) ){
+      //   $("#FieldEmail").attr("disabled", true);
+      // }
          
       }
         
@@ -185,11 +203,12 @@ togglePrevious(pageType:string){
        setTimeout(function(){
            $("#err4").hide();
          }, 3000);
-        console.log("Select toh kr le");
+    
       }
   }
 
   if(pageType=='branch'){
+
 
   if(!$('.example:checked').is(':checked')){
         // this.dataDateTime=false;
@@ -200,6 +219,7 @@ togglePrevious(pageType:string){
          setTimeout(function(){
           $("#err2").hide();
         }, 3000);
+        return;
 
       }
     else{
@@ -243,15 +263,77 @@ togglePrevious(pageType:string){
     }
   }
   if(pageType=='requirement'){
-    console.log(this.name,this.note,this.phone,this.email,this.profileForm.value.note,this.profileForm.value.email,this.profileForm.value.profilename,this.profileForm.value.phone,"++++++++")
-    if(this.profileForm.value.profilename ==  " "  || this.profileForm.value.email == "" || this.profileForm.value.phone == "" || this.profileForm.value.note == ""){
-      // this.dataContact=false;
+   
+    var regex =  /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var regex_name=/^([a-zA-Z' ]+)$/;
+    // if((this.name!== "" || this.profileForm.value.profilename!== "") && (this.name!== null || this.profileForm.value.profilename!== null)){
+    // $("#FieldName").attr("disabled", true);
+    // }
+    // if((this.phone!== "" || this.profileForm.value.phone!== "") && (this.phone!== null || this.profileForm.value.phone!== null)){
+    //   $("#FieldMobile").attr("disabled", true);
+    // }
+    // if(((this.email!== "" || this.profileForm.value.email!== "") && (this.email!== null || this.profileForm.value.email!== null)) && (regex.test(this.profileForm.value.email)) ){
+    //   $("#FieldEmail").attr("disabled", true);
+    // }
+    if(this.profileForm.value.phone==null || this.profileForm.value.phone==""){
+      this.profileForm.value.phone=this.userDataProfile.phone;
+    }
+    if(this.profileForm.value.email == null || this.profileForm.value.email == ""){
+      this.dataReview=false;
+      this.message_email = "Please enter email"
+      $("#err8Email").show();
+     setTimeout(function(){
+         $("#err8Email").hide();
+       }, 3000);
+       return;
+    }
+    else if((this.profileForm.value.email!== null || this.profileForm.value.email!== "") && (!regex.test(this.profileForm.value.email))){
+      this.dataReview=false;
+      this.message_email = "Please enter valid email"
+      $("#err8Email").show();
+     setTimeout(function(){
+         $("#err8Email").hide();
+       }, 3000);
+       return;
+    }
+
+    else if( this.profileForm.value.phone == null || this.profileForm.value.phone == "" ){
+        this.dataReview=false;
+      this.message_8 = "Please enter phone no"
+      $("#err8").show();
+     setTimeout(function(){
+         $("#err8").hide();
+       }, 3000);
+       return;
+    }
+    else if((this.profileForm.value.profilename!== null && this.profileForm.value.profilename!== "") && (!regex_name.test(this.profileForm.value.profilename.trim()))){
+      this.dataReview=false;
+      this.message_name = "Please enter valid name with only alphabets and space"
+      $("#err8Name").show();
+     setTimeout(function(){
+         $("#err8Name").hide();
+       }, 3000);
+       return;
+    }
+
+    else if(this.profileForm.value.profilename == null || this.profileForm.value.profilename == ""){
+        this.dataReview=false;
+        this.message_name = "Please enter name"
+        $("#err8Name").show();
+       setTimeout(function(){
+           $("#err8Name").hide();
+         }, 3000);
+         return;
+    }
+    else if(this.profileForm.value.note == null || this.profileForm.value.note == ""){
+    
       this.dataReview=false;
       this.message_8 = "Please enter service requirements"
       $("#err8").show();
      setTimeout(function(){
          $("#err8").hide();
        }, 3000);
+       return;
     }
     else if(!$('.tnc:checked').is(':checked')){
       this.dataReview=false;
@@ -260,6 +342,7 @@ togglePrevious(pageType:string){
      setTimeout(function(){
          $("#err1").hide();
        }, 3000);
+       return;
     }
     else{
     this.dataContact=false;
@@ -287,15 +370,26 @@ togglePrevious(pageType:string){
   }
 
    profileForm = new FormGroup({
+<<<<<<< HEAD
     profilename: new FormControl({value:''}, Validators.required),
     email: new FormControl({value:'',disabled:true}, Validators.required),
+=======
+    profilename: new FormControl('', Validators.required),
+    email: new FormControl('', Validators.required),
+>>>>>>> 3531e665052a6fd509b35041e76e85428be74b00
     phone :new FormControl({value:'',disabled:true}, Validators.required),
     tnc :new FormControl('', Validators.required),
     note:new FormControl('', Validators.required)
     
   
   });
-
+  omit_special_char(event:any)
+  {
+    var k;
+    k = event.charCode;  //         k = event.keyCode;  (Both can be used)
+    return((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+    
+  }
   serviceExistenceCheck(id:string){
     
 
@@ -309,7 +403,22 @@ togglePrevious(pageType:string){
   
 
   }
+  timeExistenceCheck(id:any){
 
+
+    
+    if(this.time==id){
+      return true;
+
+    }
+    else{
+      return false;
+    }
+
+
+
+
+  }
   branchExistenceCheck(id:string){
     
     
@@ -412,7 +521,9 @@ togglePrevious(pageType:string){
 
   }
   onItemChangeTime(value:any){
-    this.time=this.datetimeArray[value];
+    this.time=this.arrayactive[value].time;
+    console.log(this.time,"time")
+
 
   }
 
@@ -488,16 +599,18 @@ togglePrevious(pageType:string){
     this.dataDateTime = true;
     console.log(this.time,"time checked")
     // $("input[name=TimeSlot][value=" + this.time + "]").attr('checked', 'checked');
-    $('input:radio[name="TimeSlot"][value=' + this.time + ']').attr('checked',true);
+    // $('input:radio[name="TimeSlot"][value=' + this.time + ']').attr('checked',true);
   }
   reviewReq(){
     this.dataReview = false;
     this.dataContact = true;
+    
  
   }
   servicesTab(){
     this.dataReview = false;
     this.dataService = true;
+   
   }
   contactForm(){
     this.dataContact = true;
@@ -689,7 +802,15 @@ togglePrevious(pageType:string){
   onDateChanged(event: IMyDateModel): void {
 
     var weekOff = this.branchOff;
+    var date_today = moment(new Date()).format("DD-MM-YYYY");
+    for(let i =0 ; i < weekOff.length; i++){
 
+      if(weekOff[i] == date_today){
+        var notActiveSlots = weekOff[i];
+       console.log("today is off")
+
+      }
+    }
 
 
     $("input[type=radio][name=TimeSlot]").prop('checked', false);
@@ -710,13 +831,28 @@ togglePrevious(pageType:string){
       console.log(data,"slots available")
    
         var slots = data.availableslots;
-        console.log(slots,"slots")
         // var availableSlots = slots.availableslots;
         // console.log(availableSlots,"ava slot")
         this.datetimeArray=slots; 
-       
-        console.log(this.datetimeArray ,"++++++slots")
-        
+        this.arrayactive= [];
+        if(date_op === date_today && date_today == notActiveSlots) {
+          for(let i=0; i< this.datetimeArray.length; i++){
+            let net = {"time":this.datetimeArray[i],"value":"unactive"};
+            this.arrayactive.push(net);
+           
+          
+          }
+        }
+        else{
+          for(let i=0; i< this.datetimeArray.length; i++){
+            let net = {"time":this.datetimeArray[i],"value":"active"};
+            this.arrayactive.push(net);
+           
+          
+          }
+          console.log(this.arrayactive)
+         
+        }
       
      
     })

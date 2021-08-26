@@ -21,19 +21,19 @@
                     <div class="row">                       
                         <div class="col-xl-6 col-md-10 m-auto">
                             <div class="row mb-3">
-                                <div class="col-8">
+                                <div class="col-md-9 col-8">
                                     <h4 class="text-primary">Ticket No: {{item.appointment_no}}</h4>
-                                    <!-- <h5 class="mb-4">Ticket No: {{item.appointment_no}}</h5> -->
+                                    <h5 class="mb-4"  *ngIf="dataToken">Token No: {{this.tokenNo}}</h5>
 
                                     <div class="ng-service">
                                         <p class="mb-2"><strong class="medium">Service:</strong></p>  
                                         <ul class="list-unstyled mb-0" >
-                                            <li>{{item.services}}</li>
+                                     {{this.allServices}}
                                             
                                         </ul>
                                     </div>
                                 </div>  
-                                <div class="col-4">
+                                <div class="col-md-3 col-4 pl-md-5" *ngIf="dataScan" > 
                                     <img src="{{item.qrcode}}" alt="QR-CODE">
                                 </div>
                             </div>
@@ -42,7 +42,8 @@
                                 <div class="d-flex align-items-start mb-3">
                                     <img src="assets/images/route-icon.svg" alt="route icon" class="mr-3">
                                     <div class="rich-text flex-fill">{{item.branchname}} {{item.branchAddress}} {{item.branchState}} {{item.branchCity}} {{item.branchPincode}}<br>
-                                        <a href="#"><u>Get Directions</u></a>
+                                       
+                                        <a target="_blank" href='http://maps.google.com/maps/dir//{{item.branchname}} {{item.branchAddress}} {{item.branchState}} {{item.branchCity}}'><u>Get Directions</u></a>
                                     </div>
                                 </div>  
                             </div>  
@@ -53,10 +54,21 @@
                         </div>                  
                     </div>                  
                 </div>
-                <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start">
+                <!-- <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start" *ngIf="dataButton" >
+                    <div></div>
                     <button type="submit" class="btn btn-lg btn-outline-primary btn-block mr-2"  data-toggle="modal" data-target="#CancelModal">CANCEL</button>
                     <button type="submit" class="btn btn-lg btn-primary btn-block mt-0" data-toggle="modal" data-target="#RescheduleModal">RESCHEDULE</button>
+                </div> -->
+                <div class="app-footer-cta d-md-flex col-md-4 m-auto pt-md-5 justify-content-start"  >
+                    <!-- <a data-toggle="modal" data-target="#CancelModal" class="btn btn-lg btn-outline-primary btn-block mr-md-2">CANCEL</a> -->
+                    <a routerLink="/appointment" class="btn btn-lg btn-outline-primary btn-block mr-md-2">DONE</a>
+                  
+                    <div *ngIf="dataButton" class="d-md-flex">
+                    <a data-toggle="modal" data-target="#RescheduleModal" class="btn btn-lg btn-outline-primary btn-block mr-md-2 mt-md-0 mt-2">RESCHEDULE</a>
+                    <!-- <a data-toggle="modal" data-target="#RescheduleModal" class="btn btn-lg btn-primary btn-block mt-md-0 mt-2">RESCHEDULE</a> -->
+                    <a data-toggle="modal" data-target="#CancelModal" class="btn btn-lg btn-primary btn-block mt-md-0 mt-2">CANCEL</a>
                 </div>
+                </div>   
             </div>
             <div class="modal fade" id="CancelModal" tabindex="-1" aria-labelledby="CancelModal" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered">

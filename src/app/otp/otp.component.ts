@@ -81,12 +81,12 @@ export class OtpComponent implements OnInit {
             // this.dataScan = true;
             // this.dataButton = true;
             else if(this.detail[0].token!== null){
-              console.log("jjj")
+              
               this.dataButton = false;
             this.tokenNo = this.detail[0].token.token_number
             this.dataToken = true;
           
-            console.log(this.tokenNo,"tokenbbbbbbbb")
+            
           }
   
             else{
@@ -96,19 +96,19 @@ export class OtpComponent implements OnInit {
               this.dataToken = false
             }
           
-          console.log(this.detail[0].appointment_time.split('-')[0]);
+          console.log("Details",this.detail[0]);
           let dateString = formatDate(this.detail[0].appointment_date+' '+this.detail[0].appointment_time.split('-')[0],'yyyy/MM/dd %H:%m','En-US');
-          console.log(this.detail,"user data")
+          //console.log(this.detail,"user data")
          var services = this.detail[0].serviceNames.toString();
          this.allServices = JSON.parse(services).join(',');
           this.final_result_2 = "Afg1Jcfgc" + this.detail[0].id;
-          console.log(this.detail[0].id,this.detail[0].serviceNames.toString())
+          //console.log(this.detail[0].id,this.detail[0].serviceNames.toString())
           this.final_result_2 = btoa(this.final_result_2)
           this.final_result_2 = this.final_result_2.replaceAll('=', '');
-          console.log(this.final_result_2,"booking id")
+          //console.log(this.final_result_2,"booking id")
           let newDate = new Date(dateString);
-          console.log("NewDate",newDate);
-          console.log(this.myDate);
+          //console.log("NewDate",newDate);
+          //console.log(this.myDate);
           if(newDate>this.myDate){
             this.title="UPCOMING"
 
@@ -145,7 +145,7 @@ export class OtpComponent implements OnInit {
       console.log("cancel success", result)
 
       if(result.success == true){
-        var request_cancel ={"email":this.users.email,"phone":this.users.phone};
+        var request_cancel ={"email":this.users.email,"phone":this.users.phone, bookId: this.router.snapshot.params.id};
      console.log("cancel not data", request_cancel)
         let resp_cancel_notification = this.http.post('http://65.1.176.15:5050/apis/cancel_notification',request_cancel,{ headers: headers});
    

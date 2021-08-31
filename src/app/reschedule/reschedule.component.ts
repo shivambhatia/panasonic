@@ -385,14 +385,7 @@ timeslots_active :any =[];
     console.log(result,"reschedule uodate")
     $("#dataDateTime").hide();
     $("#dataRequest").show();
-    
-     let resp_create_notification = this.http.post('http://65.1.176.15:5050/apis/reschedule_appointment',this.request_create,{ headers: headers});
-  
-     resp_create_notification.subscribe((result:any)=>{    
-       console.log("update success notification", result)
-      
-       
-     })
+   
          console.log("app confrm ", result)
          this.final_result = result;
          this.final_results = this.final_result.data;
@@ -405,6 +398,19 @@ timeslots_active :any =[];
          this.final_result_2 = btoa(this.final_result_2)
          this.final_result_2 = this.final_result_2.replaceAll('=', '');
          console.log(this.final_result_2,"booking id")
+         var booking_id= { bookId : this.final_result_1.appointment_no}
+         var bookBranch  = {branch : this.final_result_1["branch.name"]}
+         var bookTime = { time: this.final_result_1.appointment_time }
+         var bookDate = { date :this.final_result_1.appointment_date }
+         this.request_create = { ...bookBranch, ...bookTime,...bookDate, ...this.bookedDate,...booking_id, ...this.request_create}
+         console.log(this.request_create)
+          let resp_create_notification = this.http.post('http://65.1.176.15:5050/apis/reschedule_appointment',this.request_create,{ headers: headers});
+       
+          resp_create_notification.subscribe((result:any)=>{    
+            console.log("update success notification", result)
+           
+            
+          })
          this.dataRequest = true;
          this.dataReview = false;
      // this.router.navigate(['/appointment']);
@@ -417,7 +423,7 @@ timeslots_active :any =[];
   cancel(){
     // $('#CancelModal').modal('show');
     const headers = { 'Authorization': 'Bearer '+this.token, 'My-Custom-Header': '' }
-    this.request_create = { ...this.request_create, "booking_id":this.booking_id}
+    this.request_create = { ...this.request_create, "booking_id":this.booking_id,bookId: this.final_result_1.appointment_no}
     let resp_cancel = this.http.post('http://65.1.176.15:5050/apis/cancelAppointment',this.request_create, { headers: headers});
    
     resp_cancel.subscribe((result:any)=>{    

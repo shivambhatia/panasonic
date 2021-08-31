@@ -46,12 +46,21 @@
                                         <a target="_blank" href='http://maps.google.com/maps/dir//{{item.branchname}} {{item.branchAddress}} {{item.branchState}} {{item.branchCity}}'><u>Get Directions</u></a>
                                     </div>
                                 </div>  
-                            </div>  
+                            </div>
+                           
                             <div class="ng-date mb-3">
                                 <p class="mb-2"><strong class="medium">Date:</strong> {{item.appointment_date}}</p>
                                 <p class="mb-0"><strong class="medium">Time:</strong> {{item.appointment_time}}</p>
-                            </div>                  
-                        </div>                  
+                            </div>
+                            <div class="ng-service">
+                                        <p class="mb-2"><strong class="medium">Describe Service Requirement/Issues:</strong></p>  
+                                        <ul class="list-unstyled mb-0" >
+                                     {{item.note}}
+                                            
+                                        </ul>
+                                    </div>                     
+                        </div>
+                                           
                     </div>                  
                 </div>
                 <!-- <div class="app-footer-cta d-flex col-md-4 m-auto pt-md-5 justify-content-start" *ngIf="dataButton" >
@@ -64,9 +73,8 @@
                     <a routerLink="/appointment" class="btn btn-lg btn-outline-primary btn-block mr-md-2">DONE</a>
                   
                     <div *ngIf="dataButton" class="d-md-flex">
-                    <a data-toggle="modal" data-target="#RescheduleModal" class="btn btn-lg btn-outline-primary btn-block mr-md-2 mt-md-0 mt-2">RESCHEDULE</a>
-                    <!-- <a data-toggle="modal" data-target="#RescheduleModal" class="btn btn-lg btn-primary btn-block mt-md-0 mt-2">RESCHEDULE</a> -->
-                    <a data-toggle="modal" data-target="#CancelModal" class="btn btn-lg btn-primary btn-block mt-md-0 mt-2">CANCEL</a>
+                    <!-- <a data-toggle="modal" data-target="#RescheduleModal" class="btn btn-lg btn-outline-primary btn-block mr-md-2 mt-md-0 mt-2">RESCHEDULE</a> -->
+                    <!-- <a data-toggle="modal" data-target="#CancelModal" class="btn btn-lg btn-primary btn-block mt-md-0 mt-2">CANCEL</a> -->
                 </div>
                 </div>   
             </div>

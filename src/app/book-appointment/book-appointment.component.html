@@ -234,7 +234,7 @@
     </header>
     <div class="app-container d-flex flex-column">
         <div class="flex-fill">           
-        <form [formGroup]="profileForm" (ngSubmit)="onContactSubmit()"> 
+        <form [formGroup]="profileForm" autocomplete="off" (ngSubmit)="onContactSubmit()"> 
             <div class="contact-form">
                 <div class="row">
                     <div class="col-md-4">
@@ -243,7 +243,7 @@
                             <a tabindex="0" class="info-icon ml-1" role="button" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="This information is we will used for this service only. "><img src="./assets/images/info-icon.svg" alt="info icon"></a>
                         
                             <label for="FieldName" class="control-label">Name</label>
-                            <input type="text"   (keypress)="omit_special_char($event)"  maxlength="20" class="form-control" placeholder="Enter name here" id="FieldName"  formControlName="profilename" >
+                            <input type="text" minlength="3" maxlength="20"  (keypress)="omit_special_char($event)"  maxlength="20" class="form-control" placeholder="Enter name here" id="FieldName"  formControlName="profilename" >
                         </div>
                         <div id="err8Name" class="error-text" style="display: none;">{{this.message_name}}</div>
                    	 </div>
@@ -282,6 +282,10 @@
                     <input type="checkbox" name="" value="" id="tnc"  class="tnc" formControlName="tnc">
                     <label for="tnc" class="text-muted regular">I agree to the  <a target="_blank" href="terms"> terms and conditions</a> and<a target="_blank" href="policy"> privacy policy</a></label>
                 </div>
+                <div class="form-group btn-checkbox">
+                    <input type="checkbox"   [value]="1"    [(ngModel)]="form.value.whatsapp" formControlName="whatsapp" id="whatsapp" name="whatsapp"  formControlName="whatsapp" >
+                    <label for="whatsapp" class="text-muted regular">I agree to the receive notifications on WhatsApp</label>
+                    </div>
             
             </div> 
             
@@ -363,7 +367,7 @@
             </div>     
         </div>
         <div class="app-footer-cta col-md-4 p-0 m-auto pt-md-5">			
-            <a (click)="createAppointment()" class="btn btn-lg btn-primary btn-block">CONFIRM</a>
+            <a (click)="createAppointment()" class="btn btn-lg btn-primary btn-block" id="btnExcel">CONFIRM</a>
         </div>                   
     </div>
 </section>

@@ -21,8 +21,8 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
-    login(mobile:any) {
-        return this.http.post<any>(`http://65.1.176.15:5050/apis/customerLogin`, {"orgId":"mmt", "phone":mobile})
+    login(mobile:any,whatsapp:any) {
+        return this.http.post<any>(`http://65.1.176.15:5050/apis/customerLogin`, {"orgId":"mmt", "phone":mobile,"wa_checked":whatsapp})
             .pipe(map(user => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 return user;

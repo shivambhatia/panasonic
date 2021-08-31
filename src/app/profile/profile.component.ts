@@ -84,10 +84,10 @@ console.log(this.userData)
 
     }
     else if(!regex_name.test(this.name.value)){
-      this.message_8 = "Name must be a valid and must contain space and alphabets only"
-      $("#err8").show();
+      this.message_3 = "Name must be a valid and must contain space and alphabets only"
+      $("#err3").show();
       setTimeout(function(){
-          $("#err8").hide();
+          $("#err3").hide();
         }, 5000);
       return;
 

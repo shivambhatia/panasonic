@@ -20,28 +20,32 @@
         <div class="col-right">
             <div class="w-100 h-100 d-flex align-items-center apps"  id="login_div" *ngIf="login">
                 <div class="app-container text-center">
-
-                    <div class="brand-logo d-xl-none mb-4">
-                        <img src="/assets/images/logo.svg" alt="logo">
-                    </div>
-                    <div class="card-title mb-4">
-                                    <h4 class="bolder mb-3">Login</h4>
-                                    <h5>Sign in to QMS account</h5>
-                                </div>
-                    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-                                <div class="form-group">
-                                    <input type="tel" name="" placeholder="Mobile Number" class="form-control form-control-lg" maxlength="10" [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }" formControlName="mobile">
-									<div *ngIf="submitted && f.mobile.errors" class="invalid-feedback" style="display: block;">
-										<div *ngIf="f.mobile.errors.required" class="error-text">Mobile Number is required</div>
-										<div *ngIf="f.mobile.errors.pattern" class="error-text">Invalid Mobile Number</div>
+					<div class="brand-logo d-xl-none mb-4">
+							<img src="/assets/images/logo.svg" alt="logo">
+						</div>
+					<div class="card p-4 p-md-0">						
+						<div class="card-title mb-4">
+										<h4 class="bolder mb-3">Login</h4>
+										<h5>Sign in to QMS account</h5>
 									</div>
-                                </div>
-                                <!-- <div id="err1">{{ this.message_1}}</div> -->
-                                
-                                <div class="form-cta">
-                                    <button type="submit" class="btn btn-lg btn-primary btn-block">GET OTP</button>
-                                </div>
-                            </form>
+						<form [formGroup]="form" (ngSubmit)="onSubmit()">
+									<div class="form-group">
+										<input type="tel" name="" placeholder="Mobile Number" class="form-control form-control-lg" maxlength="10" [ngClass]="{ 'is-invalid': submitted && f.mobile.errors }" formControlName="mobile">
+										<div *ngIf="submitted && f.mobile.errors" class="invalid-feedback" style="display: block;">
+											<div *ngIf="f.mobile.errors.required" class="error-text">Mobile Number is required</div>
+											<div *ngIf="f.mobile.errors.pattern" class="error-text">Invalid Mobile Number</div>
+										</div>
+									</div>
+									<!-- <div id="err1">{{ this.message_1}}</div> -->
+                                    <div class="form-group btn-checkbox">
+                                        <input type="checkbox"   [value]="1"  class="form-control form-control-lg"    formControlName="whatsapp" id="whatsapp" name="whatsapp" >
+                                        <label for="whatsapp" class="text-muted mt-4 medium mb-0">By Logging in you agree to agree to the receive notifications on WhatsApp</label>
+                                        </div>
+									<div class="form-cta">
+										<button type="submit" class="btn btn-lg btn-primary btn-block">GET OTP</button>
+									</div>
+								</form>
+                	</div>
                 </div>
             </div>
             <div class="w-100 h-100 d-flex align-items-center apps" id="otp_div" *ngIf="otp">
@@ -61,13 +65,7 @@
                              <div id="err_valid"  style="display: none;" class="error-text" >{{this.valid}}</div>
                              <div id="err_invalid"  style="display: none;" class="error-text">{{this.invalid}}</div>
                         </div>
-                      
-                        <!-- <div *ngIf="submitted && f.otpValue.errors" class="invalid-feedback" style="display: block;">
-                            <div *ngIf="f.otpValue.errors.required">OTP is required</div>
-                            <!-- <div *ngIf="f.mobile.errors.pattern">Invalid Mobile Number</div> -->
-                            
-                        <!-- </div>  -->
-                        <!-- <div id="err1">{{ this.message_1}}</div> -->
+          
                         <div class="form-cta">
                             
                                     <button type="submit" class="btn btn-lg btn-primary btn-block" >SIGN IN</button>
@@ -75,6 +73,9 @@
                                 </div>
                         <p class="text-muted mt-4 medium mb-0">By Logging in you agree to <a target="_blank" href="terms"class="text-muted"><u>T&Cs</u></a> &amp; that you
     have read our <a target="_blank" href="policy" class="text-muted"><u>Privacy Policy</u></a></p>
+    <!-- <p class="text-muted mt-4 medium mb-0">By Logging in you agree to agree to the receive notifications on WhatsApp</p> -->
+
+   
 
 
   

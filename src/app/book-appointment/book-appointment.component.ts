@@ -22,6 +22,7 @@ export class BookAppointmentComponent implements OnInit {
   currentMonth: any = this.mytime.getMonth() + 1;
   data : any;
   temp :any;
+  whatsapp:any =[];
   public policies:any = [];
   public terms:any=[];
   services: any;
@@ -373,7 +374,8 @@ togglePrevious(pageType:string){
     email: new FormControl('', Validators.required),
     phone :new FormControl({value:'',disabled:true}, Validators.required),
     tnc :new FormControl('', Validators.required),
-    note:new FormControl('', Validators.required)
+    note:new FormControl('', Validators.required),
+    whatsapp:new FormControl('')
     
   
   });
@@ -430,23 +432,27 @@ togglePrevious(pageType:string){
 
   
    createAppointment(){
+    // $("#btnExcel").prop('disabled', true);
+    $("#btnExcel").hide();
+    if(this.form.value.whatsapp == true){
+
+      this.whatsapp = { wa_checked : "1"}
+      console.log(this.whatsapp)
+    }
+    else{
+      this.whatsapp = { wa_checked : "0"}
+    }
      console.log(this.allService,"Ok services")
     var final_date = moment(this.appointment_date).format("DD-MM-YYYY");
         const headers = { 'Authorization': 'Bearer '+this.token }
-    var request={"appointment_date":this.appointment_date,"appointment_time":this.time,"email":this.profileForm.value.email,"name":this.profileForm.value.profilename,"note":this.profileForm.value.note,"tnc":this.tnc,"mobile":this.profileForm.value.phone,"services":this.allService,"mode":"web","branch":[[this.selectedBranch]]};
+
+    var request={"appointment_date":this.appointment_date,"appointment_time":this.time,"email":this.profileForm.value.email,"name":this.profileForm.value.profilename,"note":this.profileForm.value.note,"tnc":this.tnc,"mobile":this.profileForm.value.phone,"services":this.allService,"mode":"web","branch":[[this.selectedBranch]], ...this.whatsapp};
     console.log("data to submit",request); 
     let resp=this.http.post('http://65.1.176.15:5050/apis/create_appointment',request, { headers: headers});
     
     resp.subscribe((result)=>{
-      // debugger;
-      var request_create ={"email":this.profileForm.value.email,"phone":this.profileForm.value.phone};
-      let resp_create_notification = this.http.post('http://65.1.176.15:5050/apis/create_notification',request_create,{ headers: headers});
-   
-      resp_create_notification.subscribe((result:any)=>{    
-        console.log("create success notification", result)
-       
-        
-      })
+      $("#btnExcel").hide();
+     
           console.log("app confrm ", result)
           this.final_result = result;
           this.final_results = this.final_result.data;
@@ -459,6 +465,22 @@ togglePrevious(pageType:string){
           this.final_result_2 = btoa(this.final_result_2)
           this.final_result_2 = this.final_result_2.replaceAll('=', '');
           console.log(this.final_result_2,"booking id")
+          var booking_id= { bookId : this.final_result_1.appointment_no}
+          var bookBranch  = {branch : this.final_result_1["branch.name"]}
+          // for(let i = 0; i<= this.final_result_1.branches.length; i++){
+          //   console.log(this.final_result_1.branches[i],"@@@@@@@@@@@@@@")
+          // }
+          var bookTime = { time: this.final_result_1.appointment_time }
+          var bookDate = { date :this.final_result_1.appointment_date }
+          var request_create ={"email":this.profileForm.value.email,"phone":this.profileForm.value.phone,...booking_id,...bookDate, ...bookTime,...bookBranch};
+          console.log(request_create)
+          let resp_create_notification = this.http.post('http://65.1.176.15:5050/apis/create_notification',request_create,{ headers: headers});
+       
+          resp_create_notification.subscribe((result:any)=>{    
+            console.log("create success notification", result)
+           
+            
+          })
           this.dataRequest = true;
           this.dataReview = false;
       // this.router.navigate(['/appointment']);
@@ -835,8 +857,9 @@ togglePrevious(pageType:string){
       console.log("cancel success", result)
 
       if(result.success == true){
-        var request_cancel ={"email":this.profileForm.value.email,"phone":this.profileForm.value.phone};
+        var request_cancel ={"email":this.profileForm.value.email,"phone":this.profileForm.value.phone,bookId: this.final_result_1.appointment_no};
      console.log("cancel not data", request_cancel)
+     
         let resp_cancel_notification = this.http.post('http://65.1.176.15:5050/apis/cancel_notification',request_cancel,{ headers: headers});
    
         resp_cancel_notification.subscribe((result:any)=>{    

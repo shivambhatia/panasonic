@@ -115,10 +115,10 @@ select.form-control, select, .custom-select { -webkit-appearance: none; -moz-app
 .sub-accordion .card { border:none; box-shadow: none; border-radius: 0;}
 .accordion>.card>.card-header { margin: 0;}
 .sub-accordion .card-header {background: none; text-align: left; border: solid transparent; border-width:0 0 1px; font-weight: 600; outline: 0; cursor: pointer; text-decoration: none; box-shadow: none; white-space: normal; line-height: normal; border-radius: 0; padding: 1rem; height: auto; position: relative; color: var(--primary)}
-.sub-accordion .card-header:hover, .card-checkbox input[type="checkbox"] + label:hover { background: #eaf1ff; }
+.sub-accordion .card-header:hover, .card-checkbox input[type="checkbox"] + label:hover { background-color: #eaf1ff; }
 .sub-sub-accordion .card-header {padding: 1rem 1.2rem 1rem 2rem;}
 .sub-accordion .card-header.collapsed { color: var(--default); border-color:rgba(0,0,0,.125);}
-.sub-accordion .card-header:after { content: ''; width: 14px; height: 20px; background: url(../images/arrow-blue.svg) no-repeat center; position: absolute; top:0.8rem; right: 1rem; background-size:100%; transition-duration: 0.4s; transform: rotate(-180deg);}
+.sub-accordion .card-header:after { content: ''; width: 14px; height: 20px; background: url(../images/arrow-blue.svg) no-repeat center; position: absolute; top:0.8rem; right: 1rem; background-size:100%; transition-duration: 0.4s; transform: rotate(-180deg); z-index: 2;}
 .sub-accordion .card-header.collapsed:after { transform: rotate(0); background-image: url(../images/arrow.svg);}
 .sub-accordion .card-body { padding: 0;}
 .card-checkbox input[type="checkbox"] + label { display: block; padding: 1rem 3rem 1rem 1.2rem; border-bottom:solid 1px rgba(0,0,0,.125);}
@@ -250,6 +250,7 @@ select.form-control, select, .custom-select { -webkit-appearance: none; -moz-app
 	#navbar .nav-link {height: 100%; font-size: 0.6rem;}
 	#navbar .nav-icon { margin-bottom: 0.3rem; }
 	.apps-container.apps { padding: 15px 15px 100px; }
+	.col-right { min-width: 100%;}
 
 }
 

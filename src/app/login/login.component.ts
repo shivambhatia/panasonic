@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
     loading = false;
     submitted = false;
     mobile :string ;
+    wa_checked :any=[];
     otpValue:string;
     returnUrl: string;
     message :string ;
@@ -26,6 +27,7 @@ export class LoginComponent implements OnInit {
     login = true;
     valid:any =[];
     invalid:any =[];
+    whatsapp:any=[]
     resend_otp:any = [];
     policies:any=[];
     terms:any=[]
@@ -56,6 +58,7 @@ export class LoginComponent implements OnInit {
         this.form = this.formBuilder.group({
             // mobile: ['', Validators.required],
             mobile:['', [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+            whatsapp:['']
             
         });
           this.formOtp = this.formBuilder.group({
@@ -110,7 +113,19 @@ export class LoginComponent implements OnInit {
         }
        
         this.loading = true;
-        this.authentication.login(this.f.mobile.value).pipe(first())
+        console.log(this.f.whatsapp.value,"PPP")
+        if(this.f.whatsapp.value == true){
+          // this.wa_checked ==  1;
+          this.whatsapp = { wa_checked : "1"}
+          // console.log(this.whatsapp)
+        }
+        else{
+          // this.wa_checked == 0
+          this.whatsapp = { wa_checked : "0"}
+        }
+        console.log(this.whatsapp)
+       
+        this.authentication.login(this.f.mobile.value, this.whatsapp).pipe(first())
             .subscribe((data:any) => {
               this.mobile=this.f.mobile.value;
                     //debugger
@@ -157,7 +172,7 @@ export class LoginComponent implements OnInit {
         setTimeout(function(){
             $("#resend_otp").hide();
           }, 5000);
-          this.authentication.login(this.f.mobile.value).pipe(first())
+          this.authentication.login(this.f.mobile.value,this.whatsapp).pipe(first())
           .subscribe((data:any) => {
             this.mobile=this.f.mobile.value;
             this.login=false;

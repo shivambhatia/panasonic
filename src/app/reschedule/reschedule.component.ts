@@ -99,7 +99,7 @@ timeslots_active :any =[];
   public BranchId:any=[];
   public arrayactive:any=[];
   public otpData :any = [];
- 
+ public whatsapp:any=[];
  
   public Branchid:any =[];
   constructor(private http: HttpClient,private router: Router,private route: ActivatedRoute,private fb: FormBuilder) { 
@@ -181,6 +181,7 @@ timeslots_active :any =[];
       var note = {note: bookedData.note}
       var book_id = { booking_id: this.booking_id}
       var phone = {phone:bookedData["customer.contact_no"]};
+      this.whatsapp = { wa_checked:bookedData["customer.wa_checked"]}
       this.userName = {...userName, ...email, ...note, ...contactNo, ...service_select, ...branchSelect, ...book_id};
       this.request_create ={"email": bookedData["customer.email"],"phone":bookedData["customer.contact_no"]};
       this.otpData = { ...email, ...phone}
@@ -190,7 +191,9 @@ timeslots_active :any =[];
       console.log( this.form.patchValue({appointment_time: this.appointment_time}))
       this.bookedDate1 =moment(this.bookedDate1).format("DD-MM-YYYY");
       
-     
+      var yesterday = moment().subtract(1, "days").format("YYYY-MM-DD").split("-");
+                  var yesterdayDate = yesterday[2].replace(/^0+/, '');
+                  var yesterdayMonth =  yesterday[1].replace(/^0+/, '');
 
           var appointment_date = data.booking_detail.appointment_date;
           this.bookedDate= appointment_date.split("-");
@@ -209,7 +212,7 @@ timeslots_active :any =[];
               inline: true,
               disableSince:{year: this.year , month: this.month , day: this.Bookdate },
               markDates: [{dates: [{year: parseInt(this.bookedDate[0]), month: parseInt(this.bookedDate[1]) , day: parseInt(this.bookedDate[2])}],  styleClass: 'yogaDates'}],
-              disableUntil: {year: this.currentYear, month: this.currentMonth, day: this.currentDate},
+              disableUntil: {year: yesterday[0], month: yesterdayMonth, day:yesterdayDate },
               dateFormat: 'dd-mm-yyyy',
               disableDates:this.disable_dates,
               disableWeekdays:this.nonWorking_days,
@@ -248,11 +251,14 @@ timeslots_active :any =[];
                   const {holidays} = data.result && data.result[0] || {}
                   this.branchOff = holidays ? JSON.parse(holidays) : [];
                   this.disable_dates = (data.result[0] &&  data.result[0].formattedHolidayList)|| [] ;
+                  var yesterday = moment().subtract(1, "days").format("YYYY-MM-DD").split("-");
+                  var yesterdayDate = yesterday[2].replace(/^0+/, '');
+                  var yesterdayMonth =  yesterday[1].replace(/^0+/, '');
                   this.break_time =(data.result[0] &&  data.result[0].breaks)|| "";
                       this.myDpOptions = {
                         inline: true,
                         disableSince:{year: this.year , month: this.month , day: this.Bookdate },
-                        disableUntil: {year: this.currentYear, month: this.currentMonth, day: this.currentDate},
+                        disableUntil: {year: yesterday[0], month: yesterdayMonth, day:yesterdayDate },
                         dateFormat: 'dd-mm-yyyy',
                         disableDates:this.disable_dates,
                         disableWeekdays:this.nonWorking_days,
@@ -377,7 +383,7 @@ timeslots_active :any =[];
     console.log(this.allService,"Ok services")
    var final_date = moment(this.appointment_date).format("DD-MM-YYYY");
        const headers = { 'Authorization': 'Bearer '+this.token }
-   var request={"appointment_date":this.appointment_date,"appointment_time":this.time,"booking_id":  this.booking_id,"email":this.profileForm.value.email,"name":this.profileForm.value.profilename,"note":this.profileForm.value.note,"tnc":this.tnc,"mobile":this.profileForm.value.phone,"services":this.allService,"mode":"web","branch":[[this.selectedBranch]]};
+   var request={"appointment_date":this.appointment_date,"appointment_time":this.time,"booking_id":  this.booking_id,"email":this.profileForm.value.email,"name":this.profileForm.value.profilename,"note":this.profileForm.value.note,"tnc":this.tnc,"mobile":this.profileForm.value.phone,"services":this.allService,"mode":"web","branch":[[this.selectedBranch]], ...this.whatsapp};
    console.log("data to submit",request); 
    let resp=this.http.post('http://65.1.176.15:5050/apis/resheduleUpdate',request, { headers: headers});
    
@@ -402,7 +408,9 @@ timeslots_active :any =[];
          var bookBranch  = {branch : this.final_result_1["branch.name"]}
          var bookTime = { time: this.final_result_1.appointment_time }
          var bookDate = { date :this.final_result_1.appointment_date }
-         this.request_create = { ...bookBranch, ...bookTime,...bookDate, ...this.bookedDate,...booking_id, ...this.request_create}
+         var location_url = { location_url: "http://maps.google.com/maps/dir//"+ this.final_result_1["branch.address"]}
+         console.log(location_url,"location url")
+         this.request_create = { ...bookBranch, ...bookTime,...bookDate, ...this.bookedDate,...booking_id, ...this.request_create,...this.whatsapp,...location_url}
          console.log(this.request_create)
           let resp_create_notification = this.http.post('http://65.1.176.15:5050/apis/reschedule_appointment',this.request_create,{ headers: headers});
        
@@ -421,9 +429,10 @@ timeslots_active :any =[];
 
   }
   cancel(){
+    
     // $('#CancelModal').modal('show');
     const headers = { 'Authorization': 'Bearer '+this.token, 'My-Custom-Header': '' }
-    this.request_create = { ...this.request_create, "booking_id":this.booking_id,bookId: this.final_result_1.appointment_no}
+    this.request_create = { ...this.request_create, "booking_id":this.booking_id,bookId: this.final_result_1.appointment_no,...this.whatsapp}
     let resp_cancel = this.http.post('http://65.1.176.15:5050/apis/cancelAppointment',this.request_create, { headers: headers});
    
     resp_cancel.subscribe((result:any)=>{    
@@ -433,14 +442,17 @@ timeslots_active :any =[];
        
      
         let resp_cancel_notification = this.http.post('http://65.1.176.15:5050/apis/cancel_notification',this.request_create,{ headers: headers});
-   
+        
         resp_cancel_notification.subscribe((result:any)=>{    
           console.log("cancel success notification", result)
           if(result.success == true){
-            $("#cancelSuccess").show();
-            $("#CancelModalLabel").hide();
-            $("#cancelError").hide();
+            
+            $("#cancelSuccess_1").show();
+            $("#CancelModalLabel_1").hide();
+            $("#cancelError_1").hide();
+            
           }
+          // this.router.navigate(['/appointment']);
          
           
         })

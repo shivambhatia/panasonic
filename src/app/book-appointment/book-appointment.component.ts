@@ -472,7 +472,7 @@ togglePrevious(pageType:string){
           // }
           var bookTime = { time: this.final_result_1.appointment_time }
           var bookDate = { date :this.final_result_1.appointment_date }
-          var request_create ={"email":this.profileForm.value.email,"phone":this.profileForm.value.phone,...booking_id,...bookDate, ...bookTime,...bookBranch};
+          var request_create ={"email":this.profileForm.value.email,"phone":this.profileForm.value.phone,...booking_id,...bookDate, ...bookTime,...bookBranch, ...this.whatsapp};
           console.log(request_create)
           let resp_create_notification = this.http.post('http://65.1.176.15:5050/apis/create_notification',request_create,{ headers: headers});
        
@@ -857,7 +857,7 @@ togglePrevious(pageType:string){
       console.log("cancel success", result)
 
       if(result.success == true){
-        var request_cancel ={"email":this.profileForm.value.email,"phone":this.profileForm.value.phone,bookId: this.final_result_1.appointment_no};
+        var request_cancel ={"email":this.profileForm.value.email,"phone":this.profileForm.value.phone,bookId: this.final_result_1.appointment_no,...this.whatsapp};
      console.log("cancel not data", request_cancel)
      
         let resp_cancel_notification = this.http.post('http://65.1.176.15:5050/apis/cancel_notification',request_cancel,{ headers: headers});

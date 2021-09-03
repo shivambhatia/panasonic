@@ -421,6 +421,7 @@ timeslots_active :any =[];
 
   }
   cancel(){
+    debugger;
     // $('#CancelModal').modal('show');
     const headers = { 'Authorization': 'Bearer '+this.token, 'My-Custom-Header': '' }
     this.request_create = { ...this.request_create, "booking_id":this.booking_id,bookId: this.final_result_1.appointment_no}
@@ -433,14 +434,16 @@ timeslots_active :any =[];
        
      
         let resp_cancel_notification = this.http.post('http://65.1.176.15:5050/apis/cancel_notification',this.request_create,{ headers: headers});
-   
+        debugger;
         resp_cancel_notification.subscribe((result:any)=>{    
           console.log("cancel success notification", result)
           if(result.success == true){
             $("#cancelSuccess").show();
             $("#CancelModalLabel").hide();
             $("#cancelError").hide();
+            
           }
+          this.router.navigate(['/appointment']);
          
           
         })

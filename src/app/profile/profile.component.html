@@ -3,12 +3,15 @@
     <header class="text-white bg-primary d-flex align-items-center app-title mb-4">
         <a routerLink="/appointment" class="btn btn-primary btn-back"><i class="fa fa-angle-left"></i></a>
         <h1 class="h4 text-uppercase m-0">{{title}}</h1>
+		<a (click)="callLogout()" href="javascript:void(0);" class="btn d-flex align-items-center btn-sm btn-light ml-auto">LOGOUT <svg width="20" height="14" viewBox="0 0 36 31" fill="none" xmlns="http://www.w3.org/2000/svg" class="ml-1">
+                                <path d="M35.421 16.5521L29.639 22.5041L27.595 20.4041L30.909 16.9921H14.165V14.0121H30.911L27.597 10.6011L29.641 8.50109L35.421 14.4481C35.6959 14.7272 35.8517 15.1023 35.8554 15.4941C35.8592 15.8858 35.7106 16.2638 35.441 16.5481C35.4382 16.5503 35.4349 16.5517 35.4315 16.5524C35.428 16.5531 35.4244 16.553 35.421 16.5521ZM21.392 27.4041H2.95999V3.59709H21.392V11.0371H24.283V2.10909C24.2883 1.72009 24.139 1.34487 23.8679 1.06586C23.5968 0.786858 23.226 0.626887 22.837 0.621094H1.51399C1.12516 0.62715 0.754624 0.787235 0.48371 1.06621C0.212796 1.34519 0.0636414 1.72026 0.0689865 2.10909V28.8921C0.0636414 29.2809 0.212796 29.656 0.48371 29.935C0.754624 30.214 1.12516 30.374 1.51399 30.3801H22.837C23.2258 30.374 23.5963 30.214 23.8673 29.935C24.1382 29.656 24.2873 29.2809 24.282 28.8921V19.9641H21.392V27.4041Z" fill="#17469e"></path>
+                                </svg></a>
     </header>
     <div class="app-container d-flex flex-column">
         <div class="flex-fill">
             <div class="contact-form">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-8 m-auto">
                         <div class="form-group form-input">
                         <label for="FieldName" class="control-label text-muted small">Name</label>
                             <input type="name"  (keypress)="omit_special_char($event)" class="form-control" placeholder="Enter name here" id="name" value="{{userData.result.name}}" [formControl]="name">
@@ -22,7 +25,7 @@
                             <input type="tel" class="form-control" disabled="" placeholder="Enter name here" id="" value="{{userData.result.phone}}" >                           
                         </div>
                         <div class="form-input mb-md-0 mb-4">									
-                            <label for="FieldEmail" class="control-label text-muted small">Email</label>
+                            <label for="FieldEmail" class="control-label text-muted small">Email Welcome</label>
                             <input type="email" class="form-control" placeholder="Enter email here" id="email" value="{{userData.result.email}}" [formControl]="email">
 
                             <button class="btn btn-edit" (click)="edit()" type="button">Edit</button>
@@ -53,18 +56,7 @@
                                     
                           </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <a  (click)="callLogout()" class="btn-logout card p-4 bg-primary text-center text-white h-100 d-flex align-items-center justify-content-center">
-                            <div class="w-100">
-                            <div class="card-icon d-block mb-2">								
-                                <svg width="36" height="31" viewBox="0 0 36 31" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M35.421 16.5521L29.639 22.5041L27.595 20.4041L30.909 16.9921H14.165V14.0121H30.911L27.597 10.6011L29.641 8.50109L35.421 14.4481C35.6959 14.7272 35.8517 15.1023 35.8554 15.4941C35.8592 15.8858 35.7106 16.2638 35.441 16.5481C35.4382 16.5503 35.4349 16.5517 35.4315 16.5524C35.428 16.5531 35.4244 16.553 35.421 16.5521ZM21.392 27.4041H2.95999V3.59709H21.392V11.0371H24.283V2.10909C24.2883 1.72009 24.139 1.34487 23.8679 1.06586C23.5968 0.786858 23.226 0.626887 22.837 0.621094H1.51399C1.12516 0.62715 0.754624 0.787235 0.48371 1.06621C0.212796 1.34519 0.0636414 1.72026 0.0689865 2.10909V28.8921C0.0636414 29.2809 0.212796 29.656 0.48371 29.935C0.754624 30.214 1.12516 30.374 1.51399 30.3801H22.837C23.2258 30.374 23.5963 30.214 23.8673 29.935C24.1382 29.656 24.2873 29.2809 24.282 28.8921V19.9641H21.392V27.4041Z" fill="#AAD5DD"></path>
-                                </svg>
-                            </div>
-                            <span class="medium h5" >LOGOUT</span></div>
-                        </a>
-                    </div>
+                    </div>                    
                     
                 </div>
                 

@@ -24,8 +24,10 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     let users = JSON.parse(localStorage.getItem('currentUser') || '{}');
+    console.log(users,"profile")
     if(!users.success){
-      this.router.navigate(['']);
+
+      this.router.navigate(['login/'+users['org']]);
     }
     
     this.userData=users;
@@ -129,7 +131,9 @@ console.log(this.userData)
   }
   callLogout(){
     //console.log("step 2");
-    this.authentication.logout();
+    let users = JSON.parse(localStorage.getItem('currentUser') || '{}');
+ 
+    this.authentication.logout(users['org']);
 
   }
 

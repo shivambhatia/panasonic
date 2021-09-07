@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
     resend_otp:any = [];
     policies:any=[];
     terms:any=[]
+    Organization:any=[]
   otp = false;
   constructor(private formBuilder: FormBuilder,
         private route: ActivatedRoute,
@@ -51,6 +52,10 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
         let users = JSON.parse(localStorage.getItem('currentUser') || '{}');
+        let id = this.route.snapshot.params.orgId;
+    
+    this.Organization = id;
+    console.log(this.Organization)
         console.log(users,"user")
         if(users.success){
              this.router.navigate(['/appointment']);
@@ -67,6 +72,9 @@ export class LoginComponent implements OnInit {
         });
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['otp'] || '/';
+        console.log(this.Organization)
+        if(this.Organization!== null || this.Organization!== undefined){
+          console.log(this.Organization)
         this.authentication.termsCondition().pipe(first())
         .subscribe((data:any) => {
           console.log(data)
@@ -74,6 +82,7 @@ export class LoginComponent implements OnInit {
           this.terms = data.result.privacypolicy_terms;
           
         })
+      }
 
 
     $(document).ready(function() {	
@@ -123,9 +132,8 @@ export class LoginComponent implements OnInit {
           // this.wa_checked == 0
           this.whatsapp = { wa_checked : "0"}
         }
-        console.log(this.whatsapp)
        
-        this.authentication.login(this.f.mobile.value, this.whatsapp).pipe(first())
+        this.authentication.login(this.f.mobile.value, this.whatsapp,this.Organization).pipe(first())
             .subscribe((data:any) => {
               this.mobile=this.f.mobile.value;
                     //debugger
@@ -172,7 +180,7 @@ export class LoginComponent implements OnInit {
         setTimeout(function(){
             $("#resend_otp").hide();
           }, 5000);
-          this.authentication.login(this.f.mobile.value,this.whatsapp).pipe(first())
+          this.authentication.login(this.f.mobile.value,this.whatsapp,this.Organization).pipe(first())
           .subscribe((data:any) => {
             this.mobile=this.f.mobile.value;
             this.login=false;
@@ -222,7 +230,7 @@ export class LoginComponent implements OnInit {
         // console.log("Checking this otp",this.f2.otpValue.value);
         // console.log("Checking this mobile",this.mobile);
         
-        this.authentication.verifyOtp(this.f2.otpValue.value,this.mobile).pipe(first())
+        this.authentication.verifyOtp(this.f2.otpValue.value,this.mobile, this.Organization).pipe(first())
             .subscribe((data:any) => {
               console.log(data,"otp response")
               if(data.success == true){

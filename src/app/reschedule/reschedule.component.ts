@@ -142,7 +142,7 @@ timeslots_active :any =[];
     var parent=this;
     let resp=this.http.post('http://65.1.176.15:5050/apis/reshedule',{"booking_id":  this.booking_id}, { headers: headers});
     resp.subscribe((data:any)=>{    
-    
+    console.log(data,"llllllllllllllllllllll")
      
     
       var today =  moment().format('YYYY-MM-DD');

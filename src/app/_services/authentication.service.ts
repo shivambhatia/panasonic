@@ -21,17 +21,18 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
-    login(mobile:any,whatsapp:any) {
-        return this.http.post<any>(`http://65.1.176.15:5050/apis/customerLogin`, {"orgId":"lenskart", "phone":mobile,"wa_checked":whatsapp})
+    login(mobile:any,whatsapp:any, orgId:any) {
+        return this.http.post<any>(`http://65.1.176.15:5050/apis/customerLogin`, {"orgId":orgId, "phone":mobile,"wa_checked":whatsapp})
             .pipe(map(user => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 return user;
             }));
     }
 
-    verifyOtp(otp:any,mobile:any){
-         return this.http.post<any>(`http://65.1.176.15:5050/apis/verifyLoginOtp`, {"orgId":"lenskart", "phone":mobile,"otp":otp})
+    verifyOtp(otp:any,mobile:any, orgId:any){
+         return this.http.post<any>(`http://65.1.176.15:5050/apis/verifyLoginOtp`, {"orgId":orgId, "phone":mobile,"otp":otp})
             .pipe(map(user => {
+                user['org'] = orgId;
                 localStorage.setItem('currentUser', JSON.stringify(user));
                 if (user.success){
                     this.router.navigate(['/appointment']);
@@ -40,17 +41,17 @@ export class AuthenticationService {
             }));        
     }
     termsCondition(){
-        return this.http.post<any>(`http://65.1.176.15:5050/apis/gettnc`, {"orgId":"mmt"})
+        return this.http.post<any>(`http://65.1.176.15:5050/apis/gettnc`, {"orgId":"lenskart"})
            .pipe(map(user => {
                return user;
            }));        
    }
     
-     logout() {
+     logout(orgId:any) {
         // remove user from local storage and set current user to null
         localStorage.removeItem('currentUser');
         
-        this.router.navigate([''])
+        this.router.navigate(['login/'+orgId])
         //this.currentUserSubject.next(null);
     }
 }   

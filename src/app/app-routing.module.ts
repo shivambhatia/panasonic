@@ -17,7 +17,8 @@ import { RescheduleComponent } from './reschedule/reschedule.component';
 import { TermsComponent } from './terms/terms.component';
 
 const routes: Routes = [
-  { path: '', component: LoginComponent },
+  { path: 'login/:orgId', component: LoginComponent },
+  
   { path: 'appointment-details/:id', component: OtpComponent },
   { path: 'appointment', component: AppointmentComponent },
   { path: 'services', component: ServicesComponent },

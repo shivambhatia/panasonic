@@ -28,7 +28,7 @@
                             <label for="FieldEmail" class="control-label text-muted small">Email</label>
                             <input type="email" class="form-control" placeholder="Enter email here" id="email" value="{{userData.result.email}}" [formControl]="email">
 
-                            <button class="btn btn-edit" (click)="edit()" type="button">Edit</button>
+                            <button class="btn btn-edit" (click)="edit_email()" type="button">Edit</button>
                            
                         </div>
                         <div id="err2" class="error-text">{{this.message_2}}</div>

@@ -48,7 +48,11 @@ console.log(this.userData)
   }
   edit(){
     $('#name').prop("disabled", false);
+    $('#name').focus();
+  }
+  edit_email(){
     $('#email').prop("disabled", false);
+    $('#email').focus();
   }
   omit_special_char(event:any)
   {

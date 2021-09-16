@@ -60,7 +60,7 @@ export class OtpComponent implements OnInit {
           var m = d.getMinutes();
           var currentTime = h + ":" + m
           var appBook_time = this.detail[0].appointment_time.split("-")[0];
-         console.log(today>appBookdate)
+         console.log(today>appBookdate,today,appBookdate)
           var regex = new RegExp(':', 'g');
           if(today > appBookdate)
           {
@@ -107,13 +107,13 @@ export class OtpComponent implements OnInit {
           this.final_result_2 = this.final_result_2.replaceAll('=', '');
           //console.log(this.final_result_2,"booking id")
           let newDate = new Date(dateString);
-          //console.log("NewDate",newDate);
-          //console.log(this.myDate);
-          if(newDate>this.myDate){
+          console.log("NewDate",moment(newDate).format('YYYY-MM-DD'));
+          console.log(moment(this.myDate).format('YYYY-MM-DD'));
+          if(moment(newDate).format('YYYY-MM-DD') > moment(this.myDate).format('YYYY-MM-DD')){
             this.title="UPCOMING"
 
           }
-          else if(newDate<this.myDate){
+          else if(moment(newDate).format('YYYY-MM-DD')<moment(this.myDate).format('YYYY-MM-DD')){
           this.title="PAST"
 
           }

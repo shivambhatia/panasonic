@@ -46,6 +46,12 @@ export class AuthenticationService {
                return user;
            }));        
    }
+   settingPWA(orgId:any){
+    return this.http.get<any>(`http://65.1.176.15:5050/apis/getPWASettings/`+orgId)
+       .pipe(map(user => {
+           return user;
+       }));        
+}
     
      logout(orgId:any) {
         // remove user from local storage and set current user to null

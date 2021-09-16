@@ -30,7 +30,7 @@ export class AppointmentComponent implements OnInit {
     
     this.selectedServices=[];
     
-    this.tempDate=parseInt(formatDate(this.myDate, 'yyyyMMddhh','En-Us'));
+    this.tempDate=parseInt(formatDate(this.myDate, 'yyyyMMdd','En-Us'));
    
     this.pastAppointment=[];
     this.currentAppointment=[];
@@ -65,8 +65,8 @@ export class AppointmentComponent implements OnInit {
    
       if(this.data.status){
         this.data.result.map((item:any)=>{
-
-            let temp=item.appointment_date.replaceAll('-','')+item.appointment_time.split('-')[0].split(':')[0];
+            if(item.appointment_status!=1){
+            let temp=item.appointment_date.replaceAll('-','');
             console.log(temp);
             console.log("Current",this.tempDate);
             item.serviceNames=JSON.parse(item.serviceNames).join(",");
@@ -88,7 +88,7 @@ export class AppointmentComponent implements OnInit {
               this.currentAppointment.push(item);
               
             }
-
+          }
         });
         
 

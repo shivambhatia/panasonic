@@ -12,8 +12,8 @@
                 <div class="accordion sub-accordion" id="accordionServices">
                         <div class="card" *ngFor="let ServiceItem of services">
                               <div class="card" *ngIf="ServiceItem.children"> 
-                                <a class="collapsed card-header" type="button" data-toggle="collapse" href="#collapse{{ServiceItem.name}}" aria-expanded="false" aria-controls="" id="Title{{ServiceItem.name}}">
-                                    {{ServiceItem.name}}
+                                <a class="collapsed card-header" type="button" data-toggle="collapse" href="#collapse{{ServiceItem.name}}" aria-expanded="false" aria-controls="" id="Title{{ServiceItem.id}}">
+                                    {{ServiceItem.name}} 
                                 </a>
                                 <div id="collapse{{ServiceItem.name}}" class="collapse" aria-labelledby="" data-parent="#accordionServices">
                                     <div class="card-body">
@@ -37,11 +37,11 @@
 
                                              <div class="card" *ngIf="ServiceItemChildren.children"> 
 
-                                <a class="collapsed card-header" type="button" data-toggle="collapse" href="#collapse{{ServiceItemChildren.name}}" aria-expanded="false" aria-controls="" id="Title{{ServiceItemChildren.name}}">
+                                <a class="collapsed card-header" type="button" data-toggle="collapse" href="#collapse{{ServiceItemChildren.id}}" aria-expanded="false" aria-controls="" id="Title{{ServiceItemChildren.id}}">
                                                                     {{ServiceItemChildren.name}}
                                         </a>
 
-                                                <div class="collapse" id="collapse{{ServiceItemChildren.name}}">
+                                                <div class="collapse" id="collapse{{ServiceItemChildren.id}}">
                                                 <div class="card" *ngFor="let ServiceItemChildrenLevel of ServiceItemChildren.children">
                                                     <div class="card-checkbox btn-checkbox">
                                                     

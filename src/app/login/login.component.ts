@@ -2,6 +2,7 @@ import { Component, OnInit ,ChangeDetectorRef, ElementRef, EventEmitter, Input, 
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 // import { Console } from 'node:console';
 declare var $: any;
 import { AuthenticationService } from '../_services/authentication.service';
@@ -31,12 +32,14 @@ export class LoginComponent implements OnInit {
     resend_otp:any = [];
     policies:any=[];
     terms:any=[]
-    Organization:any=[]
+    Organization:any=[];
+    colorLogo:any=[];
+    whiteLogo:any=[];
   otp = false;
   constructor(private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
-        private authentication: AuthenticationService,
+        private authentication: AuthenticationService,private http: HttpClient,
         ) {
 
     this.message='';
@@ -70,18 +73,24 @@ export class LoginComponent implements OnInit {
             otpValue: ['', Validators.required],
             
         });
+        this.authentication.settingPWA( this.Organization).pipe(first())
+        .subscribe((data:any) => {
+          console.log(data,"image response")
+          this.colorLogo = data.color_logo;
+          this.whiteLogo = data.white_logo;
+        })
         // get return url from route parameters or default to '/'
         this.returnUrl = this.route.snapshot.queryParams['otp'] || '/';
         console.log(this.Organization)
         if(this.Organization!== null || this.Organization!== undefined){
           console.log(this.Organization)
-        this.authentication.termsCondition().pipe(first())
-        .subscribe((data:any) => {
-          console.log(data)
-          this.policies = data.result.privacypolicy;
-          this.terms = data.result.privacypolicy_terms;
+        // this.authentication.termsCondition().pipe(first())
+        // .subscribe((data:any) => {
+        //   console.log(data)
+        //   this.policies = data.result.privacypolicy;
+        //   this.terms = data.result.privacypolicy_terms;
           
-        })
+        // })
       }
 
 
@@ -122,7 +131,6 @@ export class LoginComponent implements OnInit {
         }
        
         this.loading = true;
-        console.log(this.f.whatsapp.value,"PPP")
         if(this.f.whatsapp.value == true){
           // this.wa_checked ==  1;
           this.whatsapp = { wa_checked : "1"}
